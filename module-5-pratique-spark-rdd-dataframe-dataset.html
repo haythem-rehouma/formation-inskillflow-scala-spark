@@ -453,7 +453,7 @@
                         </a>
                         <a href="#rdd-advanced" class="toc-link">
                             <i class="fas fa-layer-group me-2"></i>
-                            RDD avancÃ© - Cas pratiques
+                            RDD avancé - Cas pratiques
                         </a>
                         <a href="#dataframe-analytics" class="toc-link">
                             <i class="fas fa-chart-bar me-2"></i>
@@ -501,7 +501,7 @@
                             Module 5 - Pratique Spark Intensive
                         </h1>
                         <p class="lead mb-0">
-                            RDD, DataFrame & Dataset - MaÃ®trisez Spark avec des projets rÃ©els et industriels
+                            RDD, DataFrame & Dataset - MaÃ®trisez Spark avec des projets réels et industriels
                         </p>
                         <span class="badge badge-practice mt-2">Module 5 - Hands-on</span>
                     </div>
@@ -513,7 +513,7 @@
                         <section id="setup" class="section">
                             <h2 class="section-title">
                                 <i class="fas fa-cog me-2"></i>
-                                Setup et configuration avancÃ©e
+                                Setup et configuration avancée
                             </h2>
                             
                             <div class="practice-card">
@@ -522,16 +522,16 @@
                                     Configuration professionnelle
                                 </div>
                                 <p>
-                                    Configurons un environnement Spark optimisÃ© pour les cas d'usage intensifs 
+                                    Configurons un environnement Spark optimisé pour les cas d'usage intensifs 
                                     avec les bonnes pratiques industrielles.
                                 </p>
                             </div>
 
                             <div class="hands-on-box">
-                                <h6><i class="fas fa-wrench me-2"></i>Configuration optimisÃ©e pour la pratique</h6>
+                                <h6><i class="fas fa-wrench me-2"></i>Configuration optimisée pour la pratique</h6>
                                 <div class="code-block">
                                     <div class="code-header">
-                                        <i class="fas fa-cogs me-2"></i>SparkSession configurÃ©e pour la production
+                                        <i class="fas fa-cogs me-2"></i>SparkSession configurée pour la production
                                     </div>
                                     <pre><code class="language-scala">import org.apache.spark.sql.{SparkSession, DataFrame, Dataset}
 import org.apache.spark.sql.functions._
@@ -539,7 +539,7 @@ import org.apache.spark.sql.types._
 import org.apache.spark.storage.StorageLevel
 import org.apache.spark.serializer.KryoSerializer
 
-// Configuration avancÃ©e pour la pratique intensive
+// Configuration avancée pour la pratique intensive
 val spark = SparkSession.builder()
   .appName("Spark Pratique Intensive")
   .master("local[*]")  // Utilise tous les cÅ“urs
@@ -570,22 +570,22 @@ val spark = SparkSession.builder()
 
 import spark.implicits._
 
-// Configuration du niveau de log pour voir les dÃ©tails importants
+// Configuration du niveau de log pour voir les détails importants
 spark.sparkContext.setLogLevel("WARN")
 
-// MÃ©triques de performance
+// Métriques de performance
 println(s"=== CONFIGURATION SPARK ===")
 println(s"Version Spark: ${spark.version}")
 println(s"CÅ“urs disponibles: ${spark.sparkContext.defaultParallelism}")
 println(s"Memory per executor: ${spark.conf.get("spark.executor.memory")}")
 println(s"Driver memory: ${spark.conf.get("spark.driver.memory")}")
 
-// Utilitaires pour le dÃ©veloppement
+// Utilitaires pour le développement
 def showPerformanceMetrics[T](name: String)(operation: => T): T = {
   val startTime = System.currentTimeMillis()
   val result = operation
   val endTime = System.currentTimeMillis()
-  println(s"[$name] Temps d'exÃ©cution: ${endTime - startTime} ms")
+  println(s"[$name] Temps d'exécution: ${endTime - startTime} ms")
   result
 }
 
@@ -601,17 +601,17 @@ def explainQuery(df: DataFrame): Unit = {
                                 <ul class="mb-0">
                                     <li><strong>AQE (Adaptive Query Execution)</strong> : Optimise automatiquement les requÃªtes</li>
                                     <li><strong>Kryo Serializer</strong> : 10x plus rapide que Java serialization</li>
-                                    <li><strong>Memory Fraction</strong> : 80% de la mÃ©moire pour les donnÃ©es, 20% pour l'exÃ©cution</li>
+                                    <li><strong>Memory Fraction</strong> : 80% de la mémoire pour les données, 20% pour l'exécution</li>
                                     <li><strong>Event Log</strong> : Essential pour le debugging en production</li>
                                 </ul>
                             </div>
                         </section>
 
-                        <!-- RDD AvancÃ© -->
+                        <!-- RDD Avancé -->
                         <section id="rdd-advanced" class="section">
                             <h2 class="section-title">
                                 <i class="fas fa-layer-group me-2"></i>
-                                RDD avancÃ© - Cas pratiques intensifs
+                                RDD avancé - Cas pratiques intensifs
                             </h2>
                             
                             <div class="practice-card rdd">
@@ -620,18 +620,18 @@ def explainQuery(df: DataFrame): Unit = {
                                     Manipulations RDD complexes
                                 </div>
                                 <p>
-                                    MaÃ®trisez les patterns avancÃ©s de RDD avec des cas d'usage rÃ©els :
+                                    MaÃ®trisez les patterns avancés de RDD avec des cas d'usage réels :
                                     partitioning custom, transformations complexes, et optimisations.
                                 </p>
                             </div>
 
                             <div class="real-world-example">
-                                <h6><i class="fas fa-globe me-2"></i>Cas rÃ©el : Analyse de logs web</h6>
+                                <h6><i class="fas fa-globe me-2"></i>Cas réel : Analyse de logs web</h6>
                                 <div class="code-block">
                                     <div class="code-header">
                                         <i class="fas fa-server me-2"></i>Analyse de logs Apache avec RDD
                                     </div>
-                                    <pre><code class="language-scala">// Simuler des logs web rÃ©els
+                                    <pre><code class="language-scala">// Simuler des logs web réels
 val webLogs = spark.sparkContext.parallelize(Seq(
   "192.168.1.1 - - [10/Oct/2000:13:55:36 -0700] \"GET /index.html HTTP/1.0\" 200 2326",
   "192.168.1.2 - - [10/Oct/2000:13:55:36 -0700] \"POST /api/users HTTP/1.1\" 201 1024",
@@ -664,10 +664,10 @@ val parsedLogs = showPerformanceMetrics("Parsing logs") {
     .map(parseLogLine)
     .filter(_.isDefined)
     .map(_.get)
-    .cache()  // Cache important pour rÃ©utilisation
+    .cache()  // Cache important pour réutilisation
 }
 
-println(s"Logs parsÃ©s avec succÃ¨s: ${parsedLogs.count()}")
+println(s"Logs parsés avec succÃ¨s: ${parsedLogs.count()}")
 
 // === ANALYSES AVANCÃ‰ES AVEC RDD ===
 
@@ -677,7 +677,7 @@ val topIPs = showPerformanceMetrics("Top IPs") {
     .map(log => (log.ip, 1))
     .reduceByKey(_ + _)
     .map(_.swap)  // (count, ip)
-    .sortByKey(false)  // Tri dÃ©croissant
+    .sortByKey(false)  // Tri décroissant
     .take(10)
 }
 
@@ -731,7 +731,7 @@ hourlyTraffic.foreach { case (hour, requests, totalBytes, avgSize) =>
   println(f"${hour}h: $requests%,d req, ${totalBytes/1024}%,d KB total, ${avgSize/1024}%.1f KB/req")
 }
 
-// 4. Pattern de dÃ©tection d'anomalies
+// 4. Pattern de détection d'anomalies
 val suspiciousActivity = showPerformanceMetrics("Anomaly detection") {
   parsedLogs
     .filter(log => log.statusCode == 403 || log.statusCode == 404)  // Erreurs suspectes
@@ -755,7 +755,7 @@ suspiciousActivity.foreach { case (ip, errorCount, statusBreakdown) =>
                                 <h6><i class="fas fa-tools me-2"></i>RDD Custom Transformations</h6>
                                 <div class="code-block">
                                     <div class="code-header">
-                                        <i class="fas fa-code me-2"></i>Transformations RDD personnalisÃ©es
+                                        <i class="fas fa-code me-2"></i>Transformations RDD personnalisées
                                     </div>
                                     <pre><code class="language-scala">// === TRANSFORMATIONS RDD AVANCÃ‰ES ===
 
@@ -766,7 +766,7 @@ val processedLogs = parsedLogs.mapPartitions { partition =>
   val regexCache = scala.collection.mutable.Map[String, scala.util.matching.Regex]()
   
   partition.map { log =>
-    // Traitement optimisÃ© par partition
+    // Traitement optimisé par partition
     val normalizedUrl = log.url.toLowerCase.replaceAll("""\d+""", "N")
     val category = normalizedUrl match {
       case url if url.contains("/api/") => "API"
@@ -779,7 +779,7 @@ val processedLogs = parsedLogs.mapPartitions { partition =>
   }
 }
 
-// 2. glom() pour accÃ©der aux partitions complÃ¨tes
+// 2. glom() pour accéder aux partitions complÃ¨tes
 val partitionInfo = parsedLogs.glom().map { partition =>
   val size = partition.length
   val uniqueIPs = partition.map(_.ip).toSet.size
@@ -795,13 +795,13 @@ partitionInfo.zipWithIndex.foreach { case ((size, ips, avgSize), idx) =>
 
 // 3. coalesce() et repartition() intelligent
 val optimizedRDD = if (parsedLogs.getNumPartitions > spark.sparkContext.defaultParallelism) {
-  println(s"RÃ©duction de ${parsedLogs.getNumPartitions} Ã  ${spark.sparkContext.defaultParallelism} partitions")
+  println(s"Réduction de ${parsedLogs.getNumPartitions} Ã  ${spark.sparkContext.defaultParallelism} partitions")
   parsedLogs.coalesce(spark.sparkContext.defaultParallelism)
 } else {
   parsedLogs
 }
 
-// 4. Accumulator custom pour mÃ©triques
+// 4. Accumulator custom pour métriques
 val errorAccumulator = spark.sparkContext.longAccumulator("Errors")
 val largeResponseAccumulator = spark.sparkContext.longAccumulator("Large Responses")
 
@@ -811,13 +811,13 @@ val metricsRDD = optimizedRDD.map { log =>
   log
 }
 
-// DÃ©clencher le calcul
+// Déclencher le calcul
 val totalLogs = metricsRDD.count()
 
 println(s"=== MÃ‰TRIQUES GLOBALES ===")
 println(s"Total logs: $totalLogs")
 println(s"Erreurs: ${errorAccumulator.value}")
-println(s"RÃ©ponses volumineuses (>10KB): ${largeResponseAccumulator.value}")
+println(s"Réponses volumineuses (>10KB): ${largeResponseAccumulator.value}")
 
 // 5. Sampling intelligent
 val stratifiedSample = parsedLogs
@@ -829,7 +829,7 @@ val stratifiedSample = parsedLogs
   ))
   .values
 
-println(s"Ã‰chantillon stratifiÃ©: ${stratifiedSample.count()} logs")
+println(s"Ã‰chantillon stratifié: ${stratifiedSample.count()} logs")
 
 // Nettoyer le cache
 parsedLogs.unpersist()</code></pre>
@@ -841,22 +841,22 @@ parsedLogs.unpersist()</code></pre>
                         <section id="dataframe-analytics" class="section">
                             <h2 class="section-title">
                                 <i class="fas fa-chart-bar me-2"></i>
-                                DataFrame Analytics - Analyse de donnÃ©es rÃ©elles
+                                DataFrame Analytics - Analyse de données réelles
                             </h2>
                             
                             <div class="practice-card dataframe">
                                 <div class="practice-title">
                                     <i class="fas fa-table"></i>
-                                    Analytics avancÃ©es avec DataFrame
+                                    Analytics avancées avec DataFrame
                                 </div>
                                 <p>
                                     MaÃ®trisez les DataFrame avec des analyses complexes : 
-                                    agrÃ©gations avancÃ©es, window functions, jointures optimisÃ©es.
+                                    agrégations avancées, window functions, jointures optimisées.
                                 </p>
                             </div>
 
                             <div class="real-world-example">
-                                <h6><i class="fas fa-shopping-cart me-2"></i>Cas rÃ©el : Analyse e-commerce</h6>
+                                <h6><i class="fas fa-shopping-cart me-2"></i>Cas réel : Analyse e-commerce</h6>
                                 <div class="code-block">
                                     <div class="code-header">
                                         <i class="fas fa-store me-2"></i>Dataset e-commerce complexe
@@ -878,8 +878,8 @@ case class Order(order_id: Int, customer_id: Int, order_date: Timestamp,
 case class OrderItem(order_item_id: Int, order_id: Int, product_id: Int, 
                     quantity: Int, unit_price: Double, discount: Double)
 
-// GÃ©nÃ©ration de donnÃ©es rÃ©alistes
-val random = new Random(42)  // Seed pour reproductibilitÃ©
+// Génération de données réalistes
+val random = new Random(42)  // Seed pour reproductibilité
 
 // Clients (10,000)
 val customers = showPerformanceMetrics("Generate customers") {
@@ -962,7 +962,7 @@ println(s"Items: ${orderItems.count()}")</code></pre>
                             </div>
 
                             <div class="hands-on-box">
-                                <h6><i class="fas fa-chart-line me-2"></i>Analyses DataFrame avancÃ©es</h6>
+                                <h6><i class="fas fa-chart-line me-2"></i>Analyses DataFrame avancées</h6>
                                 <div class="code-block">
                                     <div class="code-header">
                                         <i class="fas fa-analytics me-2"></i>Analytics complexes avec SQL
@@ -1051,14 +1051,14 @@ customerSegments.show()
 
 // 3. ANALYSE DES PANIERS (Market Basket Analysis)
 val basketAnalysis = showPerformanceMetrics("Market Basket") {
-  // Produits frÃ©quemment achetÃ©s ensemble
+  // Produits fréquemment achetés ensemble
   orderItems
     .join(products, "product_id")
     .select("order_id", "category", "brand")
     .groupBy("order_id")
     .agg(collect_set("category").as("categories"),
          collect_set("brand").as("brands"))
-    .filter(size($"categories") > 1)  // Paniers multi-catÃ©gories uniquement
+    .filter(size($"categories") > 1)  // Paniers multi-catégories uniquement
     .select(
       explode($"categories").as("category1"),
       $"categories", $"order_id"
@@ -1074,11 +1074,11 @@ val basketAnalysis = showPerformanceMetrics("Market Basket") {
       count("order_id").as("frequency"),
       countDistinct("order_id").as("unique_baskets")
     )
-    .filter($"frequency" > 10)  // Seuil de frÃ©quence
+    .filter($"frequency" > 10)  // Seuil de fréquence
     .orderBy($"frequency".desc)
 }
 
-println("=== ANALYSE DES PANIERS (CatÃ©gories) ===")
+println("=== ANALYSE DES PANIERS (Catégories) ===")
 basketAnalysis.show()
 
 // 4. PERFORMANCE PAR RÃ‰GION ET SEGMENT
@@ -1123,10 +1123,10 @@ geoSegmentAnalysis.show(20)</code></pre>
                             </div>
 
                             <div class="real-world-example">
-                                <h6><i class="fas fa-building me-2"></i>Pattern industriel : Pipeline de donnÃ©es financiÃ¨res</h6>
+                                <h6><i class="fas fa-building me-2"></i>Pattern industriel : Pipeline de données financiÃ¨res</h6>
                                 <div class="code-block">
                                     <div class="code-header">
-                                        <i class="fas fa-university me-2"></i>Dataset avec domaine mÃ©tier complexe
+                                        <i class="fas fa-university me-2"></i>Dataset avec domaine métier complexe
                                     </div>
                                     <pre><code class="language-scala">// === DOMAINE MÃ‰TIER FINANCIER ===
 
@@ -1135,7 +1135,7 @@ import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder
 import java.time.{LocalDate, LocalDateTime}
 import java.math.{BigDecimal, RoundingMode}
 
-// Case classes mÃ©tier avec validation
+// Case classes métier avec validation
 case class Account(
   accountId: String,
   customerId: String,
@@ -1225,8 +1225,8 @@ val transactions = showPerformanceMetrics("Generate transactions") {
   }.toDS().cache()
 }
 
-println(s"Comptes gÃ©nÃ©rÃ©s: ${accounts.count()}")
-println(s"Transactions gÃ©nÃ©rÃ©es: ${transactions.count()}")</code></pre>
+println(s"Comptes générés: ${accounts.count()}")
+println(s"Transactions générées: ${transactions.count()}")</code></pre>
                                 </div>
                             </div>
 
@@ -1234,7 +1234,7 @@ println(s"Transactions gÃ©nÃ©rÃ©es: ${transactions.count()}")</code></pre>
                                 <h6><i class="fas fa-shield-alt me-2"></i>Dataset Type-Safe Operations</h6>
                                 <div class="code-block">
                                     <div class="code-header">
-                                        <i class="fas fa-code me-2"></i>Transformations Dataset avancÃ©es
+                                        <i class="fas fa-code me-2"></i>Transformations Dataset avancées
                                     </div>
                                     <pre><code class="language-scala">// === TRANSFORMATIONS TYPE-SAFE AVANCÃ‰ES ===
 
@@ -1292,7 +1292,7 @@ riskCalculation
   .select("customerId", "score", "riskLevel", "factors")
   .show(10, truncate = false)
 
-// 2. AgrÃ©gations complexes par client
+// 2. Agrégations complexes par client
 case class CustomerSummary(
   customerId: String,
   totalAccounts: Int,
@@ -1407,7 +1407,7 @@ validationResults.unpersist()</code></pre>
                                     Optimisation Spark en production
                                 </div>
                                 <p>
-                                    Techniques avancÃ©es d'optimisation : partitioning intelligent,
+                                    Techniques avancées d'optimisation : partitioning intelligent,
                                     broadcast joins, cache strategy, et monitoring des performances.
                                 </p>
                             </div>
@@ -1463,13 +1463,13 @@ def benchmark[T](name: String, approach: String, recordCount: Long)(operation: =
 
 // === COMPARAISON RDD vs DataFrame vs Dataset ===
 
-// DonnÃ©es test volumineuses
+// Données test volumineuses
 val largeNumbers = (1 to 10000000).toList
 val largeRDD = spark.sparkContext.parallelize(largeNumbers, 200).cache()
 val largeDF = largeRDD.toDF("number").cache()
 val largeDS = largeDF.as[Int].cache()
 
-// Forcer l'Ã©valuation
+// Forcer l'évaluation
 largeRDD.count()
 largeDF.count()
 largeDS.count()
@@ -1489,7 +1489,7 @@ val (dsFiltered, dsBench1) = benchmark("Filter Even", "Dataset", largeDS.count()
   largeDS.filter(_ % 2 == 0).count()
 }
 
-// Test 2: Transformation et rÃ©duction
+// Test 2: Transformation et réduction
 val (rddSum, rddBench2) = benchmark("Sum Squares", "RDD", largeRDD.count()) {
   largeRDD.filter(_ % 2 == 0).map(x => x.toLong * x).reduce(_ + _)
 }
@@ -1522,14 +1522,14 @@ val (dfGroup, dfBench3) = benchmark("Complex Group", "DataFrame", groupDF.count(
         .count()
 }
 
-// RÃ©sultats du benchmark
+// Résultats du benchmark
 val allBenchmarks = List(rddBench1, dfBench1, dsBench1, rddBench2, dfBench2, dsBench2, rddBench3, dfBench3)
 val benchmarkDF = allBenchmarks.toDF()
 
 println("=== RÃ‰SULTATS BENCHMARK ===")
 benchmarkDF.show(false)
 
-// Comparaison par opÃ©ration
+// Comparaison par opération
 benchmarkDF.groupBy("operation")
           .agg(
             min("executionTime").as("min_time"),
@@ -1548,7 +1548,7 @@ groupDF.unpersist()</code></pre>
                             </div>
 
                             <div class="hands-on-box">
-                                <h6><i class="fas fa-cogs me-2"></i>Techniques d'optimisation avancÃ©es</h6>
+                                <h6><i class="fas fa-cogs me-2"></i>Techniques d'optimisation avancées</h6>
                                 <div class="code-block">
                                     <div class="code-header">
                                         <i class="fas fa-magic me-2"></i>Optimisations de production
@@ -1562,7 +1562,7 @@ val broadcastThreshold = spark.conf.get("spark.sql.autoBroadcastJoinThreshold").
 println(s"Taille de smallTable: ${smallTable.count()} rows")
 println(s"Seuil broadcast: ${broadcastThreshold / 1024 / 1024} MB")
 
-// Join optimisÃ© avec broadcast explicite
+// Join optimisé avec broadcast explicite
 val optimizedJoin = showPerformanceMetrics("Broadcast Join") {
   orderItems
     .join(broadcast(smallTable), "product_id")
@@ -1578,7 +1578,7 @@ optimizedJoin.show()
 // 2. PARTITIONING INTELLIGENT
 import org.apache.spark.HashPartitioner
 
-// Partitioner custom pour les transactions par pÃ©riode
+// Partitioner custom pour les transactions par période
 class TimeBasedPartitioner(numPartitions: Int) extends org.apache.spark.Partitioner {
   override def numPartitions: Int = numPartitions
   
@@ -1597,9 +1597,9 @@ val timePartitionedTxns = showPerformanceMetrics("Time partitioning") {
     .cache()
 }
 
-println(s"Transactions partitionnÃ©es par heure: ${timePartitionedTxns.count()}")
+println(s"Transactions partitionnées par heure: ${timePartitionedTxns.count()}")
 
-// VÃ©rification de la distribution des partitions
+// Vérification de la distribution des partitions
 val partitionSizes = timePartitionedTxns.glom().map(_.length).collect()
 println(s"Tailles des partitions: ${partitionSizes.mkString(", ")}")
 
@@ -1616,7 +1616,7 @@ val heavyComputationDF = transactions
     .otherwise(1.0)
   )
 
-// Cache avec diffÃ©rents niveaux
+// Cache avec différents niveaux
 import org.apache.spark.storage.StorageLevel
 
 println("=== TEST DE DIFFÃ‰RENTS NIVEAUX DE CACHE ===")
@@ -1640,7 +1640,7 @@ val memoryDiskTime = benchmark("Heavy Computation", "MEMORY_AND_DISK", heavyComp
 // 4. OPTIMISATION DES JOINTURES
 println("=== OPTIMISATION JOINTURES ===")
 
-// Join non-optimisÃ©
+// Join non-optimisé
 val slowJoin = showPerformanceMetrics("Slow Join") {
   transactions
     .join(accounts, transactions("fromAccount") === accounts("accountId"))
@@ -1648,9 +1648,9 @@ val slowJoin = showPerformanceMetrics("Slow Join") {
     .count()
 }
 
-// Join optimisÃ© avec prÃ©-filtrage et order
+// Join optimisé avec préfiltrage et order
 val fastJoin = showPerformanceMetrics("Fast Join") {
-  // PrÃ©-filtrer les donnÃ©es
+  // Préfiltrer les données
   val activeAccounts = accounts.filter($"status" === "ACTIVE").cache()
   val recentTxns = transactions
     .filter($"timestamp" > date_sub(current_timestamp(), 30))
@@ -1667,7 +1667,7 @@ val fastJoin = showPerformanceMetrics("Fast Join") {
   result
 }
 
-println(f"AmÃ©lioration: ${slowJoin.toDouble / fastJoin}x plus rapide")
+println(f"Amélioration: ${slowJoin.toDouble / fastJoin}x plus rapide")
 
 // 5. MONITORING DES PERFORMANCES
 def getSparkMetrics(): Map[String, Any] = {
@@ -1709,22 +1709,22 @@ timePartitionedTxns.unpersist()</code></pre>
                                 </div>
                                 <div class="exercise-body">
                                     <div class="explanation-section">
-                                        <h5>Mission : Pipeline de donnÃ©es e-commerce en temps rÃ©el</h5>
-                                        <p><strong>Contexte :</strong> Vous devez crÃ©er un pipeline ETL complet pour analyser les donnÃ©es d'un site e-commerce.</p>
+                                        <h5>Mission : Pipeline de données e-commerce en temps réel</h5>
+                                        <p><strong>Contexte :</strong> Vous devez créer un pipeline ETL complet pour analyser les données d'un site e-commerce.</p>
                                         
                                         <h6>Objectifs :</h6>
                                         <ol>
-                                            <li><strong>Extract</strong> : IngÃ©rer des donnÃ©es de ventes, produits et clients</li>
-                                            <li><strong>Transform</strong> : Nettoyer, enrichir et agrÃ©ger les donnÃ©es</li>
-                                            <li><strong>Load</strong> : Sauvegarder les rÃ©sultats optimisÃ©s</li>
-                                            <li><strong>Analytics</strong> : Calculer les KPI mÃ©tier</li>
+                                            <li><strong>Extract</strong> : Ingérer des données de ventes, produits et clients</li>
+                                            <li><strong>Transform</strong> : Nettoyer, enrichir et agréger les données</li>
+                                            <li><strong>Load</strong> : Sauvegarder les résultats optimisés</li>
+                                            <li><strong>Analytics</strong> : Calculer les KPI métier</li>
                                         </ol>
 
-                                        <h6>DÃ©fis techniques :</h6>
+                                        <h6>Défis techniques :</h6>
                                         <ul>
-                                            <li>Gestion des donnÃ©es corrompues</li>
+                                            <li>Gestion des données corrompues</li>
                                             <li>Jointures complexes multi-tables</li>
-                                            <li>Calculs de mÃ©triques business (cohorts, RFM, churn)</li>
+                                            <li>Calculs de métriques business (cohorts, RFM, churn)</li>
                                             <li>Performance sur gros volumes</li>
                                         </ul>
                                     </div>
@@ -1773,12 +1773,12 @@ object ECommerceETL {
     // === PHASE 1: EXTRACT ===
     println("=== PHASE 1: EXTRACTION DES DONNÃ‰ES ===")
     
-    // Simuler l'ingestion de donnÃ©es sales (CSV corrompu)
+    // Simuler l'ingestion de données sales (CSV corrompu)
     val rawSalesData = (1 to 500000).flatMap { i =>
-      val corrupted = random.nextDouble() < 0.05  // 5% de donnÃ©es corrompues
+      val corrupted = random.nextDouble() < 0.05  // 5% de données corrompues
       
       if (corrupted) {
-        // DonnÃ©es corrompues intentionnelles
+        // Données corrompues intentionnelles
         Seq(
           s"invalid_timestamp,CUST$i,PROD${i%1000},$i,invalid_price,FR",
           s"2024-01-${i%28+1}T10:00:00Z,invalid_customer,PROD${i%1000},$i,${10 + i%100},UK",
@@ -1811,7 +1811,7 @@ object ECommerceETL {
       .cache()
     
     val totalRaw = rawSales.count()
-    println(s"DonnÃ©es brutes extraites: $totalRaw enregistrements")
+    println(s"Données brutes extraites: $totalRaw enregistrements")
     
     // === PHASE 2: TRANSFORM ===
     println("=== PHASE 2: TRANSFORMATION ET NETTOYAGE ===")
@@ -1853,10 +1853,10 @@ object ECommerceETL {
     val totalClean = cleanSales.count()
     val dataQuality = totalClean.toDouble / totalRaw * 100
     
-    println(s"DonnÃ©es nettoyÃ©es: $totalClean enregistrements")
-    println(f"QualitÃ© des donnÃ©es: $dataQuality%.1f%%")
+    println(s"Données nettoyées: $totalClean enregistrements")
+    println(f"Qualité des données: $dataQuality%.1f%%")
     
-    // Enrichissement avec donnÃ©es temporelles
+    // Enrichissement avec données temporelles
     val enrichedSales = cleanSales
       .withColumn("year", year($"timestamp"))
       .withColumn("month", month($"timestamp"))
@@ -1874,7 +1874,7 @@ object ECommerceETL {
     // === PHASE 3: ANALYTICS BUSINESS ===
     println("=== PHASE 3: CALCUL DES MÃ‰TRIQUES BUSINESS ===")
     
-    // 1. MÃ©triques par client avec RFM
+    // 1. Métriques par client avec RFM
     val customerMetrics = enrichedSales
       .groupBy("customer_id", "country")
       .agg(
@@ -1923,7 +1923,7 @@ object ECommerceETL {
       .select("customer_id", "country", "total_orders", "total_spent", "avg_order_value")
       .show(10)
     
-    // 2. Analyse temporelle et saisonnalitÃ©
+    // 2. Analyse temporelle et saisonnalité
     val temporalAnalysis = enrichedSales
       .groupBy("season", "country", "is_weekend")
       .agg(
@@ -1962,7 +1962,7 @@ object ECommerceETL {
     // === PHASE 4: SAUVEGARDE OPTIMISÃ‰E ===
     println("=== PHASE 4: SAUVEGARDE DES RÃ‰SULTATS ===")
     
-    // Sauvegarde partitionnÃ©e par pays et mois
+    // Sauvegarde partitionnée par pays et mois
     enrichedSales
       .write
       .mode("overwrite")
@@ -1980,11 +1980,11 @@ object ECommerceETL {
       .mode("overwrite")
       .parquet("output/product_analysis")
     
-    // RÃ©sumÃ© final
+    // Résumé final
     println("=== RÃ‰SUMÃ‰ ETL ===")
-    println(s"â€¢ DonnÃ©es traitÃ©es: ${totalRaw} â†’ ${totalClean} (${f"$dataQuality%.1f"}% qualitÃ©)")
+    println(s"â€¢ Données traitées: ${totalRaw} â†’ ${totalClean} (${f"$dataQuality%.1f"}% qualité)")
     println(s"â€¢ Clients uniques: ${customerMetrics.count()}")
-    println(s"â€¢ Champions identifiÃ©s: ${customerMetrics.filter($"customer_segment" === "Champions").count()}")
+    println(s"â€¢ Champions identifiés: ${customerMetrics.filter($"customer_segment" === "Champions").count()}")
     println(s"â€¢ Clients Ã  risque de churn: ${customerMetrics.filter($"predicted_churn").count()}")
     println(s"â€¢ Revenus total: ${enrichedSales.agg(sum("total_amount")).collect()(0)(0)}â‚¬")
     
@@ -1997,7 +1997,7 @@ object ECommerceETL {
   }
 }
 
-// ExÃ©cuter le pipeline
+// Exécuter le pipeline
 ECommerceETL.main(Array())</code></pre>
                                         </div>
                                     </div>
