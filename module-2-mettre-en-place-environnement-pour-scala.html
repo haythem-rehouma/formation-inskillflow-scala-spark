@@ -550,7 +550,7 @@
                             <div class="warning-box">
                                 <h6><i class="fas fa-exclamation-triangle me-2"></i>Temps d'installation estimé</h6>
                                 <p class="mb-0">
-                                    Prévoyez <strong>1 Ã  2 heures</strong> pour une installation complète, selon votre système et votre connexion Internet. 
+                                    Prévoyez <strong>1 à  2 heures</strong> pour une installation complète, selon votre système et votre connexion Internet. 
                                     Suivez les étapes dans l'ordre pour éviter les problèmes de compatibilité.
                                 </p>
                             </div>
@@ -681,7 +681,7 @@
                                     <div class="code-header">
                                         <i class="fas fa-terminal me-2"></i>Option 2: Avec Chocolatey
                                     </div>
-                                    <pre><code class="language-powershell"># Installer Chocolatey si pas déjÃ  fait
+                                    <pre><code class="language-powershell"># Installer Chocolatey si pas déjà  fait
 Set-ExecutionPolicy Bypass -Scope Process -Force
 iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
@@ -707,7 +707,7 @@ choco install openjdk17</code></pre>
                                     <div class="code-header">
                                         <i class="fas fa-terminal me-2"></i>Avec Homebrew (Recommandé)
                                     </div>
-                                    <pre><code class="language-bash"># Installer Homebrew si pas déjÃ  fait
+                                    <pre><code class="language-bash"># Installer Homebrew si pas déjà  fait
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # Installer OpenJDK 17
@@ -722,7 +722,7 @@ sudo ln -sfn /usr/local/opt/openjdk@17/libexec/openjdk.jdk \
                                     <div class="code-header">
                                         <i class="fas fa-cog me-2"></i>Configuration du profil shell
                                     </div>
-                                    <pre><code class="language-bash"># Ajouter Ã  ~/.zshrc ou ~/.bash_profile
+                                    <pre><code class="language-bash"># Ajouter à  ~/.zshrc ou ~/.bash_profile
 echo 'export JAVA_HOME=/usr/local/opt/openjdk@17' >> ~/.zshrc
 echo 'export PATH=$JAVA_HOME/bin:$PATH' >> ~/.zshrc
 
@@ -738,7 +738,7 @@ source ~/.zshrc</code></pre>
                                     <div class="code-header">
                                         <i class="fas fa-terminal me-2"></i>Installation avec apt
                                     </div>
-                                    <pre><code class="language-bash"># Mettre Ã  jour la liste des paquets
+                                    <pre><code class="language-bash"># Mettre à  jour la liste des paquets
 sudo apt update
 
 # Installer OpenJDK 17
@@ -982,7 +982,7 @@ sbt about
                                             <i class="fas fa-code"></i>
                                             Visual Studio Code
                                         </div>
-                                        <p>Ã‰diteur léger avec plugins Scala et support métaux avancé.</p>
+                                        <p>éditeur léger avec plugins Scala et support métaux avancé.</p>
                                         <a href="#" class="btn btn-primary btn-sm" onclick="showIdeConfig('vscode')">
                                             <i class="fas fa-cog me-1"></i>Configurer
                                         </a>
@@ -1333,7 +1333,7 @@ echo -e "\n=== Fin des tests ==="</code></pre>
                                                 <h5><i class="fas fa-wrench me-2"></i>Solutions</h5>
                                                 <ol>
                                                     <li><strong>Vérifier l'installation :</strong> Java est-il bien installé ?</li>
-                                                    <li><strong>Variables d'environnement :</strong> JAVA_HOME défini ? PATH mis Ã  jour ?</li>
+                                                    <li><strong>Variables d'environnement :</strong> JAVA_HOME défini ? PATH mis à  jour ?</li>
                                                     <li><strong>Redémarrer le terminal</strong> après modification des variables</li>
                                                     <li><strong>Réinstaller Java</strong> si nécessaire</li>
                                                 </ol>
@@ -1403,7 +1403,7 @@ echo $JAVA_HOME
                                     <div id="trouble3" class="accordion-collapse collapse">
                                         <div class="accordion-body">
                                             <div class="answer-section">
-                                                <h5><i class="fas fa-cog me-2"></i>Ã‰tapes de résolution</h5>
+                                                <h5><i class="fas fa-cog me-2"></i>étapes de résolution</h5>
                                                 <ol>
                                                     <li><strong>Vérifier la version :</strong> Plugin compatible avec votre IntelliJ ?</li>
                                                     <li><strong>Redémarrer IntelliJ</strong> après installation du plugin</li>

@@ -453,7 +453,7 @@
 
     <div class="container-fluid" style="margin-top: 80px;">
         <div class="row">
-            <!-- Sidebar avec table des matiÃ¨res -->
+            <!-- Sidebar avec table des matières -->
             <div class="col-lg-3">
                 <div class="sidebar">
                     <h5 class="toc-title">
@@ -512,14 +512,14 @@
             <!-- Contenu principal -->
             <div class="col-lg-9">
                 <div class="main-content">
-                    <!-- En-tÃªte -->
+                    <!-- En-tête -->
                     <div class="content-header">
                         <h1>
                             <i class="fas fa-fire me-3"></i>
                             Module 4 - Fondements théoriques de Spark
                         </h1>
                         <p class="lead mb-0">
-                            RDD, DataFrame, Dataset - MaÃ®trisez les abstractions Big Data d'Apache Spark
+                            RDD, DataFrame, Dataset - Maà®trisez les abstractions Big Data d'Apache Spark
                         </p>
                         <span class="badge badge-concept mt-2">Module 4</span>
                     </div>
@@ -540,7 +540,7 @@
                                     Apache Spark - Le moteur Big Data unifié
                                 </div>
                                 <p>
-                                    Apache Spark est un moteur de calcul distribué open-source conÃ§u pour traiter 
+                                    Apache Spark est un moteur de calcul distribué open-source conà§u pour traiter 
                                     de grandes quantités de données avec une vitesse et une facilité d'utilisation exceptionnelles.
                                 </p>
                             </div>
@@ -550,8 +550,8 @@
                                     <div class="spark-feature">
                                         <h6><i class="fas fa-lightning me-2"></i>Vitesse</h6>
                                         <p class="mb-0">
-                                            Jusqu'Ã  100x plus rapide que Hadoop MapReduce en mémoire, 
-                                            10x plus rapide sur disque grÃ¢ce au calcul en mémoire.
+                                            Jusqu'à  100x plus rapide que Hadoop MapReduce en mémoire, 
+                                            10x plus rapide sur disque grâce au calcul en mémoire.
                                         </p>
                                     </div>
                                 </div>
@@ -590,7 +590,7 @@
                             <div class="info-box">
                                 <h6><i class="fas fa-history me-2"></i>Un peu d'histoire</h6>
                                 <p class="mb-0">
-                                    Spark a été développé en 2009 Ã  UC Berkeley, open-sourcé en 2010, 
+                                    Spark a été développé en 2009 à  UC Berkeley, open-sourcé en 2010, 
                                     et est devenu un projet Apache de haut niveau en 2014. 
                                     Il est maintenant le framework Big Data le plus actif au monde.
                                 </p>
@@ -607,11 +607,11 @@
                             <div class="concept-card architecture">
                                 <div class="concept-title">
                                     <i class="fas fa-building"></i>
-                                    Architecture maÃ®tre-esclave
+                                    Architecture maà®tre-esclave
                                 </div>
                                 <p>
-                                    Spark suit une architecture maÃ®tre-esclave avec un Driver Program 
-                                    qui coordonne le travail distribué Ã  travers plusieurs Executors.
+                                    Spark suit une architecture maà®tre-esclave avec un Driver Program 
+                                    qui coordonne le travail distribué à  travers plusieurs Executors.
                                 </p>
                             </div>
 
@@ -658,7 +658,7 @@
                                     <li><strong>Driver Program</strong> : Contient votre fonction main et définit les RDD/DataFrames</li>
                                     <li><strong>SparkContext</strong> : Point d'entrée vers les fonctionnalités Spark</li>
                                     <li><strong>Cluster Manager</strong> : Alloue les ressources (YARN, Mesos, K8s)</li>
-                                    <li><strong>Executors</strong> : Processus qui exécutent les tÃ¢ches et stockent les données</li>
+                                    <li><strong>Executors</strong> : Processus qui exécutent les tâches et stockent les données</li>
                                 </ul>
                             </div>
 
@@ -684,7 +684,7 @@ sc.setLogLevel("WARN")
 println(s"Spark version: ${spark.version}")
 println(s"Nombre de cÅ“urs: ${sc.defaultParallelism}")
 
-// Nettoyer Ã  la fin
+// Nettoyer à  la fin
 // spark.stop()</code></pre>
                             </div>
                         </section>
@@ -711,11 +711,11 @@ println(s"Nombre de cÅ“urs: ${sc.defaultParallelism}")
                             <div class="spark-feature">
                                 <h6><i class="fas fa-shield-alt me-2"></i>Les 5 propriétés des RDD</h6>
                                 <ol>
-                                    <li><strong>Resilient</strong> : Fault-tolerant grÃ¢ce au lineage</li>
+                                    <li><strong>Resilient</strong> : Fault-tolerant grâce au lineage</li>
                                     <li><strong>Distributed</strong> : Données réparties sur le cluster</li>
                                     <li><strong>Dataset</strong> : Collection d'enregistrements</li>
-                                    <li><strong>Immutable</strong> : Une fois créé, ne peut Ãªtre modifié</li>
-                                    <li><strong>Lazy</strong> : Ã‰valuation paresseuse</li>
+                                    <li><strong>Immutable</strong> : Une fois créé, ne peut être modifié</li>
+                                    <li><strong>Lazy</strong> : évaluation paresseuse</li>
                                 </ol>
                             </div>
 
@@ -727,13 +727,13 @@ println(s"Nombre de cÅ“urs: ${sc.defaultParallelism}")
 
 val sc = spark.sparkContext
 
-// 1. Créer RDD Ã  partir d'une collection
+// 1. Créer RDD à  partir d'une collection
 val numbers = sc.parallelize(List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
 
-// 2. Créer RDD Ã  partir d'un fichier
+// 2. Créer RDD à  partir d'un fichier
 val textFile = sc.textFile("data/sample.txt")
 
-// 3. Créer RDD Ã  partir de plusieurs fichiers
+// 3. Créer RDD à  partir de plusieurs fichiers
 val multipleFiles = sc.textFile("data/*.txt")
 
 // 4. Créer RDD avec nombre de partitions spécifique
@@ -760,20 +760,20 @@ val evenNumbers = numbers.filter(_ % 2 == 0)
 val words = sc.parallelize(List("hello world", "scala spark"))
 val allWords = words.flatMap(_.split(" "))
 
-// distinct : Ã‰léments uniques
+// distinct : éléments uniques
 val uniqueNumbers = sc.parallelize(List(1, 2, 2, 3, 3, 3)).distinct()
 
 // union : Combiner deux RDD
 val moreNumbers = sc.parallelize(11 to 15)
 val combined = numbers.union(moreNumbers)
 
-// ChaÃ®nage de transformations
+// Chaà®nage de transformations
 val result = numbers
   .filter(_ % 2 == 0)    // Garder les pairs
   .map(_ * 3)            // Multiplier par 3
   .filter(_ > 10)        // Garder > 10
 
-// âš ï¸ Aucune exécution Ã  ce point (lazy) !</code></pre>
+// âš ï¸ Aucune exécution à  ce point (lazy) !</code></pre>
                             </div>
 
                             <div class="warning-box">
@@ -782,7 +782,7 @@ val result = numbers
                                     <div class="col-md-6">
                                         <h6 class="text-success">âœ… Avantages</h6>
                                         <ul class="mb-0">
-                                            <li>ContrÃ´le de bas niveau</li>
+                                            <li>Contrôle de bas niveau</li>
                                             <li>Flexibilité maximale</li>
                                             <li>Fault-tolerance automatique</li>
                                             <li>Support de tous types de données</li>
@@ -793,7 +793,7 @@ val result = numbers
                                         <ul class="mb-0">
                                             <li>Pas d'optimisations automatiques</li>
                                             <li>Pas de schéma structuré</li>
-                                            <li>Sérialisation/désérialisation coÃ»teuse</li>
+                                            <li>Sérialisation/désérialisation coà»teuse</li>
                                             <li>Debugging plus difficile</li>
                                         </ul>
                                     </div>
@@ -816,14 +816,14 @@ val result = numbers
                                 <p>
                                     Les DataFrames sont des RDD avec un schéma structuré, 
                                     offrant des optimisations automatiques via le moteur Catalyst 
-                                    et une API similaire Ã  SQL.
+                                    et une API similaire à  SQL.
                                 </p>
                             </div>
 
                             <div class="spark-feature">
                                 <h6><i class="fas fa-magic me-2"></i>Avantages des DataFrames</h6>
                                 <ul class="mb-0">
-                                    <li><strong>Optimisation Catalyst</strong> : Optimisation automatique des requÃªtes</li>
+                                    <li><strong>Optimisation Catalyst</strong> : Optimisation automatique des requêtes</li>
                                     <li><strong>Code Generation</strong> : Génération de code Java optimisé</li>
                                     <li><strong>API riche</strong> : Opérations SQL et fonctionnelles</li>
                                     <li><strong>Intégration</strong> : Compatible avec de nombreux formats (JSON, Parquet, etc.)</li>
@@ -844,7 +844,7 @@ val spark = SparkSession.builder()
 
 import spark.implicits._
 
-// 1. Ã€ partir d'une séquence de case classes
+// 1. à€ partir d'une séquence de case classes
 case class Person(name: String, age: Int, city: String)
 val people = Seq(
   Person("Alice", 25, "Paris"),
@@ -853,16 +853,16 @@ val people = Seq(
 )
 val df = people.toDF()
 
-// 2. Ã€ partir d'un fichier JSON
+// 2. à€ partir d'un fichier JSON
 val jsonDF = spark.read.json("data/people.json")
 
-// 3. Ã€ partir d'un fichier CSV
+// 3. à€ partir d'un fichier CSV
 val csvDF = spark.read
   .option("header", "true")
   .option("inferSchema", "true")
   .csv("data/people.csv")
 
-// 4. Ã€ partir d'une base de données
+// 4. à€ partir d'une base de données
 val jdbcDF = spark.read
   .format("jdbc")
   .option("url", "jdbc:postgresql://localhost:5432/mydb")
@@ -906,7 +906,7 @@ val ageStats = df.groupBy("city").agg(
 // Tri
 val sorted = df.orderBy($"age".desc)
 
-// Opérations sur chaÃ®nes
+// Opérations sur chaà®nes
 val upperNames = df.withColumn("name_upper", upper($"name"))
 
 // Jointures
@@ -962,7 +962,7 @@ complexQuery.show()</code></pre>
                                 <p>
                                     Les Datasets combinent les avantages des RDD (type safety) 
                                     avec les optimisations des DataFrames (Catalyst). 
-                                    Ils sont fortement typés et vérifiés Ã  la compilation.
+                                    Ils sont fortement typés et vérifiés à  la compilation.
                                 </p>
                             </div>
 
@@ -989,7 +989,7 @@ val engineeringEmps: Dataset[Employee] = employees.filter(_.department == "Engin
 val names: Dataset[String] = employees.map(_.name)
 val salaries: Dataset[Double] = employees.map(_.salary)
 
-// âœ… Vérification Ã  la compilation
+// âœ… Vérification à  la compilation
 val avgSalary: Double = employees.map(_.salary).reduce(_ + _) / employees.count()
 
 // âœ… Opérations complexes avec type safety
@@ -1033,7 +1033,7 @@ val backToRDD = numbersDS.rdd
 // DataFrame vers RDD (Row)
 val dfToRDD = numbersDF.rdd  // RDD[Row]
 
-// Exemple pratique : chaÃ®ner les transformations
+// Exemple pratique : chaà®ner les transformations
 val result = employees
   .filter(_.age > 25)           // Dataset operations (type-safe)
   .toDF()                       // Convert to DataFrame  
@@ -1051,8 +1051,8 @@ result.foreach { case (dept, avgSal) =>
                                 <h6><i class="fas fa-lightbulb me-2"></i>Quand utiliser Dataset ?</h6>
                                 <ul class="mb-0">
                                     <li><strong>Structures complexes</strong> : Quand vous avez des objets métier complexes</li>
-                                    <li><strong>Type safety</strong> : Quand vous voulez détecter les erreurs Ã  la compilation</li>
-                                    <li><strong>API fonctionnelle</strong> : Quand vous préférez map/filter/reduce Ã  SQL</li>
+                                    <li><strong>Type safety</strong> : Quand vous voulez détecter les erreurs à  la compilation</li>
+                                    <li><strong>API fonctionnelle</strong> : Quand vous préférez map/filter/reduce à  SQL</li>
                                     <li><strong>Réutilisabilité</strong> : Quand vous voulez partager des transformations type-safe</li>
                                 </ul>
                             </div>
@@ -1135,16 +1135,16 @@ result.foreach { case (dept, avgSal) =>
                                         <h6 class="text-danger">ðŸ”§ Utilisez RDD quand :</h6>
                                         <ul>
                                             <li>Manipulation de données non-structurées</li>
-                                            <li>ContrÃ´le de bas niveau requis</li>
+                                            <li>Contrôle de bas niveau requis</li>
                                             <li>Formats de données spécialisés</li>
-                                            <li>Logique métier trÃ¨s spécifique</li>
+                                            <li>Logique métier très spécifique</li>
                                         </ul>
                                     </div>
                                     <div class="col-md-4">
                                         <h6 class="text-success">ðŸ“Š Utilisez DataFrame quand :</h6>
                                         <ul>
                                             <li>Données structurées ou semi-structurées</li>
-                                            <li>RequÃªtes de type SQL</li>
+                                            <li>Requêtes de type SQL</li>
                                             <li>Performance critique</li>
                                             <li>Intégration avec ML/SQL</li>
                                         </ul>
@@ -1177,7 +1177,7 @@ result.foreach { case (dept, avgSal) =>
                                             Transformations (Lazy)
                                         </div>
                                         <p>
-                                            Créent un nouveau RDD/DataFrame/Dataset Ã  partir d'un existant. 
+                                            Créent un nouveau RDD/DataFrame/Dataset à  partir d'un existant. 
                                             <strong>Lazy</strong> : ne sont pas exécutées immédiatement.
                                         </p>
                                         <div class="code-block">
@@ -1243,17 +1243,17 @@ println(s"Temps pour les transformations: ${transformTime - startTime} ms") // ~
 
 println("=== ACTIONS (déclenchent l'exécution) ===")
 
-// PremiÃ¨re action - déclenche TOUT le pipeline
+// Première action - déclenche TOUT le pipeline
 val count = filtered.count()  // Action - exécute tout le pipeline
 val actionTime1 = System.currentTimeMillis()
 println(s"Nombre d'éléments: $count")
-println(s"Temps pour la 1Ã¨re action: ${actionTime1 - transformTime} ms")
+println(s"Temps pour la 1ère action: ${actionTime1 - transformTime} ms")
 
-// DeuxiÃ¨me action - re-exécute tout le pipeline !
+// Deuxième action - re-exécute tout le pipeline !
 val firstFew = filtered.take(5)  // Action - re-exécute le pipeline
 val actionTime2 = System.currentTimeMillis()
 println(s"Premiers éléments: ${firstFew.mkString(", ")}")
-println(s"Temps pour la 2Ã¨me action: ${actionTime2 - actionTime1} ms")
+println(s"Temps pour la 2ème action: ${actionTime2 - actionTime1} ms")
 
 // Solution : cache pour éviter la re-exécution
 val cachedFiltered = filtered.cache()  // Marque pour le cache
@@ -1272,7 +1272,7 @@ val cachedCount = cachedFiltered.count()  // Utilise le cache !</code></pre>
                             <div class="concept-card">
                                 <div class="concept-title">
                                     <i class="fas fa-hourglass-half"></i>
-                                    Ã‰valuation paresseuse - L'optimisation intelligente
+                                    évaluation paresseuse - L'optimisation intelligente
                                 </div>
                                 <p>
                                     Spark ne calcule les résultats que lorsque c'est absolument nécessaire (action). 
@@ -1286,7 +1286,7 @@ val cachedCount = cachedFiltered.count()  // Utilise le cache !</code></pre>
                                     <li><strong>Optimisation globale</strong> : Spark peut optimiser le pipeline complet</li>
                                     <li><strong>Pas de calculs inutiles</strong> : Si vous ne demandez pas le résultat, il n'est pas calculé</li>
                                     <li><strong>Pipeline efficace</strong> : Combine plusieurs transformations en une seule passe</li>
-                                    <li><strong>Gestion mémoire</strong> : Ã‰vite de stocker des résultats intermédiaires inutiles</li>
+                                    <li><strong>Gestion mémoire</strong> : évite de stocker des résultats intermédiaires inutiles</li>
                                 </ul>
                             </div>
 
@@ -1327,7 +1327,7 @@ topWords.foreach(println)</code></pre>
                             <div class="info-box">
                                 <h6><i class="fas fa-lightbulb me-2"></i>Lineage (lignage) - Fault tolerance</h6>
                                 <p class="mb-0">
-                                    GrÃ¢ce Ã  l'évaluation lazy, Spark maintient le <strong>lineage</strong> : 
+                                    Grâce à  l'évaluation lazy, Spark maintient le <strong>lineage</strong> : 
                                     l'historique des transformations. Si un nÅ“ud tombe en panne, 
                                     Spark peut recalculer seulement les partitions perdues en rejouant 
                                     les transformations depuis les données sources.
@@ -1349,7 +1349,7 @@ topWords.foreach(println)</code></pre>
                                 </div>
                                 <p>
                                     Le cache permet de stocker les RDD/DataFrames en mémoire (ou disque) 
-                                    pour éviter de recalculer les mÃªmes données lors d'actions multiples.
+                                    pour éviter de recalculer les mêmes données lors d'actions multiples.
                                 </p>
                             </div>
 
@@ -1361,7 +1361,7 @@ topWords.foreach(println)</code></pre>
 
 val largeDataset = spark.read.parquet("large_dataset.parquet")
 
-// âŒ Sans cache - recalcule Ã  chaque action
+// âŒ Sans cache - recalcule à  chaque action
 val filtered = largeDataset.filter($"amount" > 1000)
 
 val count1 = filtered.count()     // Calcule le filtre
@@ -1403,9 +1403,9 @@ cachedFiltered.unpersist()</code></pre>
                                         <h6 class="text-success">âœ… Quand cacher :</h6>
                                         <ul>
                                             <li>RDD/DataFrame utilisé plusieurs fois</li>
-                                            <li>Calculs coÃ»teux (jointures, agrégations)</li>
-                                            <li>Données accédées de faÃ§on itérative</li>
-                                            <li>Machine Learning (entraÃ®nement itératif)</li>
+                                            <li>Calculs coà»teux (jointures, agrégations)</li>
+                                            <li>Données accédées de faà§on itérative</li>
+                                            <li>Machine Learning (entraà®nement itératif)</li>
                                         </ul>
                                     </div>
                                     <div class="col-md-6">
@@ -1413,7 +1413,7 @@ cachedFiltered.unpersist()</code></pre>
                                         <ul>
                                             <li>RDD utilisé une seule fois</li>
                                             <li>Données trop volumineuses pour la mémoire</li>
-                                            <li>Transformations trÃ¨s rapides</li>
+                                            <li>Transformations très rapides</li>
                                             <li>Quand la mémoire est limitée</li>
                                         </ul>
                                     </div>
@@ -1432,7 +1432,7 @@ val sales = spark.range(10000000)
   .withColumn("category", (rand() * 10).cast("int"))
   .withColumn("date", date_add(current_date(), (rand() * 365).cast("int")))
 
-// Transformation coÃ»teuse
+// Transformation coà»teuse
 val expensiveSales = sales
   .filter($"amount" > 500)
   .join(broadcast(spark.range(10).toDF("category")), "category")
@@ -1484,11 +1484,11 @@ cachedExpensiveSales.unpersist()</code></pre>
                                                 <h5>Créer et transformer des RDD</h5>
                                                 <p>Créez un programme qui manipule des RDD avec différentes transformations.</p>
                                                 
-                                                <h6>Ã€ faire :</h6>
+                                                <h6>à€ faire :</h6>
                                                 <ol>
-                                                    <li>Créez un RDD avec les nombres de 1 Ã  100</li>
+                                                    <li>Créez un RDD avec les nombres de 1 à  100</li>
                                                     <li>Filtrez pour garder seulement les multiples de 5</li>
-                                                    <li>Multipliez chaque nombre par lui-mÃªme (carré)</li>
+                                                    <li>Multipliez chaque nombre par lui-même (carré)</li>
                                                     <li>Calculez la somme totale</li>
                                                 </ol>
                                             </div>
@@ -1505,7 +1505,7 @@ val spark = SparkSession.builder()
 
 val sc = spark.sparkContext
 
-// 1. Créer RDD avec nombres 1 Ã  100
+// 1. Créer RDD avec nombres 1 à  100
 val numbers = sc.parallelize(1 to 100)
 println(s"RDD créé avec ${numbers.count()} éléments")
 
@@ -1550,7 +1550,7 @@ spark.stop()</code></pre>
                                                 <h5>Analyser des données de ventes</h5>
                                                 <p>Utilisez les DataFrames pour analyser des données de ventes.</p>
                                                 
-                                                <h6>Ã€ faire :</h6>
+                                                <h6>à€ faire :</h6>
                                                 <ol>
                                                     <li>Créez un DataFrame de ventes avec (produit, quantité, prix, région)</li>
                                                     <li>Calculez le chiffre d'affaires par région</li>
@@ -1581,7 +1581,7 @@ val ventes = Seq(
   Sale("Clavier", 5, 75.0, "Sud"),
   Sale("Laptop", 1, 1200.0, "Est"),
   Sale("Souris", 8, 25.0, "Sud"),
-  Sale("Ã‰cran", 3, 300.0, "Nord"),
+  Sale("écran", 3, 300.0, "Nord"),
   Sale("Laptop", 4, 1200.0, "Sud"),
   Sale("Clavier", 2, 75.0, "Est")
 ).toDF()
@@ -1633,7 +1633,7 @@ val analyseSQL = spark.sql("""
   ORDER BY ca_total DESC
 """)
 
-println("=== Analyse complÃ¨te par région ===")
+println("=== Analyse complète par région ===")
 analyseSQL.show()
 
 spark.stop()</code></pre>
@@ -1657,7 +1657,7 @@ spark.stop()</code></pre>
                                                 <h5>Analyse type-safe avec Dataset</h5>
                                                 <p>Créez une analyse robuste avec la sécurité de type des Dataset.</p>
                                                 
-                                                <h6>Ã€ faire :</h6>
+                                                <h6>à€ faire :</h6>
                                                 <ol>
                                                     <li>Définissez des case classes pour Commande et Produit</li>
                                                     <li>Créez des Datasets typés</li>
@@ -1679,7 +1679,7 @@ val spark = SparkSession.builder()
 
 import spark.implicits._
 
-// 1. Définir les case classes (modÃ¨le de données)
+// 1. Définir les case classes (modèle de données)
 case class Produit(id: Int, nom: String, categorie: String, prix: Double)
 case class Commande(id: Int, produitId: Int, quantite: Int, clientId: Int, date: String)
 
@@ -1767,7 +1767,7 @@ val produitsPopulaires = commandesEnrichies
 println("=== Produits les plus populaires (quantité > 1) ===")
 produitsPopulaires.show()
 
-// Vérification type safety Ã  la compilation
+// Vérification type safety à  la compilation
 // val erreur = commandesEnrichies.map(_.champInexistant)  // âŒ Ne compile pas !
 
 spark.stop()</code></pre>

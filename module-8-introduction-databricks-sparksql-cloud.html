@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Module 8 - Introduction Ã  Databricks et SparkSQL sur le Cloud</title>
+    <title>Module 8 - Introduction à  Databricks et SparkSQL sur le Cloud</title>
     
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -567,7 +567,7 @@
 
     <div class="container-fluid" style="margin-top: 80px;">
         <div class="row">
-            <!-- Sidebar avec table des matiÃ¨res -->
+            <!-- Sidebar avec table des matières -->
             <div class="col-lg-3">
                 <div class="sidebar">
                     <h5 class="toc-title">
@@ -605,7 +605,7 @@
                         </a>
                         <a href="#monitoring" class="toc-link">
                             <i class="fas fa-chart-line me-2"></i>
-                            Monitoring & CoÃ»ts
+                            Monitoring & Coà»ts
                         </a>
                         <a href="#devops" class="toc-link">
                             <i class="fas fa-cogs me-2"></i>
@@ -622,14 +622,14 @@
             <!-- Contenu principal -->
             <div class="col-lg-9">
                 <div class="main-content">
-                    <!-- En-tÃªte -->
+                    <!-- En-tête -->
                     <div class="content-header">
                         <h1>
                             <i class="fas fa-cloud me-3"></i>
                             Module 8 - Cloud & Databricks
                         </h1>
                         <p class="lead mb-0">
-                            SparkSQL et Databricks sur Azure/AWS - MaÃ®trisez le Big Data dans le Cloud
+                            SparkSQL et Databricks sur Azure/AWS - Maà®trisez le Big Data dans le Cloud
                         </p>
                         <span class="badge badge-cloud mt-2">Module Final 8/8</span>
                     </div>
@@ -637,10 +637,10 @@
                     <!-- Corps du contenu -->
                     <div class="content-body">
                         
-                        <!-- BanniÃ¨re de completion -->
+                        <!-- Bannière de completion -->
                         <div class="completion-banner">
-                            <h3 class="mb-2">ðŸŽ¯ Module Final - Vous y Ãªtes presque !</h3>
-                            <p class="mb-0">DerniÃ¨re étape pour devenir expert Scala & Spark Cloud !</p>
+                            <h3 class="mb-2">ðŸŽ¯ Module Final - Vous y êtes presque !</h3>
+                            <p class="mb-0">Dernière étape pour devenir expert Scala & Spark Cloud !</p>
                         </div>
 
                         <!-- Introduction Cloud -->
@@ -656,27 +656,27 @@
                                     Pourquoi migrer Spark vers le Cloud ?
                                 </div>
                                 <p>
-                                    Le Cloud transforme le Big Data : élasticité infinie, coÃ»ts optimisés, 
-                                    services managés et focus sur la valeur métier plutÃ´t que l'infrastructure.
+                                    Le Cloud transforme le Big Data : élasticité infinie, coà»ts optimisés, 
+                                    services managés et focus sur la valeur métier plutôt que l'infrastructure.
                                 </p>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="cloud-feature">
-                                        <h6><i class="fas fa-expand-arrows-alt me-2"></i>Ã‰lasticité</h6>
+                                        <h6><i class="fas fa-expand-arrows-alt me-2"></i>élasticité</h6>
                                         <p class="mb-0">
                                             Scaling automatique selon la charge. 
-                                            Pas de cluster idle, ressources Ã  la demande.
+                                            Pas de cluster idle, ressources à  la demande.
                                         </p>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="cloud-feature">
-                                        <h6><i class="fas fa-euro-sign me-2"></i>CoÃ»t optimisé</h6>
+                                        <h6><i class="fas fa-euro-sign me-2"></i>Coà»t optimisé</h6>
                                         <p class="mb-0">
                                             Pay-per-use, spots instances, 
-                                            réduction jusqu'Ã  90% vs infrastructure dédiée.
+                                            réduction jusqu'à  90% vs infrastructure dédiée.
                                         </p>
                                     </div>
                                 </div>
@@ -704,7 +704,7 @@
                             </div>
 
                             <div class="architecture-diagram">
-                                <h5 class="mb-3">Ã‰volution : On-premise â†’ Cloud</h5>
+                                <h5 class="mb-3">évolution : On-premise â†’ Cloud</h5>
                                 
                                 <div style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap;">
                                     <div>
@@ -755,14 +755,14 @@
                                             <td><span class="text-success">99% plus rapide</span></td>
                                         </tr>
                                         <tr>
-                                            <td><strong>CoÃ»ts OPEX</strong></td>
+                                            <td><strong>Coà»ts OPEX</strong></td>
                                             <td>100% fixed</td>
                                             <td>Pay-per-use</td>
                                             <td><span class="text-success">60-90% économies</span></td>
                                         </tr>
                                         <tr>
                                             <td><strong>Maintenance</strong></td>
-                                            <td>Ã‰quipe dédiée</td>
+                                            <td>équipe dédiée</td>
                                             <td>Automatisée</td>
                                             <td><span class="text-success">Zero-ops</span></td>
                                         </tr>
@@ -818,7 +818,7 @@ println(s"Workspace: ${spark.conf.get("spark.databricks.workspaceUrl", "N/A")}")
 
 // === DATABRICKS FILE SYSTEM (DBFS) ===
 
-// AccÃ¨s aux données via DBFS
+// Accès aux données via DBFS
 val sampleData = "/databricks-datasets/samples/population-vs-price/data_geo.csv"
 
 // Lecture directe depuis DBFS
@@ -841,7 +841,7 @@ housingData.show(5)
 // Exemple d'installation de package
 // %pip install plotly
 
-// === DELTA LAKE INTÃ‰GRÃ‰ ===
+// === DELTA LAKE INTéGRé ===
 
 // Création d'une table Delta automatique
 housingData.write
@@ -850,7 +850,7 @@ housingData.write
   .option("path", "/tmp/housing_delta")
   .saveAsTable("housing_analysis")
 
-// RequÃªte SQL directe
+// Requête SQL directe
 spark.sql("""
   SELECT state, 
          AVG(2014_Population) as avg_population,
@@ -862,7 +862,7 @@ spark.sql("""
   LIMIT 10
 """).show()
 
-// === VISUALIZATION INTÃ‰GRÃ‰E ===
+// === VISUALIZATION INTéGRéE ===
 
 // Les résultats s'affichent automatiquement avec des graphiques
 val stateSummary = housingData
@@ -970,13 +970,13 @@ val jobConfig = """
 }
 """
 
-// === MONITORING ET OBSERVABILITÃ‰ ===
+// === MONITORING ET OBSERVABILITé ===
 
 // Métriques custom dans Databricks
 def logMetrics(stageName: String, recordsProcessed: Long, duration: Long): Unit = {
   println(s"METRICS: stage=$stageName, records=$recordsProcessed, duration=${duration}ms")
   
-  // Integration avec des systÃ¨mes de monitoring externes
+  // Integration avec des systèmes de monitoring externes
   // Exemple : DataDog, New Relic, etc.
 }
 
@@ -1012,7 +1012,7 @@ logMetrics("data_filtering", count, duration)</code></pre>
                                 <div class="code-header">
                                     <i class="fas fa-chart-bar me-2"></i>Analytics avancées avec SparkSQL
                                 </div>
-                                <pre><code class="language-sql">-- === FONCTIONS ANALYTIQUES AVANCÃ‰ES ===
+                                <pre><code class="language-sql">-- === FONCTIONS ANALYTIQUES AVANCéES ===
 
 -- Création d'une vue pour les ventes e-commerce
 CREATE OR REPLACE TEMPORARY VIEW sales_data AS
@@ -1200,16 +1200,16 @@ JOIN categories c ON s.product_category = c.category_id;
 
 -- === STATISTIQUES POUR L'OPTIMISEUR ===
 
--- Mise Ã  jour des statistiques pour de meilleures performances
+-- Mise à  jour des statistiques pour de meilleures performances
 ANALYZE TABLE sales_partitioned COMPUTE STATISTICS FOR ALL COLUMNS;
 
--- === MONITORING DES REQUÃŠTES ===
+-- === MONITORING DES REQUàŠTES ===
 
 -- Configuration pour le monitoring
 SET spark.sql.queryExecutionListeners = com.databricks.spark.util.QueryExecutionListener;
 SET spark.sql.streaming.metricsEnabled = true;
 
--- Exemple de requÃªte avec métriques
+-- Exemple de requête avec métriques
 EXPLAIN COST
 SELECT 
   product_category,
@@ -1239,7 +1239,7 @@ ORDER BY total_revenue DESC;</code></pre>
                                 </div>
                                 <div class="final-project-body">
                                     <div class="explanation-section">
-                                        <h5>Mission : Construire une plateforme analytics complÃ¨te</h5>
+                                        <h5>Mission : Construire une plateforme analytics complète</h5>
                                         <p><strong>Contexte :</strong> Vous devez créer une plateforme Data Lakehouse moderne combinant toutes les technologies apprises : Scala, Spark, Streaming, ML et Cloud.</p>
                                         
                                         <h6>Architecture cible :</h6>
@@ -1262,7 +1262,7 @@ ORDER BY total_revenue DESC;</code></pre>
                                     </div>
 
                                     <div class="answer-section">
-                                        <h5><i class="fas fa-code me-2"></i>Solution Lakehouse complÃ¨te</h5>
+                                        <h5><i class="fas fa-code me-2"></i>Solution Lakehouse complète</h5>
                                         <div class="code-block">
                                             <pre><code class="language-scala">// === ARCHITECTURE DATA LAKEHOUSE ===
 
@@ -1644,7 +1644,7 @@ object DataLakehousePlatform {
   }
 }
 
-// === DÃ‰MARRAGE DE LA PLATEFORME ===
+// === DéMARRAGE DE LA PLATEFORME ===
 DataLakehousePlatform.runLakehousePipeline()</code></pre>
                                         </div>
                                     </div>
@@ -1654,8 +1654,8 @@ DataLakehousePlatform.runLakehousePipeline()</code></pre>
 
                         <!-- Completion Banner -->
                         <div class="completion-banner">
-                            <h2>ðŸ† FÃ‰LICITATIONS ! Formation Complétée !</h2>
-                            <p class="lead">Vous maÃ®trisez maintenant Scala, Spark et le Big Data Cloud !</p>
+                            <h2>ðŸ† FéLICITATIONS ! Formation Complétée !</h2>
+                            <p class="lead">Vous maà®trisez maintenant Scala, Spark et le Big Data Cloud !</p>
                             <p><strong>42 heures</strong> â€¢ <strong>8 modules</strong> â€¢ <strong>100+ exercices</strong> â€¢ <strong>Projets industriels</strong></p>
                         </div>
 
@@ -1671,7 +1671,7 @@ DataLakehousePlatform.runLakehousePipeline()</code></pre>
                                 <div class="col-6 text-end">
                                     <a href="index.html" class="btn btn-success btn-lg">
                                         <i class="fas fa-home me-2"></i>
-                                        Retour Ã  l'accueil
+                                        Retour à  l'accueil
                                     </a>
                                 </div>
                             </div>

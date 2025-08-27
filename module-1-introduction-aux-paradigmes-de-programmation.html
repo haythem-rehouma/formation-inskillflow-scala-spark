@@ -11,7 +11,7 @@
     <!-- Highlight.js CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     
-    <!-- Font Awesome pour les icÃ´nes -->
+    <!-- Font Awesome pour les icônes -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Google Fonts -->
@@ -433,7 +433,7 @@
 
     <div class="container-fluid" style="margin-top: 80px;">
         <div class="row">
-            <!-- Sidebar avec table des matiÃ¨res -->
+            <!-- Sidebar avec table des matières -->
             <div class="col-lg-3">
                 <div class="sidebar">
                     <h5 class="toc-title">
@@ -484,14 +484,14 @@
             <!-- Contenu principal -->
             <div class="col-lg-9">
                 <div class="main-content">
-                    <!-- En-tÃªte -->
+                    <!-- En-tête -->
                     <div class="content-header">
                         <h1>
                             <i class="fas fa-lightbulb me-3"></i>
                             Module 1 - Introduction aux Paradigmes de Programmation
                         </h1>
                         <p class="lead mb-0">
-                            Découvrez les fondements théoriques qui guident la faÃ§on dont nous concevons et écrivons du code
+                            Découvrez les fondements théoriques qui guident la faà§on dont nous concevons et écrivons du code
                         </p>
                         <span class="badge badge-concept mt-2">Module 1</span>
                     </div>
@@ -506,9 +506,9 @@
                                 Introduction
                             </h2>
                             <p class="lead">
-                                Bienvenue dans votre voyage vers la maÃ®trise de Scala et Apache Spark ! 
+                                Bienvenue dans votre voyage vers la maà®trise de Scala et Apache Spark ! 
                                 Avant de plonger dans la syntaxe et les spécificités de Scala, il est essentiel de comprendre 
-                                les <strong>paradigmes de programmation</strong> qui influencent la faÃ§on dont nous pensons 
+                                les <strong>paradigmes de programmation</strong> qui influencent la faà§on dont nous pensons 
                                 et structurons notre code.
                             </p>
                             
@@ -516,9 +516,9 @@
                                 <h6><i class="fas fa-info-circle me-2"></i>Pourquoi commencer par les paradigmes ?</h6>
                                 <ul class="mb-0">
                                     <li><strong>Vision globale</strong> : Comprendre comment différentes approches de programmation existent</li>
-                                    <li><strong>Préparation Ã  Scala</strong> : Scala combine plusieurs paradigmes de faÃ§on unique</li>
-                                    <li><strong>Meilleure conception</strong> : Choisir le bon paradigme pour le bon problÃ¨me</li>
-                                    <li><strong>Ã‰volution professionnelle</strong> : Développer une pensée de programmeur expert</li>
+                                    <li><strong>Préparation à  Scala</strong> : Scala combine plusieurs paradigmes de faà§on unique</li>
+                                    <li><strong>Meilleure conception</strong> : Choisir le bon paradigme pour le bon problème</li>
+                                    <li><strong>évolution professionnelle</strong> : Développer une pensée de programmeur expert</li>
                                 </ul>
                             </div>
 
@@ -556,7 +556,7 @@
                                 <h5>Définition</h5>
                                 <p>
                                     Un <strong>paradigme de programmation</strong> est une approche ou un style 
-                                    fondamental pour résoudre des problÃ¨mes en programmation. Il définit la maniÃ¨re 
+                                    fondamental pour résoudre des problèmes en programmation. Il définit la manière 
                                     dont nous structurons nos programmes, organisons notre code et pensons aux solutions.
                                 </p>
                             </div>
@@ -565,7 +565,7 @@
                                 <h6>Analogie : Les styles architecturaux</h6>
                                 <p>
                                     Tout comme l'architecture a différents styles (gothique, moderne, art déco), 
-                                    la programmation a différents paradigmes. Chaque style a ses propres rÃ¨gles, 
+                                    la programmation a différents paradigmes. Chaque style a ses propres règles, 
                                     avantages et contextes d'utilisation appropriés.
                                 </p>
                             </div>
@@ -574,7 +574,7 @@
                                 <div class="code-header">
                                     <i class="fas fa-lightbulb me-2"></i>Exemple : Calculer la somme d'une liste
                                 </div>
-                                <pre><code class="language-scala">// IMPÃ‰RATIF : Comment faire étape par étape
+                                <pre><code class="language-scala">// IMPéRATIF : Comment faire étape par étape
 var somme = 0
 for (i <- 0 until liste.length) {
   somme += liste(i)
@@ -626,15 +626,15 @@ val somme = liste.reduce(_ + _)</code></pre>
                             
                             <p>
                                 La programmation <strong>impérative</strong> décrit <em>comment</em> un programme doit 
-                                accomplir une tÃ¢che en décrivant une séquence d'instructions Ã  exécuter dans un ordre précis.
+                                accomplir une tâche en décrivant une séquence d'instructions à  exécuter dans un ordre précis.
                             </p>
 
                             <div class="explanation-section">
                                 <h6>Caractéristiques principales :</h6>
                                 <ul>
-                                    <li><strong>Séquence d'instructions</strong> : Le programme est une liste d'ordres Ã  suivre</li>
-                                    <li><strong>Ã‰tat mutable</strong> : Les variables peuvent changer de valeur</li>
-                                    <li><strong>ContrÃ´le de flux</strong> : if/else, boucles, sauts conditionnels</li>
+                                    <li><strong>Séquence d'instructions</strong> : Le programme est une liste d'ordres à  suivre</li>
+                                    <li><strong>état mutable</strong> : Les variables peuvent changer de valeur</li>
+                                    <li><strong>Contrôle de flux</strong> : if/else, boucles, sauts conditionnels</li>
                                     <li><strong>Effets de bord</strong> : Les fonctions peuvent modifier l'état global</li>
                                 </ul>
                             </div>
@@ -650,9 +650,9 @@ def findMax(numbers: Array[Int]): Int = {
   
   while (i < numbers.length) {      // 3. Boucler tant qu'il y a des éléments
     if (numbers(i) > max) {         // 4. Comparer l'élément actuel
-      max = numbers(i)              // 5. Mettre Ã  jour si nécessaire
+      max = numbers(i)              // 5. Mettre à  jour si nécessaire
     }
-    i += 1                          // 6. Passer Ã  l'élément suivant
+    i += 1                          // 6. Passer à  l'élément suivant
   }
   
   max                               // 7. Retourner le résultat
@@ -664,8 +664,8 @@ def findMax(numbers: Array[Int]): Int = {
                                     <h6><i class="fas fa-thumbs-up me-2"></i>Avantages</h6>
                                     <ul class="mb-0">
                                         <li>Proche du fonctionnement de la machine</li>
-                                        <li>ContrÃ´le précis de l'exécution</li>
-                                        <li>Facile Ã  comprendre pour les débutants</li>
+                                        <li>Contrôle précis de l'exécution</li>
+                                        <li>Facile à  comprendre pour les débutants</li>
                                         <li>Performance optimisable</li>
                                     </ul>
                                 </div>
@@ -673,17 +673,17 @@ def findMax(numbers: Array[Int]): Int = {
                                     <h6><i class="fas fa-thumbs-down me-2"></i>Inconvénients</h6>
                                     <ul class="mb-0">
                                         <li>Code verbeux et répétitif</li>
-                                        <li>Difficile Ã  maintenir et déboguer</li>
-                                        <li>ProblÃ¨mes de concurrence</li>
+                                        <li>Difficile à  maintenir et déboguer</li>
+                                        <li>Problèmes de concurrence</li>
                                         <li>Effets de bord imprévisibles</li>
                                     </ul>
                                 </div>
                             </div>
 
                             <div class="alert alert-warning">
-                                <h6><i class="fas fa-exclamation-triangle me-2"></i>Exemple de problÃ¨me : Course condition</h6>
+                                <h6><i class="fas fa-exclamation-triangle me-2"></i>Exemple de problème : Course condition</h6>
                                 <p class="mb-0">
-                                    En programmation impérative, plusieurs threads peuvent modifier la mÃªme variable, 
+                                    En programmation impérative, plusieurs threads peuvent modifier la même variable, 
                                     causant des résultats imprévisibles. C'est pourquoi les paradigmes plus modernes 
                                     favorisent l'immutabilité.
                                 </p>
@@ -713,7 +713,7 @@ def findMax(numbers: Array[Int]): Int = {
                                     </div>
                                     <div class="col-md-6">
                                         <ul>
-                                            <li><strong>Polymorphisme</strong> : Un mÃªme interface, plusieurs implémentations</li>
+                                            <li><strong>Polymorphisme</strong> : Un même interface, plusieurs implémentations</li>
                                             <li><strong>Abstraction</strong> : Cacher la complexité interne</li>
                                         </ul>
                                     </div>
@@ -722,15 +722,15 @@ def findMax(numbers: Array[Int]): Int = {
 
                             <div class="code-block">
                                 <div class="code-header">
-                                    <i class="fas fa-cube me-2"></i>Exemple POO : SystÃ¨me de formes géométriques
+                                    <i class="fas fa-cube me-2"></i>Exemple POO : Système de formes géométriques
                                 </div>
                                 <pre><code class="language-scala">// Classe abstraite : définit le contrat
 abstract class Forme {
   def aire(): Double
   def perimetre(): Double
   
-  // Méthode concrÃ¨te commune
-  def description(): String = s"Aire: ${aire()}, PérimÃ¨tre: ${perimetre()}"
+  // Méthode concrète commune
+  def description(): String = s"Aire: ${aire()}, Périmètre: ${perimetre()}"
 }
 
 // Implémentation spécifique : Rectangle
@@ -757,7 +757,7 @@ formes.foreach(forme => println(forme.description()))</code></pre>
                             <div class="explanation-section">
                                 <h6>Exemple concret : Analogie avec le monde réel</h6>
                                 <p>
-                                    Imaginez une <strong>Voiture</strong> : vous n'avez pas besoin de connaÃ®tre le 
+                                    Imaginez une <strong>Voiture</strong> : vous n'avez pas besoin de connaà®tre le 
                                     fonctionnement interne du moteur pour l'utiliser. Vous interagissez avec des 
                                     <em>interfaces</em> simples (volant, pédales) qui cachent la complexité.
                                 </p>
@@ -770,15 +770,15 @@ formes.foreach(forme => println(forme.description()))</code></pre>
                                         <li>Code modulaire et réutilisable</li>
                                         <li>Maintien de la logique métier</li>
                                         <li>Facilite la collaboration en équipe</li>
-                                        <li>ParallÃ¨le avec le monde réel</li>
+                                        <li>Parallèle avec le monde réel</li>
                                     </ul>
                                 </div>
                                 <div class="cons">
                                     <h6><i class="fas fa-thumbs-down me-2"></i>Inconvénients</h6>
                                     <ul class="mb-0">
-                                        <li>Peut Ãªtre sur-complexe pour des problÃ¨mes simples</li>
-                                        <li>Hiérarchies profondes difficiles Ã  maintenir</li>
-                                        <li>Ã‰tat mutable pose des problÃ¨mes de concurrence</li>
+                                        <li>Peut être sur-complexe pour des problèmes simples</li>
+                                        <li>Hiérarchies profondes difficiles à  maintenir</li>
+                                        <li>état mutable pose des problèmes de concurrence</li>
                                         <li>Peut encourager un couplage fort</li>
                                     </ul>
                                 </div>
@@ -800,9 +800,9 @@ formes.foreach(forme => println(forme.description()))</code></pre>
                             <div class="explanation-section">
                                 <h6>Principes fondamentaux :</h6>
                                 <ul>
-                                    <li><strong>Immutabilité</strong> : Les données ne changent jamais aprÃ¨s création</li>
-                                    <li><strong>Fonctions pures</strong> : MÃªme entrée = mÃªme sortie, sans effets de bord</li>
-                                    <li><strong>Fonctions de premiÃ¨re classe</strong> : Les fonctions sont des valeurs</li>
+                                    <li><strong>Immutabilité</strong> : Les données ne changent jamais après création</li>
+                                    <li><strong>Fonctions pures</strong> : Même entrée = même sortie, sans effets de bord</li>
+                                    <li><strong>Fonctions de première classe</strong> : Les fonctions sont des valeurs</li>
                                     <li><strong>Composition</strong> : Combiner des petites fonctions pour créer des solutions complexes</li>
                                 </ul>
                             </div>
@@ -835,11 +835,11 @@ val resultatConcis = numbers
                             </div>
 
                             <div class="alert alert-info">
-                                <h6><i class="fas fa-lightbulb me-2"></i>ParallÃ¨le avec les mathématiques</h6>
+                                <h6><i class="fas fa-lightbulb me-2"></i>Parallèle avec les mathématiques</h6>
                                 <p class="mb-0">
-                                    En mathématiques, <code>f(x) = xÂ²</code> donne toujours le mÃªme résultat pour le mÃªme <code>x</code>. 
-                                    La programmation fonctionnelle applique ce principe : une fonction avec les mÃªmes paramÃ¨tres 
-                                    retourne toujours le mÃªme résultat.
+                                    En mathématiques, <code>f(x) = xÂ²</code> donne toujours le même résultat pour le même <code>x</code>. 
+                                    La programmation fonctionnelle applique ce principe : une fonction avec les mêmes paramètres 
+                                    retourne toujours le même résultat.
                                 </p>
                             </div>
 
@@ -851,7 +851,7 @@ val resultatConcis = numbers
 var compteur = 0
 def incrementerImpure(): Int = {
   compteur += 1  // Modifie l'état global
-  compteur       // Résultat différent Ã  chaque appel
+  compteur       // Résultat différent à  chaque appel
 }
 
 // âœ… FONCTION PURE : résultat déterministe
@@ -864,7 +864,7 @@ println(incrementerImpure()) // 1
 println(incrementerImpure()) // 2 - Résultat différent !
 
 println(incrementerPure(5))  // 6
-println(incrementerPure(5))  // 6 - Toujours le mÃªme résultat</code></pre>
+println(incrementerPure(5))  // 6 - Toujours le même résultat</code></pre>
                             </div>
 
                             <div class="pros-cons">
@@ -882,9 +882,9 @@ println(incrementerPure(5))  // 6 - Toujours le mÃªme résultat</code></pre>
                                     <h6><i class="fas fa-thumbs-down me-2"></i>Inconvénients</h6>
                                     <ul class="mb-0">
                                         <li>Courbe d'apprentissage plus raide</li>
-                                        <li>Peut Ãªtre moins intuitif au début</li>
+                                        <li>Peut être moins intuitif au début</li>
                                         <li>Performance parfois moins optimale</li>
-                                        <li>Certains problÃ¨mes difficiles Ã  modéliser</li>
+                                        <li>Certains problèmes difficiles à  modéliser</li>
                                     </ul>
                                 </div>
                             </div>
@@ -915,7 +915,7 @@ println(incrementerPure(5))  // 6 - Toujours le mÃªme résultat</code></pre>
                                             <td>Quoi faire</td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Ã‰tat des données</strong></td>
+                                            <td><strong>état des données</strong></td>
                                             <td>Mutable</td>
                                             <td>Généralement mutable</td>
                                             <td>Immutable</td>
@@ -941,7 +941,7 @@ println(incrementerPure(5))  // 6 - Toujours le mÃªme résultat</code></pre>
                                         <tr>
                                             <td><strong>Debugging</strong></td>
                                             <td>Moyen</td>
-                                            <td>Moyen Ã  difficile</td>
+                                            <td>Moyen à  difficile</td>
                                             <td>Plus facile</td>
                                         </tr>
                                         <tr>
@@ -958,7 +958,7 @@ println(incrementerPure(5))  // 6 - Toujours le mÃªme résultat</code></pre>
                                 <h6>Exemple concret : Calculer le total des ventes par région</h6>
                                 <div class="code-block">
                                     <div class="code-header">
-                                        <i class="fas fa-chart-bar me-2"></i>Trois approches pour le mÃªme problÃ¨me
+                                        <i class="fas fa-chart-bar me-2"></i>Trois approches pour le même problème
                                     </div>
                                     <pre><code class="language-scala">// Données exemple
 case class Vente(region: String, montant: Double)
@@ -967,7 +967,7 @@ val ventes = List(
   Vente("Est", 80), Vente("Sud", 120), Vente("Nord", 90)
 )
 
-// ===== APPROCHE IMPÃ‰RATIVE =====
+// ===== APPROCHE IMPéRATIVE =====
 def totalParRegionImperatif(ventes: List[Vente]): Map[String, Double] = {
   val resultat = scala.collection.mutable.Map[String, Double]()
   
@@ -982,7 +982,7 @@ def totalParRegionImperatif(ventes: List[Vente]): Map[String, Double] = {
   resultat.toMap
 }
 
-// ===== APPROCHE ORIENTÃ‰E OBJET =====
+// ===== APPROCHE ORIENTéE OBJET =====
 class AnalyseurVentes(val ventes: List[Vente]) {
   private var cache: Map[String, Double] = Map()
   
@@ -1031,9 +1031,9 @@ val resultats = totalParRegionFonctionnel(ventes)
                             <div class="explanation-section">
                                 <h6>Pourquoi cette approche multi-paradigme est puissante :</h6>
                                 <ul>
-                                    <li><strong>Flexibilité</strong> : Utilisez le paradigme le plus adapté au problÃ¨me</li>
+                                    <li><strong>Flexibilité</strong> : Utilisez le paradigme le plus adapté au problème</li>
                                     <li><strong>Migration progressive</strong> : Passez graduellement de OOP vers fonctionnel</li>
-                                    <li><strong>Interopérabilité Java</strong> : Réutilisez l'écosystÃ¨me Java existant</li>
+                                    <li><strong>Interopérabilité Java</strong> : Réutilisez l'écosystème Java existant</li>
                                     <li><strong>Expressivité</strong> : Code plus concis et lisible</li>
                                 </ul>
                             </div>
@@ -1042,7 +1042,7 @@ val resultats = totalParRegionFonctionnel(ventes)
                                 <div class="code-header">
                                     <i class="fas fa-magic me-2"></i>Exemple : Scala utilisant tous les paradigmes
                                 </div>
-                                <pre><code class="language-scala">// ===== ORIENTÃ‰ OBJET : Définition des structures =====
+                                <pre><code class="language-scala">// ===== ORIENTé OBJET : Définition des structures =====
 case class Personne(nom: String, age: Int, salaire: Double)
 
 class Entreprise(val nom: String) {
@@ -1066,7 +1066,7 @@ class Entreprise(val nom: String) {
       .sortBy(_.salaire)            // Tri fonctionnel
   }
   
-  // ===== IMPÃ‰RATIF : Quand c'est plus clair =====
+  // ===== IMPéRATIF : Quand c'est plus clair =====
   def afficherStatistiques(): Unit = {
     println(s"Entreprise: $nom")
     println(s"Nombre d'employés: ${employes.length}")
@@ -1105,10 +1105,10 @@ entreprise.afficherStatistiques()</code></pre>
                                 <h6><i class="fas fa-rocket me-2"></i>Pourquoi Scala est parfait pour Apache Spark</h6>
                                 <ul class="mb-0">
                                     <li><strong>Immutabilité</strong> : Les RDD sont immutables par nature</li>
-                                    <li><strong>Fonctions de premiÃ¨re classe</strong> : Parfait pour map, filter, reduce</li>
+                                    <li><strong>Fonctions de première classe</strong> : Parfait pour map, filter, reduce</li>
                                     <li><strong>Concision</strong> : Moins de code boilerplate qu'en Java</li>
                                     <li><strong>Performance</strong> : Compilation vers bytecode Java optimisé</li>
-                                    <li><strong>Ã‰cosystÃ¨me</strong> : Interopérabilité avec les bibliothÃ¨ques Java</li>
+                                    <li><strong>écosystème</strong> : Interopérabilité avec les bibliothèques Java</li>
                                 </ul>
                             </div>
                         </section>
@@ -1189,13 +1189,13 @@ for (i <- nombres.indices) {
                                                 <h6>1. ðŸ”’ Sécurité des threads</h6>
                                                 <p>
                                                     En Big Data, les calculs sont distribués sur plusieurs machines/threads. 
-                                                    Avec des données immutables, impossible d'avoir des "race conditions" oÃ¹ 
-                                                    deux threads modifient la mÃªme donnée simultanément.
+                                                    Avec des données immutables, impossible d'avoir des "race conditions" oà¹ 
+                                                    deux threads modifient la même donnée simultanément.
                                                 </p>
 
                                                 <h6>2. ðŸš€ Parallélisation naturelle</h6>
                                                 <p>
-                                                    Apache Spark peut distribuer les tÃ¢ches sans se soucier des conflits, 
+                                                    Apache Spark peut distribuer les tâches sans se soucier des conflits, 
                                                     car chaque partition de données est indépendante et ne change jamais.
                                                 </p>
 
@@ -1216,7 +1216,7 @@ for (i <- nombres.indices) {
                                                 <div class="code-header">
                                                     <i class="fas fa-rocket me-2"></i>Exemple Spark avec immutabilité
                                                 </div>
-                                                <pre><code class="language-scala">// RDD immutable - peut Ãªtre distribué en toute sécurité
+                                                <pre><code class="language-scala">// RDD immutable - peut être distribué en toute sécurité
 val donnees = spark.parallelize(List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
 
 // Chaque transformation crée un nouveau RDD
@@ -1266,11 +1266,11 @@ println(s"Somme finale: $somme")</code></pre>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="paradigm-card oop">
-                                                            <h6>ðŸ—ï¸ Choisir ORIENTÃ‰ OBJET pour :</h6>
+                                                            <h6>ðŸ—ï¸ Choisir ORIENTé OBJET pour :</h6>
                                                             <ul class="mb-0">
                                                                 <li>Modélisation de domaines métier</li>
                                                                 <li>Interfaces utilisateur</li>
-                                                                <li>SystÃ¨mes avec beaucoup d'état</li>
+                                                                <li>Systèmes avec beaucoup d'état</li>
                                                                 <li>APIs et frameworks</li>
                                                                 <li>Code nécessitant de l'encapsulation</li>
                                                             </ul>
@@ -1313,7 +1313,7 @@ class LogAnalyzer {
                                                 <ul>
                                                     <li><strong>OOP</strong> : Pour structurer et modéliser votre domaine</li>
                                                     <li><strong>Fonctionnel</strong> : Pour transformer et analyser vos données</li>
-                                                    <li><strong>Impératif</strong> : Pour les tÃ¢ches séquentielles spécifiques (I/O, affichage)</li>
+                                                    <li><strong>Impératif</strong> : Pour les tâches séquentielles spécifiques (I/O, affichage)</li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -1335,7 +1335,7 @@ class LogAnalyzer {
                                                 <p>Voici un code impératif qui calcule la moyenne des nombres positifs. Réécrivez-le en style fonctionnel :</p>
                                                 
                                                 <div class="code-block">
-                                                    <div class="code-header">Code impératif Ã  transformer</div>
+                                                    <div class="code-header">Code impératif à  transformer</div>
                                                     <pre><code class="language-scala">def moyennePositifs(nombres: Array[Int]): Double = {
   var somme = 0
   var compteur = 0
@@ -1391,16 +1391,16 @@ def moyennePositifsConcise(nombres: Array[Int]): Double = {
                                                             <li><strong>Lisibilité</strong> : Intent plus claire</li>
                                                             <li><strong>Concision</strong> : Moins de code</li>
                                                             <li><strong>Sécurité</strong> : Pas de variables mutables</li>
-                                                            <li><strong>Testabilité</strong> : Plus facile Ã  tester</li>
+                                                            <li><strong>Testabilité</strong> : Plus facile à  tester</li>
                                                             <li><strong>Réutilisabilité</strong> : Composable</li>
                                                         </ul>
                                                     </div>
                                                     <div class="cons">
                                                         <h6>Points d'attention :</h6>
                                                         <ul class="mb-0">
-                                                            <li>Peut Ãªtre moins efficace en mémoire (deux passes)</li>
+                                                            <li>Peut être moins efficace en mémoire (deux passes)</li>
                                                             <li>Courbe d'apprentissage pour les débutants</li>
-                                                            <li>Syntaxe moins familiÃ¨re au début</li>
+                                                            <li>Syntaxe moins familière au début</li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -1431,7 +1431,7 @@ def moyennePositifsConcise(nombres: Array[Int]): Double = {
                                         </ul>
                                     </div>
                                     <div class="col-md-4">
-                                        <h6>ðŸš€ PrÃªt pour la suite :</h6>
+                                        <h6>ðŸš€ Prêt pour la suite :</h6>
                                         <ul class="mb-0">
                                             <li>Installer l'environnement Scala</li>
                                             <li>Syntaxe et types de base</li>
@@ -1508,7 +1508,7 @@ def moyennePositifsConcise(nombres: Array[Int]): Double = {
             });
         });
         
-        // Smooth scroll pour les liens de la table des matiÃ¨res
+        // Smooth scroll pour les liens de la table des matières
         document.querySelectorAll('.toc-link').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -1525,7 +1525,7 @@ def moyennePositifsConcise(nombres: Array[Int]): Double = {
             });
         });
         
-        // Mettre en évidence le lien actif dans la table des matiÃ¨res
+        // Mettre en évidence le lien actif dans la table des matières
         function updateActiveLink() {
             const sections = document.querySelectorAll('section[id], .accordion-item[id]');
             const tocLinks = document.querySelectorAll('.toc-link');

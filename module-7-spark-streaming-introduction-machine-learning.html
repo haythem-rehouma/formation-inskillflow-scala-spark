@@ -492,7 +492,7 @@
 
     <div class="container-fluid" style="margin-top: 80px;">
         <div class="row">
-            <!-- Sidebar avec table des matiÃ¨res -->
+            <!-- Sidebar avec table des matières -->
             <div class="col-lg-3">
                 <div class="sidebar">
                     <h5 class="toc-title">
@@ -555,14 +555,14 @@
             <!-- Contenu principal -->
             <div class="col-lg-9">
                 <div class="main-content">
-                    <!-- En-tÃªte -->
+                    <!-- En-tête -->
                     <div class="content-header">
                         <h1>
                             <i class="fas fa-stream me-3"></i>
                             Module 7 - Spark Streaming & ML
                         </h1>
                         <p class="lead mb-0">
-                            Temps réel et Intelligence Artificielle - MaÃ®trisez le streaming et le machine learning avec Spark
+                            Temps réel et Intelligence Artificielle - Maà®trisez le streaming et le machine learning avec Spark
                         </p>
                         <span class="badge badge-streaming mt-2">Module 7 - Advanced</span>
                     </div>
@@ -583,8 +583,8 @@
                                     Pourquoi le traitement temps réel ?
                                 </div>
                                 <p>
-                                    Le streaming permet de traiter les données en temps réel au fur et Ã  mesure 
-                                    qu'elles arrivent, ouvrant la voie Ã  des analyses instantanées et des réactions immédiates.
+                                    Le streaming permet de traiter les données en temps réel au fur et à  mesure 
+                                    qu'elles arrivent, ouvrant la voie à  des analyses instantanées et des réactions immédiates.
                                 </p>
                             </div>
 
@@ -593,7 +593,7 @@
                                     <div class="streaming-feature">
                                         <h6><i class="fas fa-bolt me-2"></i>Latence faible</h6>
                                         <p class="mb-0">
-                                            Traitement en millisecondes Ã  quelques secondes, 
+                                            Traitement en millisecondes à  quelques secondes, 
                                             essentiel pour la détection de fraude, alertes, trading.
                                         </p>
                                     </div>
@@ -603,7 +603,7 @@
                                         <h6><i class="fas fa-chart-line me-2"></i>Analytics temps réel</h6>
                                         <p class="mb-0">
                                             KPI instantanés, dashboards live, métriques business 
-                                            mises Ã  jour en continu.
+                                            mises à  jour en continu.
                                         </p>
                                     </div>
                                 </div>
@@ -614,7 +614,7 @@
                                     <div class="streaming-feature">
                                         <h6><i class="fas fa-shield-alt me-2"></i>Réaction immédiate</h6>
                                         <p class="mb-0">
-                                            SystÃ¨mes d'alerte automatiques, actions préventives, 
+                                            Systèmes d'alerte automatiques, actions préventives, 
                                             intervention en cas d'anomalie.
                                         </p>
                                     </div>
@@ -667,7 +667,7 @@
                             </div>
 
                             <div class="info-box">
-                                <h6><i class="fas fa-lightbulb me-2"></i>Ã‰volution des technologies streaming</h6>
+                                <h6><i class="fas fa-lightbulb me-2"></i>évolution des technologies streaming</h6>
                                 <ul class="mb-0">
                                     <li><strong>2011</strong> : Spark Streaming avec DStreams (micro-batches)</li>
                                     <li><strong>2016</strong> : Structured Streaming (API unifiée batch/streaming)</li>
@@ -691,17 +691,17 @@
                                 </div>
                                 <p>
                                     API unifiée qui traite les streams comme des tables infinies. 
-                                    MÃªme code pour batch et streaming, avec optimisations automatiques.
+                                    Même code pour batch et streaming, avec optimisations automatiques.
                                 </p>
                             </div>
 
                             <div class="streaming-feature">
                                 <h6><i class="fas fa-magic me-2"></i>Avantages de Structured Streaming</h6>
                                 <ul class="mb-0">
-                                    <li><strong>API unifiée</strong> : MÃªme code pour batch et streaming</li>
+                                    <li><strong>API unifiée</strong> : Même code pour batch et streaming</li>
                                     <li><strong>Optimisations Catalyst</strong> : Plans d'exécution optimisés</li>
                                     <li><strong>Exactly-once semantics</strong> : Garanties de cohérence</li>
-                                    <li><strong>Fault tolerance</strong> : Récupération automatique aprÃ¨s pannes</li>
+                                    <li><strong>Fault tolerance</strong> : Récupération automatique après pannes</li>
                                     <li><strong>Schema evolution</strong> : Adaptation automatique aux changements</li>
                                 </ul>
                             </div>
@@ -730,7 +730,7 @@ import spark.implicits._
 val fileStream = spark.readStream
   .format("json")
   .option("path", "input/streaming/")
-  .option("maxFilesPerTrigger", 1)  // Traiter 1 fichier Ã  la fois
+  .option("maxFilesPerTrigger", 1)  // Traiter 1 fichier à  la fois
   .load()
 
 // 2. Stream depuis un socket (pour tests)
@@ -775,18 +775,18 @@ val eventsStream = spark.readStream
     (rand() * 100).as("value")
   )
 
-// === AGRÃ‰GATIONS STREAMING ===
+// === AGRéGATIONS STREAMING ===
 
 // 1. Comptage simple
 val actionCounts = eventsStream
   .groupBy("action")
   .count()
 
-// 2. Agrégations par fenÃªtre temporelle
+// 2. Agrégations par fenêtre temporelle
 val windowedCounts = eventsStream
   .withWatermark("timestamp", "10 minutes")  // Gestion des données tardives
   .groupBy(
-    window($"timestamp", "5 minutes", "1 minute"),  // FenÃªtre glissante
+    window($"timestamp", "5 minutes", "1 minute"),  // Fenêtre glissante
     $"action"
   )
   .agg(
@@ -816,7 +816,7 @@ val anomalyDetection = eventsStream
     lit("ANOMALY").as("alert_type")
   )
 
-println("Streams configurés - prÃªts pour l'exécution")</code></pre>
+println("Streams configurés - prêts pour l'exécution")</code></pre>
                             </div>
 
                             <div class="code-block">
@@ -825,7 +825,7 @@ println("Streams configurés - prÃªts pour l'exécution")</code></pre>
                                 </div>
                                 <pre><code class="language-scala">// === MODES DE SORTIE ===
 
-// 1. Complete Mode : Toute la table résultante Ã  chaque trigger
+// 1. Complete Mode : Toute la table résultante à  chaque trigger
 val completeQuery = actionCounts.writeStream
   .outputMode("complete")
   .format("console")
@@ -860,7 +860,7 @@ val processingTimeTrigger = Trigger.ProcessingTime("2 seconds")
 // 2. Once : Une seule fois (pour tests)
 val onceTrigger = Trigger.Once()
 
-// 3. Continuous : Mode continu (latence trÃ¨s faible)
+// 3. Continuous : Mode continu (latence très faible)
 val continuousTrigger = Trigger.Continuous("1 second")
 
 // === MONITORING DES STREAMS ===
@@ -883,7 +883,7 @@ def monitorStream(query: org.apache.spark.sql.streaming.StreamingQuery): Unit = 
 // Exemple de monitoring
 monitorStream(updateQuery)
 
-// === GESTION DES ERREURS ET ARRÃŠT ===
+// === GESTION DES ERREURS ET ARRàŠT ===
 
 try {
   // Attendre la fin du streaming (ou Ctrl+C)
@@ -896,10 +896,10 @@ try {
   spark.stop()
 }
 
-// ArrÃªt propre de tous les streams
+// Arrêt propre de tous les streams
 def stopAllStreams(): Unit = {
   spark.streams.active.foreach { query =>
-    println(s"ArrÃªt du stream: ${query.name}")
+    println(s"Arrêt du stream: ${query.name}")
     query.stop()
   }
 }</code></pre>
@@ -909,7 +909,7 @@ def stopAllStreams(): Unit = {
                                 <h6><i class="fas fa-check-circle me-2"></i>Checkpointing et Fault Tolerance</h6>
                                 <p>
                                     Structured Streaming sauvegarde automatiquement l'état du stream dans un checkpoint directory. 
-                                    En cas de panne, le stream reprend exactement oÃ¹ il s'était arrÃªté avec garantie exactly-once.
+                                    En cas de panne, le stream reprend exactement oà¹ il s'était arrêté avec garantie exactly-once.
                                 </p>
                                 <div class="code-block">
                                     <pre><code class="language-scala">// Configuration du checkpoint
@@ -925,7 +925,7 @@ val reliableQuery = eventsStream
 // Vérification de l'état du checkpoint
 val checkpointDir = "checkpoint/events_reliable/"
 println(s"Checkpoint existe: ${new java.io.File(checkpointDir).exists()}")
-println(s"DerniÃ¨re batch: ${reliableQuery.lastProgress.batchId}")</code></pre>
+println(s"Dernière batch: ${reliableQuery.lastProgress.batchId}")</code></pre>
                                 </div>
                             </div>
                         </section>
@@ -957,7 +957,7 @@ import org.apache.spark.sql.functions._
 import org.apache.spark.sql.streaming.Trigger
 import org.apache.spark.sql.types._
 
-// === CONFIGURATION KAFKA AVANCÃ‰E ===
+// === CONFIGURATION KAFKA AVANCéE ===
 
 val kafkaServers = "localhost:9092"
 val checkpointDir = "/tmp/spark-kafka-checkpoint"
@@ -993,7 +993,7 @@ val multiTopicStream = spark.readStream
 val patternStream = spark.readStream
   .format("kafka")
   .options(kafkaOptions)
-  .option("subscribePattern", "app_.*")  // Tous les topics commenÃ§ant par "app_"
+  .option("subscribePattern", "app_.*")  // Tous les topics commenà§ant par "app_"
   .load()
 
 // === TRAITEMENT DES MESSAGES KAFKA ===
@@ -1039,7 +1039,7 @@ val parsedEvents = kafkaStream
   )
   .filter($"userId".isNotNull)  // Filtrer les messages malformés
 
-// === ANALYTICS TEMPS RÃ‰EL ===
+// === ANALYTICS TEMPS RéEL ===
 
 // Métriques par topic et partition
 val kafkaMetrics = kafkaStream
@@ -1073,9 +1073,9 @@ println("Stream Kafka configuré avec analytics temps réel")</code></pre>
                                 <h6><i class="fas fa-rocket me-2"></i>Pattern producteur/consommateur avancé</h6>
                                 <div class="code-block">
                                     <div class="code-header">
-                                        <i class="fas fa-cogs me-2"></i>Ã‰criture vers Kafka
+                                        <i class="fas fa-cogs me-2"></i>écriture vers Kafka
                                     </div>
-                                    <pre><code class="language-scala">// === Ã‰CRITURE VERS KAFKA ===
+                                    <pre><code class="language-scala">// === éCRITURE VERS KAFKA ===
 
 // Transformation pour écriture Kafka
 val processedEvents = parsedEvents
@@ -1092,7 +1092,7 @@ val processedEvents = parsedEvents
     )).as("value")  // Message JSON
   )
 
-// Ã‰criture vers Kafka
+// écriture vers Kafka
 val kafkaWriter = processedEvents.writeStream
   .format("kafka")
   .options(kafkaOptions)
@@ -1104,7 +1104,7 @@ val kafkaWriter = processedEvents.writeStream
 
 // === ROUTING CONDITIONNEL ===
 
-// Ã‰criture vers différents topics selon le contenu
+// écriture vers différents topics selon le contenu
 def writeToMultipleTopics(df: DataFrame): Unit = {
   // Alertes haute priorité
   val highPriorityAlerts = df
@@ -1120,7 +1120,7 @@ def writeToMultipleTopics(df: DataFrame): Unit = {
     .trigger(Trigger.ProcessingTime("1 second"))  // Plus fréquent
     .start()
 
-  // Ã‰vénements standard
+  // événements standard
   val standardEvents = df
     .filter($"alert_type" === "standard")
     .select($"key", $"value")
@@ -1153,7 +1153,7 @@ writeToMultipleTopics(processedEvents)</code></pre>
                                     MLlib - Machine Learning scalable
                                 </div>
                                 <p>
-                                    MLlib est la librairie ML de Spark, conÃ§ue pour traiter des téraoctets de données 
+                                    MLlib est la librairie ML de Spark, conà§ue pour traiter des téraoctets de données 
                                     avec des algorithmes distribués et des pipelines de production.
                                 </p>
                             </div>
@@ -1192,7 +1192,7 @@ import org.apache.spark.ml.evaluation._
 import org.apache.spark.ml.tuning._
 import org.apache.spark.sql.functions._
 
-// === GÃ‰NÃ‰RATION DE DONNÃ‰ES D'EXEMPLE ===
+// === GéNéRATION DE DONNéES D'EXEMPLE ===
 
 // Dataset de e-commerce pour ML
 case class Customer(
@@ -1295,7 +1295,7 @@ println("Pipeline de feature engineering configuré")</code></pre>
                         <section id="ml-pipelines" class="section">
                             <h2 class="section-title">
                                 <i class="fas fa-project-diagram me-2"></i>
-                                ML Pipelines - Automatisation complÃ¨te
+                                ML Pipelines - Automatisation complète
                             </h2>
                             
                             <div class="concept-card pipeline">
@@ -1304,8 +1304,8 @@ println("Pipeline de feature engineering configuré")</code></pre>
                                     Pipelines ML industriels
                                 </div>
                                 <p>
-                                    Les Pipelines MLlib automatisent la chaÃ®ne complÃ¨te : preprocessing, 
-                                    feature engineering, entraÃ®nement, évaluation et déploiement.
+                                    Les Pipelines MLlib automatisent la chaà®ne complète : preprocessing, 
+                                    feature engineering, entraà®nement, évaluation et déploiement.
                                 </p>
                             </div>
 
@@ -1315,7 +1315,7 @@ println("Pipeline de feature engineering configuré")</code></pre>
                                 </div>
                                 <pre><code class="language-scala">// === CONSTRUCTION DU PIPELINE ===
 
-// Création d'une variable binaire de churn (seuil Ã  0.6)
+// Création d'une variable binaire de churn (seuil à  0.6)
 val dataWithChurnLabel = customersDF
   .withColumn("churn", when($"churnRisk" > 0.6, 1.0).otherwise(0.0))
 
@@ -1334,7 +1334,7 @@ println(s"Test set: ${testData.count()} clients")
 println("Distribution churn dans training set:")
 trainingData.groupBy("churn").count().show()
 
-// === MODÃˆLES DE CLASSIFICATION ===
+// === MODàˆLES DE CLASSIFICATION ===
 
 // 1. Random Forest
 val rf = new RandomForestClassifier()
@@ -1387,36 +1387,36 @@ val gbtPipeline = new Pipeline()
     assembler, scaler, gbt
   ))
 
-// === ENTRAÃŽNEMENT DES MODÃˆLES ===
+// === ENTRAàŽNEMENT DES MODàˆLES ===
 
-println("=== ENTRAÃŽNEMENT DES MODÃˆLES ===")
+println("=== ENTRAàŽNEMENT DES MODàˆLES ===")
 
 val startTime = System.currentTimeMillis()
 
-// EntraÃ®nement Random Forest
+// Entraà®nement Random Forest
 val rfModel = rfPipeline.fit(trainingData)
 val rfTime = System.currentTimeMillis() - startTime
-println(f"Random Forest entraÃ®né en ${rfTime}ms")
+println(f"Random Forest entraà®né en ${rfTime}ms")
 
-// EntraÃ®nement Logistic Regression
+// Entraà®nement Logistic Regression
 val lrStartTime = System.currentTimeMillis()
 val lrModel = lrPipeline.fit(trainingData)
 val lrTime = System.currentTimeMillis() - lrStartTime
-println(f"Logistic Regression entraÃ®née en ${lrTime}ms")
+println(f"Logistic Regression entraà®née en ${lrTime}ms")
 
-// EntraÃ®nement GBT
+// Entraà®nement GBT
 val gbtStartTime = System.currentTimeMillis()
 val gbtModel = gbtPipeline.fit(trainingData)
 val gbtTime = System.currentTimeMillis() - gbtStartTime
-println(f"GBT entraÃ®né en ${gbtTime}ms")
+println(f"GBT entraà®né en ${gbtTime}ms")
 
-// === PRÃ‰DICTIONS ===
+// === PRéDICTIONS ===
 
 val rfPredictions = rfModel.transform(testData)
 val lrPredictions = lrModel.transform(testData)
 val gbtPredictions = gbtModel.transform(testData)
 
-// === Ã‰VALUATION DES MODÃˆLES ===
+// === éVALUATION DES MODàˆLES ===
 
 val evaluator = new BinaryClassificationEvaluator()
   .setLabelCol("churn")
@@ -1440,7 +1440,7 @@ val gbtAUC = evaluator.evaluate(gbtPredictions)
 val gbtAccuracy = multiEvaluator.setMetricName("accuracy").evaluate(gbtPredictions)
 
 // Résultats comparatifs
-println("=== RÃ‰SULTATS COMPARATIFS ===")
+println("=== RéSULTATS COMPARATIFS ===")
 println(f"Random Forest - AUC: $rfAUC%.4f, Accuracy: $rfAccuracy%.4f")
 println(f"Logistic Regression - AUC: $lrAUC%.4f, Accuracy: $lrAccuracy%.4f") 
 println(f"GBT - AUC: $gbtAUC%.4f, Accuracy: $gbtAccuracy%.4f")
@@ -1480,19 +1480,19 @@ featureImportances.foreach { case (importance, idx) =>
                                 <div class="code-header">
                                     <i class="fas fa-stream me-2"></i>Pipeline de prédiction temps réel
                                 </div>
-                                <pre><code class="language-scala">// === MODÃˆLE PRÃ‰-ENTRAÃŽNÃ‰ ===
+                                <pre><code class="language-scala">// === MODàˆLE PRé-ENTRAàŽNé ===
 
-// Utiliser le meilleur modÃ¨le (supposons Random Forest)
+// Utiliser le meilleur modèle (supposons Random Forest)
 val bestModel = rfModel
-println("ModÃ¨le sélectionné: Random Forest")
+println("Modèle sélectionné: Random Forest")
 
-// Sauvegarde du modÃ¨le pour réutilisation
+// Sauvegarde du modèle pour réutilisation
 bestModel.write.overwrite().save("models/churn_prediction_rf")
 
-// Chargement d'un modÃ¨le sauvegardé
+// Chargement d'un modèle sauvegardé
 // val loadedModel = PipelineModel.load("models/churn_prediction_rf")
 
-// === STREAM DE NOUVELLES DONNÃ‰ES ===
+// === STREAM DE NOUVELLES DONNéES ===
 
 // Simulation d'un stream de nouveaux clients
 val newCustomerStream = spark.readStream
@@ -1518,9 +1518,9 @@ val newCustomerStream = spark.readStream
       .getItem((rand() * 5).cast("int")).as("preferredCategory")
   )
 
-// === PRÃ‰DICTIONS EN TEMPS RÃ‰EL ===
+// === PRéDICTIONS EN TEMPS RéEL ===
 
-// Application du modÃ¨le sur le stream
+// Application du modèle sur le stream
 val predictionsStream = bestModel.transform(newCustomerStream)
   .select(
     $"customerId",
@@ -1529,7 +1529,7 @@ val predictionsStream = bestModel.transform(newCustomerStream)
     $"probability".getItem(1).as("churn_probability")  // Probabilité de churn
   )
 
-// Filtrer les clients Ã  haut risque
+// Filtrer les clients à  haut risque
 val highRiskCustomers = predictionsStream
   .filter($"churn_probability" > 0.7)  // Seuil d'alerte
   .withColumn("alert_timestamp", current_timestamp())
@@ -1539,7 +1539,7 @@ val highRiskCustomers = predictionsStream
     .otherwise("MEDIUM")
   )
 
-// === ACTIONS TEMPS RÃ‰EL ===
+// === ACTIONS TEMPS RéEL ===
 
 // 1. Alertes immédiates
 val alertsQuery = highRiskCustomers.writeStream
@@ -1588,7 +1588,7 @@ case class CustomerFeedback(
   feedbackTimestamp: Long
 )
 
-// Simulation de feedback (dans la réalité, vient du systÃ¨me CRM)
+// Simulation de feedback (dans la réalité, vient du système CRM)
 val feedbackStream = spark.readStream
   .format("rate")
   .option("rowsPerSecond", 10)  // 10 retours par seconde
@@ -1600,7 +1600,7 @@ val feedbackStream = spark.readStream
     $"timestamp".cast("long").as("feedbackTimestamp")
   )
 
-// Calcul de la dérive du modÃ¨le
+// Calcul de la dérive du modèle
 val modelDrift = feedbackStream
   .withWatermark("feedbackTimestamp", "10 minutes")
   .groupBy(window(to_timestamp($"feedbackTimestamp"), "1 hour"))
@@ -1620,8 +1620,8 @@ val driftAlerts = modelDrift.writeStream
 
 println("Pipeline ML temps réel démarré")
 println("- Prédictions: 100 clients/seconde")
-println("- Alertes: clients Ã  risque > 70%")
-println("- Monitoring: dérive du modÃ¨le")</code></pre>
+println("- Alertes: clients à  risque > 70%")
+println("- Monitoring: dérive du modèle")</code></pre>
                             </div>
                         </section>
 
@@ -1635,18 +1635,18 @@ println("- Monitoring: dérive du modÃ¨le")</code></pre>
                             <div class="exercise-card">
                                 <div class="exercise-header">
                                     <i class="fas fa-shield-alt me-2"></i>
-                                    Projet final : SystÃ¨me anti-fraude bancaire temps réel
+                                    Projet final : Système anti-fraude bancaire temps réel
                                 </div>
                                 <div class="exercise-body">
                                     <div class="explanation-section">
                                         <h5>Mission : Détecter les fraudes bancaires en temps réel</h5>
-                                        <p><strong>Contexte :</strong> Créer un systÃ¨me complet de détection de fraude qui analyse les transactions bancaires en temps réel avec Kafka + Spark Streaming + MLlib.</p>
+                                        <p><strong>Contexte :</strong> Créer un système complet de détection de fraude qui analyse les transactions bancaires en temps réel avec Kafka + Spark Streaming + MLlib.</p>
                                         
-                                        <h6>Architecture du systÃ¨me :</h6>
+                                        <h6>Architecture du système :</h6>
                                         <ol>
                                             <li><strong>Ingestion</strong> : Transactions depuis Kafka</li>
                                             <li><strong>Feature Engineering</strong> : Enrichissement temps réel</li>
-                                            <li><strong>Détection ML</strong> : ModÃ¨le de classification</li>
+                                            <li><strong>Détection ML</strong> : Modèle de classification</li>
                                             <li><strong>Actions</strong> : Alertes, blocage automatique</li>
                                         </ol>
 
@@ -1660,9 +1660,9 @@ println("- Monitoring: dérive du modÃ¨le")</code></pre>
                                     </div>
 
                                     <div class="answer-section">
-                                        <h5><i class="fas fa-code me-2"></i>Solution complÃ¨te anti-fraude</h5>
+                                        <h5><i class="fas fa-code me-2"></i>Solution complète anti-fraude</h5>
                                         <div class="code-block">
-                                            <pre><code class="language-scala">// === SYSTÃˆME ANTI-FRAUDE COMPLET ===
+                                            <pre><code class="language-scala">// === SYSTàˆME ANTI-FRAUDE COMPLET ===
 
 object FraudDetectionSystem {
   
@@ -1704,7 +1704,7 @@ object FraudDetectionSystem {
   
   def main(args: Array[String]): Unit = {
     
-    // === CONFIGURATION SYSTÃˆME ===
+    // === CONFIGURATION SYSTàˆME ===
     
     val spark = SparkSession.builder()
       .appName("Real-time Fraud Detection")
@@ -1744,7 +1744,7 @@ object FraudDetectionSystem {
       .select($"transaction.*")
       .as[Transaction]
     
-    // === FEATURE ENGINEERING TEMPS RÃ‰EL ===
+    // === FEATURE ENGINEERING TEMPS RéEL ===
     
     def enrichTransactions(df: DataFrame): DataFrame = {
       df.withColumn("transaction_time", to_timestamp($"timestamp" / 1000))
@@ -1756,41 +1756,41 @@ object FraudDetectionSystem {
     
     val enrichedTransactions = enrichTransactions(transactions.toDF())
     
-    // === MODÃˆLE DE DÃ‰TECTION PRÃ‰-ENTRAÃŽNÃ‰ ===
+    // === MODàˆLE DE DéTECTION PRé-ENTRAàŽNé ===
     
-    // Simulation d'un modÃ¨le ML préentraÃ®né
-    // Dans la réalité, chargé depuis un modÃ¨le sauvegardé
+    // Simulation d'un modèle ML préentraà®né
+    // Dans la réalité, chargé depuis un modèle sauvegardé
     def detectFraud(transaction: EnrichedTransaction): (Double, String, Double) = {
       
-      // Score de risque basé sur des rÃ¨gles business
+      // Score de risque basé sur des règles business
       var riskScore = 0.0
       var reasons = List.empty[String]
       
-      // RÃ¨gle 1: Montant anormalement élevé
+      // Règle 1: Montant anormalement élevé
       if (transaction.amount > 5000) {
         riskScore += 0.3
         reasons = "High amount" :: reasons
       }
       
-      // RÃ¨gle 2: Transaction nocturne
+      // Règle 2: Transaction nocturne
       if (transaction.isNight) {
         riskScore += 0.2
         reasons = "Night transaction" :: reasons
       }
       
-      // RÃ¨gle 3: Catégorie marchande Ã  risque
+      // Règle 3: Catégorie marchande à  risque
       if (Set("Gambling", "Cash Advance", "ATM").contains(transaction.merchantCategory)) {
         riskScore += 0.25
         reasons = "High-risk category" :: reasons
       }
       
-      // RÃ¨gle 4: Fréquence anormale
+      // Règle 4: Fréquence anormale
       if (transaction.frequencyLast1H > 5) {
         riskScore += 0.35
         reasons = "High frequency" :: reasons
       }
       
-      // RÃ¨gle 5: Nouveau lieu géographique
+      // Règle 5: Nouveau lieu géographique
       if (transaction.locationRisk > 0.8) {
         riskScore += 0.2
         reasons = "Unusual location" :: reasons
@@ -1824,13 +1824,13 @@ object FraudDetectionSystem {
         avgAmountLast7D = 200 + scala.util.Random.nextDouble() * 800,
         locationRisk = scala.util.Random.nextDouble(),
         merchantRisk = scala.util.Random.nextDouble(),
-        isFraud = 0.0  // Ã€ prédire
+        isFraud = 0.0  // à€ prédire
       )
       
       detectFraud(enriched)
     })
     
-    // === DÃ‰TECTION EN TEMPS RÃ‰EL ===
+    // === DéTECTION EN TEMPS RéEL ===
     
     val fraudDetections = enrichedTransactions
       .withColumn("detection_result", fraudDetectionUDF(struct($"*")))
@@ -1859,12 +1859,12 @@ object FraudDetectionSystem {
       .outputMode("append")
       .format("console")
       .option("truncate", false)
-      .trigger(Trigger.ProcessingTime("1 second"))  // Latence trÃ¨s faible
+      .trigger(Trigger.ProcessingTime("1 second"))  // Latence très faible
       .start()
     
     // 2. Blocage automatique des cartes (simulation)
     val cardBlocking = fraudAlerts
-      .filter($"fraud_score" > 0.9)  // Score trÃ¨s élevé
+      .filter($"fraud_score" > 0.9)  // Score très élevé
       .select($"cardId", $"transactionId", $"fraud_score")
       .withColumn("action", lit("BLOCK_CARD"))
       .withColumn("timestamp", current_timestamp())
@@ -1879,7 +1879,7 @@ object FraudDetectionSystem {
       .trigger(Trigger.ProcessingTime("30 seconds"))
       .start()
     
-    // === MÃ‰TRIQUES TEMPS RÃ‰EL ===
+    // === MéTRIQUES TEMPS RéEL ===
     
     val fraudMetrics = fraudDetections
       .withWatermark("transaction_time", "5 minutes")
@@ -1902,7 +1902,7 @@ object FraudDetectionSystem {
       .trigger(Trigger.ProcessingTime("10 seconds"))
       .start()
     
-    // === DASHBOARD TEMPS RÃ‰EL ===
+    // === DASHBOARD TEMPS RéEL ===
     
     // Simulation d'intégration avec un dashboard
     val dashboardMetrics = fraudDetections
@@ -1918,9 +1918,9 @@ object FraudDetectionSystem {
       .withColumn("fraud_percentage", $"fraud_count" / $"total_transactions" * 100)
       .withColumn("blocked_percentage", $"blocked_amount" / $"total_volume" * 100)
     
-    // === RÃ‰SUMÃ‰ SYSTÃˆME ===
+    // === RéSUMé SYSTàˆME ===
     
-    println("=== SYSTÃˆME ANTI-FRAUDE DÃ‰MARRÃ‰ ===")
+    println("=== SYSTàˆME ANTI-FRAUDE DéMARRé ===")
     println("â€¢ Latence cible: < 100ms par transaction")
     println("â€¢ Débit: 10,000+ transactions/seconde")  
     println("â€¢ Précision cible: > 95%")
@@ -1932,7 +1932,7 @@ object FraudDetectionSystem {
   }
 }
 
-// Démarrage du systÃ¨me
+// Démarrage du système
 FraudDetectionSystem.main(Array())</code></pre>
                                         </div>
                                     </div>

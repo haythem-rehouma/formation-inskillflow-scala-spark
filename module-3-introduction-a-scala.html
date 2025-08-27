@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Module 3 - Introduction Ã  Scala - Cours Scala & Apache Spark</title>
+    <title>Module 3 - Introduction à  Scala - Cours Scala & Apache Spark</title>
     
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -11,7 +11,7 @@
     <!-- Highlight.js CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     
-    <!-- Font Awesome pour les icÃ´nes -->
+    <!-- Font Awesome pour les icônes -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Google Fonts -->
@@ -473,7 +473,7 @@
 
     <div class="container-fluid" style="margin-top: 80px;">
         <div class="row">
-            <!-- Sidebar avec table des matiÃ¨res -->
+            <!-- Sidebar avec table des matières -->
             <div class="col-lg-3">
                 <div class="sidebar">
                     <h5 class="toc-title">
@@ -511,7 +511,7 @@
                         </a>
                         <a href="#controle-flux" class="toc-link">
                             <i class="fas fa-route me-2"></i>
-                            ContrÃ´le de flux
+                            Contrôle de flux
                         </a>
                         <a href="#classes-objets" class="toc-link">
                             <i class="fas fa-cube me-2"></i>
@@ -532,14 +532,14 @@
             <!-- Contenu principal -->
             <div class="col-lg-9">
                 <div class="main-content">
-                    <!-- En-tÃªte -->
+                    <!-- En-tête -->
                     <div class="content-header">
                         <h1>
                             <i class="fas fa-graduation-cap me-3"></i>
-                            Module 3 - Introduction Ã  Scala
+                            Module 3 - Introduction à  Scala
                         </h1>
                         <p class="lead mb-0">
-                            MaÃ®trisez les fondamentaux du langage Scala pour le développement moderne
+                            Maà®trisez les fondamentaux du langage Scala pour le développement moderne
                         </p>
                         <span class="badge badge-concept mt-2">Module 3</span>
                     </div>
@@ -564,7 +564,7 @@
                                         <h6><i class="fas fa-lightbulb me-2"></i>Expressivité</h6>
                                         <p class="mb-0">
                                             Scala permet d'écrire du code plus concis et expressif qu'en Java, 
-                                            réduisant le boilerplate de 2 Ã  3 fois.
+                                            réduisant le boilerplate de 2 à  3 fois.
                                         </p>
                                     </div>
                                 </div>
@@ -573,7 +573,7 @@
                                         <h6><i class="fas fa-cogs me-2"></i>Interopérabilité</h6>
                                         <p class="mb-0">
                                             Scala s'exécute sur la JVM et peut utiliser directement 
-                                            toutes les bibliothÃ¨ques Java existantes.
+                                            toutes les bibliothèques Java existantes.
                                         </p>
                                     </div>
                                 </div>
@@ -593,7 +593,7 @@
                                     <div class="scala-feature">
                                         <h6><i class="fas fa-rocket me-2"></i>Performance</h6>
                                         <p class="mb-0">
-                                            Performance comparable Ã  Java avec des abstractions 
+                                            Performance comparable à  Java avec des abstractions 
                                             de haut niveau qui ne sacrifient pas la vitesse.
                                         </p>
                                     </div>
@@ -605,7 +605,7 @@
                                 <p class="mb-0">
                                     <strong>Twitter</strong>, <strong>Netflix</strong>, <strong>Uber</strong>, 
                                     <strong>Airbnb</strong>, <strong>LinkedIn</strong>, et de nombreuses autres 
-                                    entreprises technologiques utilisent Scala pour leurs systÃ¨mes critiques 
+                                    entreprises technologiques utilisent Scala pour leurs systèmes critiques 
                                     et leurs applications Big Data.
                                 </p>
                             </div>
@@ -680,8 +680,8 @@ scala
                                     Principes de la syntaxe Scala
                                 </div>
                                 <p>
-                                    Scala emprunte des éléments syntaxiques Ã  Java mais les simplifie considérablement. 
-                                    Voici les rÃ¨gles de base Ã  retenir.
+                                    Scala emprunte des éléments syntaxiques à  Java mais les simplifie considérablement. 
+                                    Voici les règles de base à  retenir.
                                 </p>
                             </div>
 
@@ -717,12 +717,12 @@ object Hello extends App {
                             </div>
 
                             <div class="explanation-section">
-                                <h6>RÃ¨gles syntaxiques importantes :</h6>
+                                <h6>Règles syntaxiques importantes :</h6>
                                 <ul>
-                                    <li><strong>Points-virgules optionnels</strong> : Scala n'exige pas de ; Ã  la fin des lignes</li>
+                                    <li><strong>Points-virgules optionnels</strong> : Scala n'exige pas de ; à  la fin des lignes</li>
                                     <li><strong>Inférence de type</strong> : Le compilateur devine souvent le type automatiquement</li>
-                                    <li><strong>ParenthÃ¨ses optionnelles</strong> : Pour les méthodes sans paramÃ¨tres</li>
-                                    <li><strong>Return implicite</strong> : La derniÃ¨re expression est automatiquement retournée</li>
+                                    <li><strong>Parenthèses optionnelles</strong> : Pour les méthodes sans paramètres</li>
+                                    <li><strong>Return implicite</strong> : La dernière expression est automatiquement retournée</li>
                                 </ul>
                             </div>
 
@@ -730,7 +730,7 @@ object Hello extends App {
                                 <div class="code-header">
                                     <i class="fas fa-magic me-2"></i>Exemple de flexibilité syntaxique
                                 </div>
-                                <pre><code class="language-scala">// Différentes faÃ§ons d'écrire la mÃªme chose
+                                <pre><code class="language-scala">// Différentes faà§ons d'écrire la même chose
 val numbers = List(1, 2, 3, 4, 5)
 
 // Style verbeux (comme Java)
@@ -743,8 +743,8 @@ val result2 = numbers.filter(_ % 2 == 0).map(_ * 2)
 val result3 = numbers filter (_ % 2 == 0) map (_ * 2)
 
 println(result1) // List(4, 8)
-println(result2) // List(4, 8) - mÃªme résultat
-println(result3) // List(4, 8) - mÃªme résultat</code></pre>
+println(result2) // List(4, 8) - même résultat
+println(result3) // List(4, 8) - même résultat</code></pre>
                             </div>
                         </section>
 
@@ -756,7 +756,7 @@ println(result3) // List(4, 8) - mÃªme résultat</code></pre>
                             </h2>
                             
                             <p>
-                                Scala est un langage Ã  typage statique, mais avec une inférence de type puissante 
+                                Scala est un langage à  typage statique, mais avec une inférence de type puissante 
                                 qui réduit le besoin de spécifier explicitement les types.
                             </p>
 
@@ -840,8 +840,8 @@ val safeConversion = Try("123".toInt)  // Success(123) ou Failure(exception)</co
                             <div class="warning-box">
                                 <h6><i class="fas fa-exclamation-triangle me-2"></i>Types numériques et précision</h6>
                                 <p class="mb-0">
-                                    Contrairement Ã  Java, Scala n'effectue pas de conversions implicites entre types numériques. 
-                                    <code>val result = 5 / 2</code> donnera <code>2</code> (division entiÃ¨re), pas <code>2.5</code>. 
+                                    Contrairement à  Java, Scala n'effectue pas de conversions implicites entre types numériques. 
+                                    <code>val result = 5 / 2</code> donnera <code>2</code> (division entière), pas <code>2.5</code>. 
                                     Utilisez <code>5.0 / 2</code> ou <code>5.toDouble / 2</code> pour une division décimale.
                                 </p>
                             </div>
@@ -862,7 +862,7 @@ val safeConversion = Try("123".toInt)  // Success(123) ou Failure(exception)</co
                                 <p>
                                     Scala distingue clairement entre les valeurs immutables (<code>val</code>) 
                                     et les variables mutables (<code>var</code>). Cette distinction encourage 
-                                    un style de programmation plus sÃ»r et plus fonctionnel.
+                                    un style de programmation plus sà»r et plus fonctionnel.
                                 </p>
                             </div>
 
@@ -881,7 +881,7 @@ val isStudent = true
 // âœ… Créer une nouvelle valeur
 val newName = name.toUpperCase()
 
-// âœ… val peut Ãªtre calculé
+// âœ… val peut être calculé
 val fullName = name + " Dupont"
 val nextYear = age + 1</code></pre>
                                     </div>
@@ -895,12 +895,12 @@ var score = 100
 var isActive = true
 var attempts = 0
 
-// âœ… Peut Ãªtre modifié
+// âœ… Peut être modifié
 score = 150
 isActive = false
 attempts += 1
 
-// âš ï¸ Ã€ utiliser avec parcimonie
+// âš ï¸ à€ utiliser avec parcimonie
 var total = 0
 for (i <- 1 to 10) {
   total += i  // Modifie la variable
@@ -917,8 +917,8 @@ for (i <- 1 to 10) {
                                         <h6 class="text-success">Utilisez val quand :</h6>
                                         <ul>
                                             <li>La valeur ne change jamais</li>
-                                            <li>Vous voulez un code plus sÃ»r</li>
-                                            <li>Dans 90% des cas (rÃ¨gle générale)</li>
+                                            <li>Vous voulez un code plus sà»r</li>
+                                            <li>Dans 90% des cas (règle générale)</li>
                                             <li>Programmation fonctionnelle</li>
                                         </ul>
                                     </div>
@@ -927,7 +927,7 @@ for (i <- 1 to 10) {
                                         <ul>
                                             <li>Vous devez modifier la valeur</li>
                                             <li>Algorithmes avec état (compteurs, accumulateurs)</li>
-                                            <li>InterfaÃ§age avec code Java legacy</li>
+                                            <li>Interfaà§age avec code Java legacy</li>
                                             <li>Performance critique (rare)</li>
                                         </ul>
                                     </div>
@@ -975,11 +975,11 @@ println(moyenneFonctionnelle(notes))  // 87.8</code></pre>
                             <div class="concept-card functions">
                                 <div class="concept-title">
                                     <i class="fas fa-cogs"></i>
-                                    Fonctions : Les citoyens de premiÃ¨re classe
+                                    Fonctions : Les citoyens de première classe
                                 </div>
                                 <p>
-                                    En Scala, les fonctions sont des valeurs de premiÃ¨re classe. 
-                                    Vous pouvez les assigner Ã  des variables, les passer en paramÃ¨tres 
+                                    En Scala, les fonctions sont des valeurs de première classe. 
+                                    Vous pouvez les assigner à  des variables, les passer en paramètres 
                                     et les retourner depuis d'autres fonctions.
                                 </p>
                             </div>
@@ -996,34 +996,34 @@ def saluer(nom: String): String = {
 // Fonction sans accolades (une seule expression)
 def doubler(x: Int): Int = x * 2
 
-// Fonction avec plusieurs paramÃ¨tres
+// Fonction avec plusieurs paramètres
 def additionner(a: Int, b: Int): Int = a + b
 
 // Fonction avec inférence du type de retour
 def multiplier(x: Int, y: Int) = x * y  // Type inféré : Int
 
-// Fonction sans paramÃ¨tre
+// Fonction sans paramètre
 def obtenirTimestamp(): Long = System.currentTimeMillis()
 
-// Fonction sans paramÃ¨tre (parenthÃ¨ses optionnelles)
+// Fonction sans paramètre (parenthèses optionnelles)
 def obtenirMessage: String = "Hello, Scala!"</code></pre>
                             </div>
 
                             <div class="code-block">
                                 <div class="code-header">
-                                    <i class="fas fa-star me-2"></i>Fonctions avec paramÃ¨tres par défaut
+                                    <i class="fas fa-star me-2"></i>Fonctions avec paramètres par défaut
                                 </div>
-                                <pre><code class="language-scala">// ParamÃ¨tres par défaut
+                                <pre><code class="language-scala">// Paramètres par défaut
 def creerPersonne(nom: String, age: Int = 25, ville: String = "Paris"): String = {
-  s"$nom, $age ans, habite Ã  $ville"
+  s"$nom, $age ans, habite à  $ville"
 }
 
-// Appels avec différents paramÃ¨tres
-println(creerPersonne("Alice"))                    // Alice, 25 ans, habite Ã  Paris
-println(creerPersonne("Bob", 30))                  // Bob, 30 ans, habite Ã  Paris
-println(creerPersonne("Charlie", ville = "Lyon"))  // Charlie, 25 ans, habite Ã  Lyon
+// Appels avec différents paramètres
+println(creerPersonne("Alice"))                    // Alice, 25 ans, habite à  Paris
+println(creerPersonne("Bob", 30))                  // Bob, 30 ans, habite à  Paris
+println(creerPersonne("Charlie", ville = "Lyon"))  // Charlie, 25 ans, habite à  Lyon
 
-// ParamÃ¨tres nommés
+// Paramètres nommés
 println(creerPersonne(nom = "David", ville = "Nice", age = 35))</code></pre>
                             </div>
 
@@ -1031,7 +1031,7 @@ println(creerPersonne(nom = "David", ville = "Nice", age = 35))</code></pre>
                                 <div class="code-header">
                                     <i class="fas fa-magic me-2"></i>Fonctions comme valeurs
                                 </div>
-                                <pre><code class="language-scala">// Assigner une fonction Ã  une valeur
+                                <pre><code class="language-scala">// Assigner une fonction à  une valeur
 val calculer = (x: Int, y: Int) => x + y
 println(calculer(3, 4))  // 7
 
@@ -1044,7 +1044,7 @@ val pairs = nombres.filter(x => x % 2 == 0)  // List(2, 4)
 val doublesV2 = nombres.map(_ * 2)
 val pairsV2 = nombres.filter(_ % 2 == 0)
 
-// Passer une fonction comme paramÃ¨tre
+// Passer une fonction comme paramètre
 def appliquerOperation(x: Int, y: Int, op: (Int, Int) => Int): Int = {
   op(x, y)
 }
@@ -1090,8 +1090,8 @@ val dizaines = nombres.map(multiplierPar(10))  // List(10, 20, 30, 40, 50)</code
                                     Collections immutables par défaut
                                 </div>
                                 <p>
-                                    Scala privilégie les collections immutables, ce qui rend votre code plus sÃ»r 
-                                    et plus adapté Ã  la programmation parallÃ¨le et distribuée (comme avec Spark).
+                                    Scala privilégie les collections immutables, ce qui rend votre code plus sà»r 
+                                    et plus adapté à  la programmation parallèle et distribuée (comme avec Spark).
                                 </p>
                             </div>
 
@@ -1104,10 +1104,10 @@ val nombres = List(1, 2, 3, 4, 5)
 val fruits = List("pomme", "banane", "orange")
 val vide = List[String]()  // Liste vide avec type
 
-// AccÃ¨s aux éléments
+// Accès aux éléments
 println(nombres.head)     // 1 (premier élément)
 println(nombres.tail)     // List(2, 3, 4, 5) (tous sauf le premier)
-println(nombres(2))       // 3 (élément Ã  l'index 2)
+println(nombres(2))       // 3 (élément à  l'index 2)
 println(nombres.last)     // 5 (dernier élément)
 
 // Propriétés
@@ -1129,7 +1129,7 @@ val concatenation = nombres ++ List(6, 7)  // List(1, 2, 3, 4, 5, 6, 7)</code></
 val tableau = Array(1, 2, 3, 4, 5)
 val tableauVide = Array.ofDim[Int](5)  // Array de 5 éléments (0 par défaut)
 
-// AccÃ¨s et modification
+// Accès et modification
 println(tableau(0))  // 1
 tableau(0) = 10      // âœ… Modifiable (mutable)
 println(tableau(0))  // 10
@@ -1155,12 +1155,12 @@ val villes = Map(
   "Charlie" -> "Marseille"
 )
 
-// AccÃ¨s aux valeurs
+// Accès aux valeurs
 println(ages("Alice"))        // 25
 println(ages.get("Alice"))    // Some(25)
 println(ages.get("David"))    // None (clé inexistante)
 
-// AccÃ¨s sécurisé
+// Accès sécurisé
 println(ages.getOrElse("David", 0))  // 0 (valeur par défaut)
 
 // Propriétés
@@ -1199,25 +1199,25 @@ println(somme)    // 55
 val produit = nombres.fold(1)(_ * _)
 println(produit)  // 3628800 (10!)
 
-// groupBy : grouper par critÃ¨re
+// groupBy : grouper par critère
 val parParite = nombres.groupBy(_ % 2)
 println(parParite)
 // Map(1 -> List(1, 3, 5, 7, 9), 0 -> List(2, 4, 6, 8, 10))
 
-// ChaÃ®nage d'opérations
+// Chaà®nage d'opérations
 val resultat = nombres
   .filter(_ % 2 == 0)    // Garder les pairs
-  .map(Math.pow(_, 2))   // Ã‰lever au carré
+  .map(Math.pow(_, 2))   // élever au carré
   .sum                   // Additionner
 println(resultat)        // 220.0</code></pre>
                             </div>
                         </section>
 
-                        <!-- ContrÃ´le de flux -->
+                        <!-- Contrôle de flux -->
                         <section id="controle-flux" class="section">
                             <h2 class="section-title">
                                 <i class="fas fa-route me-2"></i>
-                                Structures de contrÃ´le de flux
+                                Structures de contrôle de flux
                             </h2>
                             
                             <div class="concept-card control">
@@ -1226,7 +1226,7 @@ println(resultat)        // 220.0</code></pre>
                                     Tout est expression en Scala
                                 </div>
                                 <p>
-                                    Contrairement Ã  Java, les structures de contrÃ´le en Scala sont des expressions 
+                                    Contrairement à  Java, les structures de contrôle en Scala sont des expressions 
                                     qui retournent des valeurs. Cela rend le code plus fonctionnel et expressif.
                                 </p>
                             </div>
@@ -1249,7 +1249,7 @@ val mention = if (note >= 90) {
 } else if (note >= 70) {
   "Assez bien"
 } else {
-  "Ã€ améliorer"
+  "à€ améliorer"
 }
 println(mention)  // "Bien"
 
@@ -1273,7 +1273,7 @@ for (i <- 1 to 10 if i % 2 == 0) {
   println(s"Nombre pair: $i")
 }
 
-// For-comprehension avec yield (génÃ¨re une collection)
+// For-comprehension avec yield (génère une collection)
 val carres = for (i <- 1 to 5) yield i * i
 println(carres)  // Vector(1, 4, 9, 16, 25)
 
@@ -1330,7 +1330,7 @@ def sommeImperative(n: Int): Int = {
 def sommeFonctionnelle(n: Int): Int = (1 to n).sum
 
 println(sommeImperative(100))    // 5050
-println(sommeFonctionnelle(100)) // 5050 (mÃªme résultat, plus sÃ»r)</code></pre>
+println(sommeFonctionnelle(100)) // 5050 (même résultat, plus sà»r)</code></pre>
                             </div>
                         </section>
 
@@ -1348,7 +1348,7 @@ println(sommeFonctionnelle(100)) // 5050 (mÃªme résultat, plus sÃ»r)</code>
                                 </div>
                                 <p>
                                     Le pattern matching est l'une des fonctionnalités les plus puissantes de Scala. 
-                                    C'est comme un <code>switch</code> sous stéroÃ¯des qui peut décomposer et 
+                                    C'est comme un <code>switch</code> sous stéroà¯des qui peut décomposer et 
                                     analyser la structure des données.
                                 </p>
                             </div>
@@ -1417,7 +1417,7 @@ val resultat = coordonnees match {
                                         <div class="code-block">
                                             <pre><code class="language-scala">def categoriserAge(age: Int): String = {
   if (age < 0) {
-    "Ã‚ge invalide"
+    "à‚ge invalide"
   } else if (age >= 0 && age <= 12) {
     "Enfant"
   } else if (age >= 13 && age <= 17) {
@@ -1434,7 +1434,7 @@ val resultat = coordonnees match {
                                         <h6>Avec pattern matching (élégant)</h6>
                                         <div class="code-block">
                                             <pre><code class="language-scala">def categoriserAge(age: Int): String = age match {
-  case n if n < 0 => "Ã‚ge invalide"
+  case n if n < 0 => "à‚ge invalide"
   case n if n <= 12 => "Enfant"
   case n if n <= 17 => "Adolescent"  
   case n if n <= 64 => "Adulte"
@@ -1459,7 +1459,7 @@ val resultat = coordonnees match {
                                     POO simplifiée en Scala
                                 </div>
                                 <p>
-                                    Scala simplifie grandement la syntaxe des classes par rapport Ã  Java, 
+                                    Scala simplifie grandement la syntaxe des classes par rapport à  Java, 
                                     tout en offrant plus de fonctionnalités et de flexibilité.
                                 </p>
                             </div>
@@ -1473,7 +1473,7 @@ class Personne(val nom: String, val age: Int) {
   // Méthode
   def saluer(): String = s"Bonjour, je suis $nom et j'ai $age ans"
   
-  // Méthode avec paramÃ¨tre
+  // Méthode avec paramètre
   def estPlusAgeeQue(autre: Personne): Boolean = this.age > autre.age
   
   // Override de toString
@@ -1507,7 +1507,7 @@ println(laptop)  // Produit(MacBook,1999.99,Informatique)
 
 // 3. Comparaison structurelle (pas par référence)
 val laptop2 = Produit("MacBook", 1999.99, "Informatique")
-println(laptop == laptop2)  // true (mÃªme contenu)
+println(laptop == laptop2)  // true (même contenu)
 
 // 4. Méthode copy pour créer des versions modifiées
 val laptopEnPromo = laptop.copy(prix = 1699.99)
@@ -1548,7 +1548,7 @@ object MathUtils {
 println(MathUtils.aire(5))        // 78.53975
 println(MathUtils("*", 6, 7))     // 42.0 (utilise apply)
 
-// Companion object (mÃªme nom qu'une classe)
+// Companion object (même nom qu'une classe)
 case class Compte(numero: String, solde: Double)
 
 object Compte {
@@ -1585,12 +1585,12 @@ println(monCompte)  // Compte(123456,0.0)</code></pre>
                                                 <h5>Déclarer et manipuler des variables</h5>
                                                 <p>Créez un programme qui déclare différents types de variables et effectue des opérations dessus.</p>
                                                 
-                                                <h6>Ã€ faire :</h6>
+                                                <h6>à€ faire :</h6>
                                                 <ol>
                                                     <li>Déclarez une <code>val</code> pour votre nom</li>
-                                                    <li>Déclarez une <code>var</code> pour votre Ã¢ge</li>
-                                                    <li>Calculez votre Ã¢ge dans 10 ans</li>
-                                                    <li>Créez une chaÃ®ne de présentation avec interpolation</li>
+                                                    <li>Déclarez une <code>var</code> pour votre âge</li>
+                                                    <li>Calculez votre âge dans 10 ans</li>
+                                                    <li>Créez une chaà®ne de présentation avec interpolation</li>
                                                 </ol>
                                             </div>
 
@@ -1601,17 +1601,17 @@ println(monCompte)  // Compte(123456,0.0)</code></pre>
 val nom = "Alice"           // Immutable
 var age = 25               // Mutable (peut changer)
 
-// Calcul de l'Ã¢ge futur
+// Calcul de l'âge futur
 val ageFutur = age + 10
 
-// Interpolation de chaÃ®ne
+// Interpolation de chaà®ne
 val presentation = s"Je m'appelle $nom, j'ai $age ans, et dans 10 ans j'aurai $ageFutur ans."
 
 println(presentation)
 
 // Bonus: modification de la variable
 age = 26  // OK car c'est var
-println(s"Nouvel Ã¢ge: $age")</code></pre>
+println(s"Nouvel âge: $age")</code></pre>
                                                 </div>
                                             </div>
                                         </div>
@@ -1630,12 +1630,12 @@ println(s"Nouvel Ã¢ge: $age")</code></pre>
                                         <div class="accordion-body">
                                             <div class="explanation-section">
                                                 <h5>Créer et utiliser des fonctions</h5>
-                                                <p>Implémentez différentes fonctions avec divers paramÃ¨tres et types de retour.</p>
+                                                <p>Implémentez différentes fonctions avec divers paramètres et types de retour.</p>
                                                 
-                                                <h6>Ã€ faire :</h6>
+                                                <h6>à€ faire :</h6>
                                                 <ol>
                                                     <li>Fonction qui calcule l'aire d'un rectangle</li>
-                                                    <li>Fonction avec paramÃ¨tre par défaut pour calculer l'aire d'un carré</li>
+                                                    <li>Fonction avec paramètre par défaut pour calculer l'aire d'un carré</li>
                                                     <li>Fonction qui détermine si un nombre est pair</li>
                                                     <li>Utiliser ces fonctions avec différentes valeurs</li>
                                                 </ol>
@@ -1651,7 +1651,7 @@ def aireRectangle(longueur: Double, largeur: Double): Double = {
   longueur * largeur
 }
 
-// 2. Fonction aire carré avec paramÃ¨tre par défaut
+// 2. Fonction aire carré avec paramètre par défaut
 def aireCarre(cote: Double, facteur: Double = 1.0): Double = {
   cote * cote * facteur
 }
@@ -1693,9 +1693,9 @@ nombres.foreach { n =>
                                                 <h5>Manipuler les collections</h5>
                                                 <p>Travaillez avec les listes et appliquez des transformations fonctionnelles.</p>
                                                 
-                                                <h6>Ã€ faire :</h6>
+                                                <h6>à€ faire :</h6>
                                                 <ol>
-                                                    <li>Créez une liste de nombres de 1 Ã  20</li>
+                                                    <li>Créez une liste de nombres de 1 à  20</li>
                                                     <li>Filtrez pour garder seulement les multiples de 3</li>
                                                     <li>Doublez chaque nombre résultant</li>
                                                     <li>Calculez la somme finale</li>
@@ -1707,7 +1707,7 @@ nombres.foreach { n =>
                                                 <div class="code-block">
                                                     <pre><code class="language-scala">// Solution de l'exercice 3
 
-// 1. Créer la liste de 1 Ã  20
+// 1. Créer la liste de 1 à  20
 val nombres = (1 to 20).toList
 println(s"Nombres originaux: $nombres")
 
@@ -1723,7 +1723,7 @@ println(s"Nombres doublés: $doubles")  // List(6, 12, 18, 24, 30, 36)
 val sommeFinale = doubles.sum
 println(s"Somme finale: $sommeFinale")  // 126
 
-// Version concise en une seule chaÃ®ne
+// Version concise en une seule chaà®ne
 val resultatConcis = (1 to 20)
   .filter(_ % 3 == 0)
   .map(_ * 2)
@@ -1755,10 +1755,10 @@ println(s"Avec for-comprehension: $avecFor")  // 126</code></pre>
                                     <div id="ex4" class="accordion-collapse collapse">
                                         <div class="accordion-body">
                                             <div class="explanation-section">
-                                                <h5>Créer un systÃ¨me de gestion simple</h5>
-                                                <p>Utilisez case classes et pattern matching pour créer un petit systÃ¨me.</p>
+                                                <h5>Créer un système de gestion simple</h5>
+                                                <p>Utilisez case classes et pattern matching pour créer un petit système.</p>
                                                 
-                                                <h6>Ã€ faire :</h6>
+                                                <h6>à€ faire :</h6>
                                                 <ol>
                                                     <li>Créez une case class <code>Etudiant(nom, age, notes)</code></li>
                                                     <li>Créez une fonction qui calcule la moyenne d'un étudiant</li>
@@ -1786,7 +1786,7 @@ def calculerMoyenne(etudiant: Etudiant): Double = {
 
 // 3. Fonction avec pattern matching pour les mentions
 def attribuerMention(moyenne: Double): String = moyenne match {
-  case m if m >= 16 => "TrÃ¨s Bien"
+  case m if m >= 16 => "Très Bien"
   case m if m >= 14 => "Bien"
   case m if m >= 12 => "Assez Bien"
   case m if m >= 10 => "Passable"
@@ -1821,7 +1821,7 @@ etudiants.foreach { etudiant =>
 // Résultats attendus:
 // Alice (20 ans): Moyenne 15.75 - Bien
 // Bob (19 ans): Moyenne 12.25 - Assez Bien
-// Charlie (21 ans): Moyenne 17.75 - TrÃ¨s Bien
+// Charlie (21 ans): Moyenne 17.75 - Très Bien
 // Diana (18 ans): Aucune note disponible</code></pre>
                                                 </div>
                                             </div>
@@ -1891,7 +1891,7 @@ etudiants.foreach { etudiant =>
             });
         });
         
-        // Smooth scroll pour les liens de la table des matiÃ¨res
+        // Smooth scroll pour les liens de la table des matières
         document.querySelectorAll('.toc-link').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -1908,7 +1908,7 @@ etudiants.foreach { etudiant =>
             });
         });
         
-        // Mettre en évidence le lien actif dans la table des matiÃ¨res
+        // Mettre en évidence le lien actif dans la table des matières
         function updateActiveLink() {
             const sections = document.querySelectorAll('section[id]');
             const tocLinks = document.querySelectorAll('.toc-link');
