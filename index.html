@@ -953,14 +953,352 @@
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             border-radius: 2px;
         }
+
+        /* Navigation Sticky Styles */
+        #mainNavbar {
+            background-color: transparent;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 1rem 0;
+            backdrop-filter: blur(0px);
+            box-shadow: none;
+            z-index: 1050;
+        }
+
+        #mainNavbar.scrolled {
+            background-color: rgba(31, 41, 55, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        #mainNavbar .navbar-brand {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        #mainNavbar .brand-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        #mainNavbar .brand-subtitle {
+            font-size: 0.75rem;
+            color: var(--completion-gold);
+            font-weight: 500;
+            margin-top: -2px;
+        }
+
+        #mainNavbar .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem !important;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #mainNavbar .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        #mainNavbar .nav-link:hover::before {
+            left: 100%;
+        }
+
+        #mainNavbar .nav-link:hover {
+            color: white !important;
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        #mainNavbar .nav-text {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        #mainNavbar .nav-link:hover .nav-text {
+            transform: scale(1.05);
+        }
+
+        #mainNavbar .navbar-toggler {
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+        }
+
+        #mainNavbar .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='m4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        /* Dropdown Menu Styles */
+        .dropdown-menu-modern {
+            background-color: rgba(31, 41, 55, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 0.5rem 0;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            min-width: 280px;
+            margin-top: 0.5rem;
+        }
+
+        .dropdown-menu-modern .dropdown-header {
+            color: var(--completion-gold);
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 0.75rem 1rem 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .dropdown-menu-modern .dropdown-item {
+            color: rgba(255, 255, 255, 0.9);
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            margin: 0 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dropdown-menu-modern .dropdown-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transition: left 0.5s;
+        }
+
+        .dropdown-menu-modern .dropdown-item:hover::before {
+            left: 100%;
+        }
+
+        .dropdown-menu-modern .dropdown-item:hover {
+            background-color: rgba(14, 165, 233, 0.2);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .dropdown-item-content {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .module-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .module-title {
+            font-weight: 500;
+            line-height: 1.3;
+        }
+
+        .dropdown-divider {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 0.5rem 1rem;
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Offset pour la navigation fixed */
+        body {
+            padding-top: 80px;
+        }
+        
+        section[id], div[id] {
+            scroll-margin-top: 80px;
+        }
+
+        /* Animation de slide-in pour les éléments de navigation */
+        @keyframes slideInFromTop {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #mainNavbar {
+            animation: slideInFromTop 0.8s ease-out;
+        }
+
+        /* Media Queries pour mobile */
+        @media (max-width: 768px) {
+            #mainNavbar .navbar-collapse {
+                background-color: rgba(31, 41, 55, 0.98);
+                backdrop-filter: blur(20px);
+                border-radius: 12px;
+                margin-top: 1rem;
+                padding: 1rem;
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            }
+
+            #mainNavbar .brand-text {
+                font-size: 1rem;
+            }
+
+            #mainNavbar .brand-subtitle {
+                font-size: 0.7rem;
+            }
+
+            .dropdown-menu-modern {
+                position: static !important;
+                transform: none !important;
+                background-color: rgba(15, 23, 42, 0.9);
+                border: none;
+                box-shadow: none;
+                margin-top: 0.5rem;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- Celebration Animation Container -->
     <div class="celebration-animation" id="celebrationContainer"></div>
 
+    <!-- Navigation Sticky avec effet de scroll -->
+    <nav class="navbar navbar-expand-lg fixed-top" id="mainNavbar">
+        <div class="container">
+            <a class="navbar-brand" href="#home">
+                <i class="fas fa-graduation-cap me-2"></i>
+                <span class="brand-text">Formation Scala & Spark</span>
+                <span class="brand-subtitle">Expert Level</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">
+                            <i class="fas fa-home me-1"></i>
+                            <span class="nav-text">Accueil</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#progress">
+                            <i class="fas fa-chart-line me-1"></i>
+                            <span class="nav-text">Progression</span>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-book me-1"></i>
+                            <span class="nav-text">Modules</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-modern">
+                            <li class="dropdown-header">
+                                <i class="fas fa-code me-2"></i>Phase 1 - Fondamentaux
+                            </li>
+                            <li><a class="dropdown-item" href="Module 1 - Introduction aux Paradigmes de Programmation.html">
+                                <div class="dropdown-item-content">
+                                    <span class="module-number">01</span>
+                                    <span class="module-title">Paradigmes de Programmation</span>
+                                </div>
+                            </a></li>
+                            <li><a class="dropdown-item" href="Module 2 - Mettre en place l'environnement pour Scala.html">
+                                <div class="dropdown-item-content">
+                                    <span class="module-number">02</span>
+                                    <span class="module-title">Environnement Scala</span>
+                                </div>
+                            </a></li>
+                            <li><a class="dropdown-item" href="Module 3 - Introduction à Scala.html">
+                                <div class="dropdown-item-content">
+                                    <span class="module-number">03</span>
+                                    <span class="module-title">Introduction Scala</span>
+                                </div>
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li class="dropdown-header">
+                                <i class="fas fa-fire me-2"></i>Phase 2 - Big Data
+                            </li>
+                            <li><a class="dropdown-item" href="Module 4 - Fondements théoriques de Spark - RDD, DataFrame, Dataset.html">
+                                <div class="dropdown-item-content">
+                                    <span class="module-number">04</span>
+                                    <span class="module-title">Fondements Spark</span>
+                                </div>
+                            </a></li>
+                            <li><a class="dropdown-item" href="Module 5 - Pratique Spark - RDD, DataFrame & Dataset.html">
+                                <div class="dropdown-item-content">
+                                    <span class="module-number">05</span>
+                                    <span class="module-title">Pratique Spark</span>
+                                </div>
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li class="dropdown-header">
+                                <i class="fas fa-rocket me-2"></i>Phase 3 - Expert
+                            </li>
+                            <li><a class="dropdown-item" href="Module 6 - Approfondissement en Programmation Fonctionnelle.html">
+                                <div class="dropdown-item-content">
+                                    <span class="module-number">06</span>
+                                    <span class="module-title">Prog. Fonctionnelle</span>
+                                </div>
+                            </a></li>
+                            <li><a class="dropdown-item" href="Module 7 - Spark Streaming et introduction au Machine Learning.html">
+                                <div class="dropdown-item-content">
+                                    <span class="module-number">07</span>
+                                    <span class="module-title">Streaming & ML</span>
+                                </div>
+                            </a></li>
+                            <li><a class="dropdown-item" href="Module 8 - Introduction à Databricks et SparkSQL sur le Cloud.html">
+                                <div class="dropdown-item-content">
+                                    <span class="module-number">08</span>
+                                    <span class="module-title">Cloud & Databricks</span>
+                                </div>
+                            </a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#projects">
+                            <i class="fas fa-rocket me-1"></i>
+                            <span class="nav-text">Projets</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://www.inskillflow.com/" target="_blank">
+                            <i class="fas fa-external-link-alt me-1"></i>
+                            <span class="nav-text">inskillflow</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <!-- Hero Section -->
-    <section class="hero-section">
+    <section class="hero-section" id="home">
         <div class="container">
             <div class="hero-content">
                 <div class="text-center mb-5">
@@ -1148,7 +1486,7 @@
                 </div>
             </div>
 
-            <div class="project-showcase">
+            <div class="project-showcase" id="projects">
                 <div class="d-flex align-items-center mb-4">
                     <div class="me-3">
                         <div style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--completion-gold), #f59e0b); border-radius: 15px; display: flex; align-items: center; justify-content: center;">
@@ -1212,7 +1550,7 @@
         </div>
 
         <!-- Progress Section -->
-        <div class="progress-section">
+        <div class="progress-section" id="progress">
             <h3 class="mb-4">
                 <i class="fas fa-chart-line me-2 text-success"></i>
                 Progression Complète
@@ -1867,6 +2205,99 @@
 
         // Déclencher les particules professionnelles après le chargement
         setTimeout(createProfessionalParticles, 2000);
+
+        // Navigation Scroll Effect
+        function initNavbarScrollEffect() {
+            const navbar = document.getElementById('mainNavbar');
+            let lastScrollY = window.scrollY;
+            
+            function updateNavbar() {
+                const currentScrollY = window.scrollY;
+                
+                if (currentScrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+                
+                lastScrollY = currentScrollY;
+            }
+            
+            // Throttle scroll event pour de meilleures performances
+            let ticking = false;
+            function requestTick() {
+                if (!ticking) {
+                    requestAnimationFrame(updateNavbar);
+                    ticking = true;
+                    setTimeout(() => { ticking = false; }, 10);
+                }
+            }
+            
+            window.addEventListener('scroll', requestTick);
+            updateNavbar(); // Check initial state
+        }
+
+        // Smooth scroll pour les liens de navigation
+        function initSmoothScroll() {
+            const navLinks = document.querySelectorAll('#mainNavbar a[href^="#"]');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                    
+                    // Fermer le menu mobile si ouvert
+                    const navbarCollapse = document.querySelector('#navbarNav');
+                    if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+                        const bootstrapCollapse = new bootstrap.Collapse(navbarCollapse);
+                        bootstrapCollapse.hide();
+                    }
+                });
+            });
+        }
+
+        // Active link highlighting
+        function initActiveLinkHighlighting() {
+            const sections = document.querySelectorAll('section[id], div[id]');
+            const navLinks = document.querySelectorAll('#mainNavbar a[href^="#"]');
+            
+            function updateActiveLink() {
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.offsetHeight;
+                    if (scrollY >= sectionTop - 100 && scrollY < sectionTop + sectionHeight - 100) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + current) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', updateActiveLink);
+        }
+
+        // Initialiser tous les effets
+        document.addEventListener('DOMContentLoaded', function() {
+            initNavbarScrollEffect();
+            initSmoothScroll();
+            initActiveLinkHighlighting();
+        });
     </script>
 </body>
 </html>
