@@ -539,7 +539,7 @@
                             Module 3 - Introduction à  Scala
                         </h1>
                         <p class="lead mb-0">
-                            Maà®trisez les fondamentaux du langage Scala pour le développement moderne
+                            Maîtrisez les fondamentaux du langage Scala pour le développement moderne
                         </p>
                         <span class="badge badge-concept mt-2">Module 3</span>
                     </div>
@@ -1204,7 +1204,7 @@ val parParite = nombres.groupBy(_ % 2)
 println(parParite)
 // Map(1 -> List(1, 3, 5, 7, 9), 0 -> List(2, 4, 6, 8, 10))
 
-// Chaà®nage d'opérations
+// Chaînage d'opérations
 val resultat = nombres
   .filter(_ % 2 == 0)    // Garder les pairs
   .map(Math.pow(_, 2))   // élever au carré
@@ -1590,7 +1590,7 @@ println(monCompte)  // Compte(123456,0.0)</code></pre>
                                                     <li>Déclarez une <code>val</code> pour votre nom</li>
                                                     <li>Déclarez une <code>var</code> pour votre âge</li>
                                                     <li>Calculez votre âge dans 10 ans</li>
-                                                    <li>Créez une chaà®ne de présentation avec interpolation</li>
+                                                    <li>Créez une chaîne de présentation avec interpolation</li>
                                                 </ol>
                                             </div>
 
@@ -1604,7 +1604,7 @@ var age = 25               // Mutable (peut changer)
 // Calcul de l'âge futur
 val ageFutur = age + 10
 
-// Interpolation de chaà®ne
+// Interpolation de chaîne
 val presentation = s"Je m'appelle $nom, j'ai $age ans, et dans 10 ans j'aurai $ageFutur ans."
 
 println(presentation)
@@ -1723,7 +1723,7 @@ println(s"Nombres doublés: $doubles")  // List(6, 12, 18, 24, 30, 36)
 val sommeFinale = doubles.sum
 println(s"Somme finale: $sommeFinale")  // 126
 
-// Version concise en une seule chaà®ne
+// Version concise en une seule chaîne
 val resultatConcis = (1 to 20)
   .filter(_ % 3 == 0)
   .map(_ * 2)

@@ -519,7 +519,7 @@
                             Module 4 - Fondements théoriques de Spark
                         </h1>
                         <p class="lead mb-0">
-                            RDD, DataFrame, Dataset - Maà®trisez les abstractions Big Data d'Apache Spark
+                            RDD, DataFrame, Dataset - Maîtrisez les abstractions Big Data d'Apache Spark
                         </p>
                         <span class="badge badge-concept mt-2">Module 4</span>
                     </div>
@@ -607,10 +607,10 @@
                             <div class="concept-card architecture">
                                 <div class="concept-title">
                                     <i class="fas fa-building"></i>
-                                    Architecture maà®tre-esclave
+                                    Architecture maître-esclave
                                 </div>
                                 <p>
-                                    Spark suit une architecture maà®tre-esclave avec un Driver Program 
+                                    Spark suit une architecture maître-esclave avec un Driver Program 
                                     qui coordonne le travail distribué à  travers plusieurs Executors.
                                 </p>
                             </div>
@@ -767,7 +767,7 @@ val uniqueNumbers = sc.parallelize(List(1, 2, 2, 3, 3, 3)).distinct()
 val moreNumbers = sc.parallelize(11 to 15)
 val combined = numbers.union(moreNumbers)
 
-// Chaà®nage de transformations
+// Chaînage de transformations
 val result = numbers
   .filter(_ % 2 == 0)    // Garder les pairs
   .map(_ * 3)            // Multiplier par 3
@@ -906,7 +906,7 @@ val ageStats = df.groupBy("city").agg(
 // Tri
 val sorted = df.orderBy($"age".desc)
 
-// Opérations sur chaà®nes
+// Opérations sur chaînes
 val upperNames = df.withColumn("name_upper", upper($"name"))
 
 // Jointures
@@ -1033,7 +1033,7 @@ val backToRDD = numbersDS.rdd
 // DataFrame vers RDD (Row)
 val dfToRDD = numbersDF.rdd  // RDD[Row]
 
-// Exemple pratique : chaà®ner les transformations
+// Exemple pratique : chaîner les transformations
 val result = employees
   .filter(_.age > 25)           // Dataset operations (type-safe)
   .toDF()                       // Convert to DataFrame  
@@ -1405,7 +1405,7 @@ cachedFiltered.unpersist()</code></pre>
                                             <li>RDD/DataFrame utilisé plusieurs fois</li>
                                             <li>Calculs coà»teux (jointures, agrégations)</li>
                                             <li>Données accédées de faà§on itérative</li>
-                                            <li>Machine Learning (entraà®nement itératif)</li>
+                                            <li>Machine Learning (entraînement itératif)</li>
                                         </ul>
                                     </div>
                                     <div class="col-md-6">

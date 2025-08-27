@@ -562,7 +562,7 @@
                             Module 7 - Spark Streaming & ML
                         </h1>
                         <p class="lead mb-0">
-                            Temps réel et Intelligence Artificielle - Maà®trisez le streaming et le machine learning avec Spark
+                            Temps réel et Intelligence Artificielle - Maîtrisez le streaming et le machine learning avec Spark
                         </p>
                         <span class="badge badge-streaming mt-2">Module 7 - Advanced</span>
                     </div>
@@ -1304,8 +1304,8 @@ println("Pipeline de feature engineering configuré")</code></pre>
                                     Pipelines ML industriels
                                 </div>
                                 <p>
-                                    Les Pipelines MLlib automatisent la chaà®ne complète : preprocessing, 
-                                    feature engineering, entraà®nement, évaluation et déploiement.
+                                    Les Pipelines MLlib automatisent la chaîne complète : preprocessing, 
+                                    feature engineering, entraînement, évaluation et déploiement.
                                 </p>
                             </div>
 
@@ -1393,22 +1393,22 @@ println("=== ENTRAàŽNEMENT DES MODàˆLES ===")
 
 val startTime = System.currentTimeMillis()
 
-// Entraà®nement Random Forest
+// Entraînement Random Forest
 val rfModel = rfPipeline.fit(trainingData)
 val rfTime = System.currentTimeMillis() - startTime
-println(f"Random Forest entraà®né en ${rfTime}ms")
+println(f"Random Forest entraîné en ${rfTime}ms")
 
-// Entraà®nement Logistic Regression
+// Entraînement Logistic Regression
 val lrStartTime = System.currentTimeMillis()
 val lrModel = lrPipeline.fit(trainingData)
 val lrTime = System.currentTimeMillis() - lrStartTime
-println(f"Logistic Regression entraà®née en ${lrTime}ms")
+println(f"Logistic Regression entraînée en ${lrTime}ms")
 
-// Entraà®nement GBT
+// Entraînement GBT
 val gbtStartTime = System.currentTimeMillis()
 val gbtModel = gbtPipeline.fit(trainingData)
 val gbtTime = System.currentTimeMillis() - gbtStartTime
-println(f"GBT entraà®né en ${gbtTime}ms")
+println(f"GBT entraîné en ${gbtTime}ms")
 
 // === PRéDICTIONS ===
 
@@ -1758,7 +1758,7 @@ object FraudDetectionSystem {
     
     // === MODàˆLE DE DéTECTION PRé-ENTRAàŽNé ===
     
-    // Simulation d'un modèle ML préentraà®né
+    // Simulation d'un modèle ML préentraîné
     // Dans la réalité, chargé depuis un modèle sauvegardé
     def detectFraud(transaction: EnrichedTransaction): (Double, String, Double) = {
       
