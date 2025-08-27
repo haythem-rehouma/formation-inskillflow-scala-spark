@@ -1,0 +1,2048 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 7 - Spark Streaming et introduction au Machine Learning</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Highlight.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #dc2626;
+            --secondary-color: #7c3aed;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --info-color: #0284c7;
+            --dark-color: #1f2937;
+            --light-bg: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-muted: #64748b;
+            --question-bg: #f1f5f9;
+            --answer-bg: #dcfce7;
+            --explanation-bg: #fef3c7;
+            --code-bg: #0f172a;
+            --streaming-red: #dc2626;
+            --ml-purple: #7c3aed;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--streaming-red), var(--ml-purple));
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 100px;
+            height: calc(100vh - 120px);
+            overflow-y: auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .toc-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .toc-link {
+            display: block;
+            padding: 0.5rem 0;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-left: 3px solid transparent;
+            padding-left: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .toc-link:hover, .toc-link.active {
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+            background-color: rgba(220, 38, 38, 0.05);
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .content-header {
+            background: linear-gradient(135deg, var(--streaming-red), var(--ml-purple));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .content-header h1 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .content-header .lead {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .content-body {
+            padding: 2rem;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .concept-card {
+            background: var(--light-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--info-color);
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .concept-card.streaming { border-left-color: var(--streaming-red); }
+        .concept-card.ml { border-left-color: var(--ml-purple); }
+        .concept-card.kafka { border-left-color: #f97316; }
+        .concept-card.pipeline { border-left-color: #10b981; }
+        .concept-card.realtime { border-left-color: #3b82f6; }
+
+        .concept-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .streaming-feature {
+            background: rgba(220, 38, 38, 0.05);
+            border: 1px solid rgba(220, 38, 38, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .streaming-feature h6 {
+            color: var(--streaming-red);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .ml-feature {
+            background: rgba(124, 58, 237, 0.05);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .ml-feature h6 {
+            color: var(--ml-purple);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .architecture-diagram {
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .architecture-component {
+            display: inline-block;
+            background: var(--light-bg);
+            border: 2px solid var(--info-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 0.5rem;
+            min-width: 120px;
+        }
+
+        .architecture-component.kafka {
+            border-color: #f97316;
+            background: rgba(249, 115, 22, 0.1);
+        }
+
+        .architecture-component.streaming {
+            border-color: var(--streaming-red);
+            background: rgba(220, 38, 38, 0.1);
+        }
+
+        .architecture-component.ml {
+            border-color: var(--ml-purple);
+            background: rgba(124, 58, 237, 0.1);
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-color);
+            margin: 1.5rem 0;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, var(--streaming-red), var(--ml-purple));
+            color: white;
+            font-weight: 500;
+            border: none;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .comparison-table td {
+            padding: 1rem;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .comparison-table tbody tr:hover {
+            background-color: rgba(220, 38, 38, 0.05);
+        }
+
+        .code-block {
+            background: var(--code-bg);
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 1rem 0;
+            border: 1px solid #334155;
+        }
+
+        .code-header {
+            background: #1e293b;
+            padding: 0.75rem 1rem;
+            color: #94a3b8;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-bottom: 1px solid #334155;
+        }
+
+        pre {
+            margin: 0;
+            padding: 1rem;
+            background: var(--code-bg);
+            color: #e2e8f0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(220, 38, 38, 0.1);
+            color: var(--primary-color);
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        .exercise-card {
+            border: 2px solid var(--ml-purple);
+            border-radius: 8px;
+            margin: 2rem 0;
+            overflow: hidden;
+        }
+
+        .exercise-header {
+            background: var(--ml-purple);
+            color: white;
+            padding: 1rem;
+            font-weight: 600;
+        }
+
+        .exercise-body {
+            padding: 1.5rem;
+            background: rgba(124, 58, 237, 0.02);
+        }
+
+        .question-accordion .accordion-item {
+            border: 1px solid var(--border-color);
+            margin-bottom: 1rem;
+            border-radius: 8px !important;
+            overflow: hidden;
+        }
+
+        .question-header {
+            background: var(--question-bg);
+            border: none;
+            color: var(--dark-color);
+            font-weight: 600;
+            padding: 1.25rem 1.5rem;
+        }
+
+        .question-header:not(.collapsed) {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .question-header::after {
+            background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>");
+        }
+
+        .question-header:not(.collapsed)::after {
+            background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>");
+        }
+
+        .answer-section {
+            background: var(--answer-bg);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 6px;
+            border-left: 4px solid var(--success-color);
+        }
+
+        .explanation-section {
+            background: var(--explanation-bg);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 6px;
+            border-left: 4px solid var(--warning-color);
+        }
+
+        .info-box {
+            background: rgba(2, 132, 199, 0.1);
+            border-left: 4px solid var(--info-color);
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+
+        .success-box {
+            background: rgba(5, 150, 105, 0.1);
+            border-left: 4px solid var(--success-color);
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+
+        .warning-box {
+            background: rgba(217, 119, 6, 0.1);
+            border-left: 4px solid var(--warning-color);
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+
+        .badge-streaming {
+            background: linear-gradient(135deg, var(--streaming-red), var(--ml-purple));
+            color: white;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--streaming-red), var(--ml-purple));
+            border: none;
+            font-weight: 500;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(220, 38, 38, 0.3);
+        }
+
+        .navigation-buttons {
+            background: var(--light-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, var(--streaming-red), var(--ml-purple));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(220, 38, 38, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: static;
+                margin-bottom: 2rem;
+                height: auto;
+            }
+            
+            .content-header {
+                padding: 1.5rem;
+            }
+            
+            .content-body {
+                padding: 1.5rem;
+            }
+
+            .architecture-component {
+                display: block;
+                margin: 1rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-code me-2"></i>
+                Cours Scala & Spark
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="fas fa-home me-1"></i>Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-book me-1"></i>Modules
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="Module 1 - Introduction aux Paradigmes de Programmation.html">Module 1 - Paradigmes</a></li>
+                            <li><a class="dropdown-item" href="Module 2 - Mettre en place l'environnement pour Scala.html">Module 2 - Environnement</a></li>
+                            <li><a class="dropdown-item" href="Module 3 - Introduction à Scala.html">Module 3 - Introduction Scala</a></li>
+                            <li><a class="dropdown-item" href="Module 4 - Fondements théoriques de Spark - RDD, DataFrame, Dataset.html">Module 4 - Fondements Spark</a></li>
+                            <li><a class="dropdown-item" href="Module 5 - Pratique Spark - RDD, DataFrame & Dataset.html">Module 5 - Pratique Spark</a></li>
+                            <li><a class="dropdown-item" href="Module 6 - Approfondissement en Programmation Fonctionnelle.html">Module 6 - Prog. Fonctionnelle</a></li>
+                            <li><a class="dropdown-item" href="Module 7 - Spark Streaming et introduction au Machine Learning.html">Module 7 - Streaming & ML</a></li>
+                            <li><a class="dropdown-item" href="Module 8 - Introduction à Databricks et SparkSQL sur le Cloud.html">Module 8 - Cloud</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid" style="margin-top: 80px;">
+        <div class="row">
+            <!-- Sidebar avec table des matières -->
+            <div class="col-lg-3">
+                <div class="sidebar">
+                    <h5 class="toc-title">
+                        <i class="fas fa-stream me-2"></i>
+                        Module 7 - Streaming & ML
+                    </h5>
+                    <div class="toc-content">
+                        <a href="#streaming-intro" class="toc-link">
+                            <i class="fas fa-play me-2"></i>
+                            Introduction Streaming
+                        </a>
+                        <a href="#dstreams" class="toc-link">
+                            <i class="fas fa-water me-2"></i>
+                            DStreams (Legacy)
+                        </a>
+                        <a href="#structured-streaming" class="toc-link">
+                            <i class="fas fa-stream me-2"></i>
+                            Structured Streaming
+                        </a>
+                        <a href="#kafka-integration" class="toc-link">
+                            <i class="fas fa-exchange-alt me-2"></i>
+                            Intégration Kafka
+                        </a>
+                        <a href="#windowing" class="toc-link">
+                            <i class="fas fa-window-maximize me-2"></i>
+                            Windows et Watermarks
+                        </a>
+                        <a href="#ml-intro" class="toc-link">
+                            <i class="fas fa-brain me-2"></i>
+                            Introduction MLlib
+                        </a>
+                        <a href="#ml-pipelines" class="toc-link">
+                            <i class="fas fa-project-diagram me-2"></i>
+                            ML Pipelines
+                        </a>
+                        <a href="#supervised-learning" class="toc-link">
+                            <i class="fas fa-chart-line me-2"></i>
+                            Apprentissage supervisé
+                        </a>
+                        <a href="#unsupervised-learning" class="toc-link">
+                            <i class="fas fa-sitemap me-2"></i>
+                            Apprentissage non-supervisé
+                        </a>
+                        <a href="#real-time-ml" class="toc-link">
+                            <i class="fas fa-rocket me-2"></i>
+                            ML temps réel
+                        </a>
+                        <a href="#use-cases" class="toc-link">
+                            <i class="fas fa-industry me-2"></i>
+                            Cas d'usage industriels
+                        </a>
+                        <a href="#hands-on-projects" class="toc-link">
+                            <i class="fas fa-dumbbell me-2"></i>
+                            Projets hands-on
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenu principal -->
+            <div class="col-lg-9">
+                <div class="main-content">
+                    <!-- En-tête -->
+                    <div class="content-header">
+                        <h1>
+                            <i class="fas fa-stream me-3"></i>
+                            Module 7 - Spark Streaming & ML
+                        </h1>
+                        <p class="lead mb-0">
+                            Temps réel et Intelligence Artificielle - Maîtrisez le streaming et le machine learning avec Spark
+                        </p>
+                        <span class="badge badge-streaming mt-2">Module 7 - Advanced</span>
+                    </div>
+
+                    <!-- Corps du contenu -->
+                    <div class="content-body">
+                        
+                        <!-- Introduction Streaming -->
+                        <section id="streaming-intro" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-play me-2"></i>
+                                Introduction au Streaming
+                            </h2>
+                            
+                            <div class="concept-card streaming">
+                                <div class="concept-title">
+                                    <i class="fas fa-stream"></i>
+                                    Pourquoi le traitement temps réel ?
+                                </div>
+                                <p>
+                                    Le streaming permet de traiter les données en temps réel au fur et à mesure 
+                                    qu'elles arrivent, ouvrant la voie à des analyses instantanées et des réactions immédiates.
+                                </p>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="streaming-feature">
+                                        <h6><i class="fas fa-bolt me-2"></i>Latence faible</h6>
+                                        <p class="mb-0">
+                                            Traitement en millisecondes à quelques secondes, 
+                                            essentiel pour la détection de fraude, alertes, trading.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="streaming-feature">
+                                        <h6><i class="fas fa-chart-line me-2"></i>Analytics temps réel</h6>
+                                        <p class="mb-0">
+                                            KPI instantanés, dashboards live, métriques business 
+                                            mises à jour en continu.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="streaming-feature">
+                                        <h6><i class="fas fa-shield-alt me-2"></i>Réaction immédiate</h6>
+                                        <p class="mb-0">
+                                            Systèmes d'alerte automatiques, actions préventives, 
+                                            intervention en cas d'anomalie.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="streaming-feature">
+                                        <h6><i class="fas fa-infinity me-2"></i>Flux continus</h6>
+                                        <p class="mb-0">
+                                            Traitement de volumes massifs de données en flux, 
+                                            IoT, logs, événements utilisateur.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="architecture-diagram">
+                                <h5 class="mb-3">Architecture Streaming moderne</h5>
+                                
+                                <div class="architecture-component kafka">
+                                    <h6><i class="fas fa-exchange-alt"></i> Sources</h6>
+                                    <small>Kafka, Kinesis<br>Files, Socket</small>
+                                </div>
+                                
+                                <div style="margin: 1rem 0;">
+                                    <i class="fas fa-arrow-right fa-2x text-muted"></i>
+                                </div>
+                                
+                                <div class="architecture-component streaming">
+                                    <h6><i class="fas fa-stream"></i> Spark Streaming</h6>
+                                    <small>Structured Streaming<br>Micro-batches</small>
+                                </div>
+                                
+                                <div style="margin: 1rem 0;">
+                                    <i class="fas fa-arrow-right fa-2x text-muted"></i>
+                                </div>
+                                
+                                <div class="architecture-component ml">
+                                    <h6><i class="fas fa-brain"></i> Processing</h6>
+                                    <small>ML Models<br>Analytics<br>Aggregations</small>
+                                </div>
+                                
+                                <div style="margin: 1rem 0;">
+                                    <i class="fas fa-arrow-right fa-2x text-muted"></i>
+                                </div>
+                                
+                                <div class="architecture-component">
+                                    <h6><i class="fas fa-save"></i> Sinks</h6>
+                                    <small>Database, Files<br>Dashboards, Alerts</small>
+                                </div>
+                            </div>
+
+                            <div class="info-box">
+                                <h6><i class="fas fa-lightbulb me-2"></i>Évolution des technologies streaming</h6>
+                                <ul class="mb-0">
+                                    <li><strong>2011</strong> : Spark Streaming avec DStreams (micro-batches)</li>
+                                    <li><strong>2016</strong> : Structured Streaming (API unifiée batch/streaming)</li>
+                                    <li><strong>2017</strong> : Continuous Processing (latence sub-seconde)</li>
+                                    <li><strong>2020+</strong> : Delta Lake Streaming, intégration ML temps réel</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <!-- Structured Streaming -->
+                        <section id="structured-streaming" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-stream me-2"></i>
+                                Structured Streaming - L'API moderne
+                            </h2>
+                            
+                            <div class="concept-card streaming">
+                                <div class="concept-title">
+                                    <i class="fas fa-table"></i>
+                                    Structured Streaming
+                                </div>
+                                <p>
+                                    API unifiée qui traite les streams comme des tables infinies. 
+                                    Même code pour batch et streaming, avec optimisations automatiques.
+                                </p>
+                            </div>
+
+                            <div class="streaming-feature">
+                                <h6><i class="fas fa-magic me-2"></i>Avantages de Structured Streaming</h6>
+                                <ul class="mb-0">
+                                    <li><strong>API unifiée</strong> : Même code pour batch et streaming</li>
+                                    <li><strong>Optimisations Catalyst</strong> : Plans d'exécution optimisés</li>
+                                    <li><strong>Exactly-once semantics</strong> : Garanties de cohérence</li>
+                                    <li><strong>Fault tolerance</strong> : Récupération automatique après pannes</li>
+                                    <li><strong>Schema evolution</strong> : Adaptation automatique aux changements</li>
+                                </ul>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-play me-2"></i>Premier streaming application
+                                </div>
+                                <pre><code class="language-scala">import org.apache.spark.sql.{SparkSession, DataFrame}
+import org.apache.spark.sql.functions._
+import org.apache.spark.sql.streaming.Trigger
+import org.apache.spark.sql.types._
+
+val spark = SparkSession.builder()
+  .appName("Structured Streaming Demo")
+  .master("local[*]")
+  .config("spark.sql.adaptive.enabled", "true")
+  .config("spark.sql.streaming.checkpointLocation", "/tmp/checkpoint")
+  .getOrCreate()
+
+import spark.implicits._
+
+// === LECTURE D'UN STREAM ===
+
+// 1. Stream depuis un répertoire de fichiers
+val fileStream = spark.readStream
+  .format("json")
+  .option("path", "input/streaming/")
+  .option("maxFilesPerTrigger", 1)  // Traiter 1 fichier à la fois
+  .load()
+
+// 2. Stream depuis un socket (pour tests)
+val socketStream = spark.readStream
+  .format("socket")
+  .option("host", "localhost")
+  .option("port", 9999)
+  .load()
+
+// 3. Stream depuis Kafka (configuration basique)
+val kafkaStream = spark.readStream
+  .format("kafka")
+  .option("kafka.bootstrap.servers", "localhost:9092")
+  .option("subscribe", "events")
+  .option("startingOffsets", "latest")
+  .load()
+
+// === TRANSFORMATION DES STREAMS ===
+
+// Exemple avec des événements utilisateur
+case class UserEvent(userId: String, action: String, timestamp: Long, value: Double)
+
+// Schema pour le stream
+val eventSchema = StructType(Array(
+  StructField("userId", StringType, false),
+  StructField("action", StringType, false),
+  StructField("timestamp", LongType, false),
+  StructField("value", DoubleType, false)
+))
+
+// Stream de données simulées
+val eventsStream = spark.readStream
+  .format("rate")  // Générateur de données test
+  .option("rowsPerSecond", 1000)
+  .option("numPartitions", 4)
+  .load()
+  .select(
+    concat(lit("user_"), (rand() * 1000).cast("int")).as("userId"),
+    array(lit("click"), lit("view"), lit("purchase"), lit("login"))
+      .getItem((rand() * 4).cast("int")).as("action"),
+    current_timestamp().as("timestamp"),
+    (rand() * 100).as("value")
+  )
+
+// === AGRÉGATIONS STREAMING ===
+
+// 1. Comptage simple
+val actionCounts = eventsStream
+  .groupBy("action")
+  .count()
+
+// 2. Agrégations par fenêtre temporelle
+val windowedCounts = eventsStream
+  .withWatermark("timestamp", "10 minutes")  // Gestion des données tardives
+  .groupBy(
+    window($"timestamp", "5 minutes", "1 minute"),  // Fenêtre glissante
+    $"action"
+  )
+  .agg(
+    count("*").as("event_count"),
+    sum("value").as("total_value"),
+    avg("value").as("avg_value"),
+    approx_count_distinct("userId").as("unique_users")
+  )
+
+// 3. Détection d'anomalies temps réel
+val anomalyDetection = eventsStream
+  .withWatermark("timestamp", "5 minutes")
+  .groupBy(
+    $"userId",
+    window($"timestamp", "1 minute")
+  )
+  .agg(
+    count("*").as("events_per_minute"),
+    sum("value").as("total_spent")
+  )
+  .filter($"events_per_minute" > 50 || $"total_spent" > 1000)  // Seuils d'anomalie
+  .select(
+    $"userId",
+    $"window.start".as("window_start"),
+    $"events_per_minute",
+    $"total_spent",
+    lit("ANOMALY").as("alert_type")
+  )
+
+println("Streams configurés - prêts pour l'exécution")</code></pre>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-save me-2"></i>Output et Triggers
+                                </div>
+                                <pre><code class="language-scala">// === MODES DE SORTIE ===
+
+// 1. Complete Mode : Toute la table résultante à chaque trigger
+val completeQuery = actionCounts.writeStream
+  .outputMode("complete")
+  .format("console")
+  .option("truncate", false)
+  .trigger(Trigger.ProcessingTime("10 seconds"))
+  .start()
+
+// 2. Append Mode : Seulement les nouvelles lignes (par défaut)
+val appendQuery = eventsStream
+  .filter($"action" === "purchase")
+  .writeStream
+  .outputMode("append")
+  .format("json")
+  .option("path", "output/purchases/")
+  .option("checkpointLocation", "checkpoint/purchases/")
+  .trigger(Trigger.ProcessingTime("30 seconds"))
+  .start()
+
+// 3. Update Mode : Lignes modifiées uniquement
+val updateQuery = windowedCounts.writeStream
+  .outputMode("update")
+  .format("console")
+  .option("truncate", false)
+  .trigger(Trigger.ProcessingTime("5 seconds"))
+  .start()
+
+// === TYPES DE TRIGGERS ===
+
+// 1. Processing Time : Interval fixe
+val processingTimeTrigger = Trigger.ProcessingTime("2 seconds")
+
+// 2. Once : Une seule fois (pour tests)
+val onceTrigger = Trigger.Once()
+
+// 3. Continuous : Mode continu (latence très faible)
+val continuousTrigger = Trigger.Continuous("1 second")
+
+// === MONITORING DES STREAMS ===
+
+// Statut et métriques
+def monitorStream(query: org.apache.spark.sql.streaming.StreamingQuery): Unit = {
+  println(s"=== MONITORING STREAM: ${query.name} ===")
+  println(s"ID: ${query.id}")
+  println(s"Actif: ${query.isActive}")
+  
+  val progress = query.lastProgress
+  if (progress != null) {
+    println(s"Batch ID: ${progress.batchId}")
+    println(s"Input Rows: ${progress.inputRowsPerSecond}")
+    println(s"Processing Rate: ${progress.processingTimeBatchMs} ms")
+    println(s"Trigger: ${progress.durationMs.get("triggerExecution")} ms")
+  }
+}
+
+// Exemple de monitoring
+monitorStream(updateQuery)
+
+// === GESTION DES ERREURS ET ARRÊT ===
+
+try {
+  // Attendre la fin du streaming (ou Ctrl+C)
+  updateQuery.awaitTermination()
+} catch {
+  case e: Exception => 
+    println(s"Erreur dans le stream: ${e.getMessage}")
+    updateQuery.stop()
+} finally {
+  spark.stop()
+}
+
+// Arrêt propre de tous les streams
+def stopAllStreams(): Unit = {
+  spark.streams.active.foreach { query =>
+    println(s"Arrêt du stream: ${query.name}")
+    query.stop()
+  }
+}</code></pre>
+                            </div>
+
+                            <div class="success-box">
+                                <h6><i class="fas fa-check-circle me-2"></i>Checkpointing et Fault Tolerance</h6>
+                                <p>
+                                    Structured Streaming sauvegarde automatiquement l'état du stream dans un checkpoint directory. 
+                                    En cas de panne, le stream reprend exactement où il s'était arrêté avec garantie exactly-once.
+                                </p>
+                                <div class="code-block">
+                                    <pre><code class="language-scala">// Configuration du checkpoint
+val reliableQuery = eventsStream
+  .writeStream
+  .outputMode("append")
+  .format("delta")  // Format transactionnel
+  .option("path", "output/events_delta/")
+  .option("checkpointLocation", "checkpoint/events_reliable/")
+  .trigger(Trigger.ProcessingTime("30 seconds"))
+  .start()
+
+// Vérification de l'état du checkpoint
+val checkpointDir = "checkpoint/events_reliable/"
+println(s"Checkpoint existe: ${new java.io.File(checkpointDir).exists()}")
+println(s"Dernière batch: ${reliableQuery.lastProgress.batchId}")</code></pre>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Kafka Integration -->
+                        <section id="kafka-integration" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-exchange-alt me-2"></i>
+                                Intégration Kafka - Le backbone du streaming
+                            </h2>
+                            
+                            <div class="concept-card kafka">
+                                <div class="concept-title">
+                                    <i class="fas fa-exchange-alt"></i>
+                                    Apache Kafka + Spark Streaming
+                                </div>
+                                <p>
+                                    Kafka est la plateforme de streaming de référence pour alimenter Spark. 
+                                    Combinaison parfaite pour des architectures streaming robustes et scalables.
+                                </p>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-plug me-2"></i>Configuration Kafka avec Spark
+                                </div>
+                                <pre><code class="language-scala">import org.apache.spark.sql.{SparkSession, DataFrame}
+import org.apache.spark.sql.functions._
+import org.apache.spark.sql.streaming.Trigger
+import org.apache.spark.sql.types._
+
+// === CONFIGURATION KAFKA AVANCÉE ===
+
+val kafkaServers = "localhost:9092"
+val checkpointDir = "/tmp/spark-kafka-checkpoint"
+
+// Configuration Kafka optimisée pour la production
+val kafkaOptions = Map(
+  "kafka.bootstrap.servers" -> kafkaServers,
+  "kafka.security.protocol" -> "PLAINTEXT",
+  "kafka.session.timeout.ms" -> "30000",
+  "kafka.request.timeout.ms" -> "40000",
+  "kafka.max.poll.records" -> "1000",
+  "kafka.max.poll.interval.ms" -> "300000"
+)
+
+// === LECTURE DEPUIS KAFKA ===
+
+// 1. Lecture simple d'un topic
+val kafkaStream = spark.readStream
+  .format("kafka")
+  .options(kafkaOptions)
+  .option("subscribe", "user_events")  // Un topic
+  .option("startingOffsets", "latest")  // "earliest" pour reprendre depuis le début
+  .load()
+
+// 2. Lecture multi-topics
+val multiTopicStream = spark.readStream
+  .format("kafka")
+  .options(kafkaOptions)
+  .option("subscribe", "events,transactions,logs")  // Plusieurs topics
+  .load()
+
+// 3. Lecture avec pattern
+val patternStream = spark.readStream
+  .format("kafka")
+  .options(kafkaOptions)
+  .option("subscribePattern", "app_.*")  // Tous les topics commençant par "app_"
+  .load()
+
+// === TRAITEMENT DES MESSAGES KAFKA ===
+
+// Structure d'un message Kafka
+kafkaStream.printSchema()
+/*
+root
+ |-- key: binary (nullable = true)
+ |-- value: binary (nullable = true)  
+ |-- topic: string (nullable = true)
+ |-- partition: integer (nullable = true)
+ |-- offset: long (nullable = true)
+ |-- timestamp: timestamp (nullable = true)
+ |-- timestampType: integer (nullable = true)
+*/
+
+// Schéma des événements utilisateur (JSON)
+val userEventSchema = StructType(Array(
+  StructField("userId", StringType, false),
+  StructField("sessionId", StringType, false),
+  StructField("action", StringType, false),
+  StructField("timestamp", TimestampType, false),
+  StructField("properties", MapType(StringType, StringType), true),
+  StructField("value", DoubleType, true)
+))
+
+// Parsing des messages JSON
+val parsedEvents = kafkaStream
+  .select(
+    $"topic",
+    $"partition", 
+    $"offset",
+    $"timestamp".as("kafka_timestamp"),
+    from_json($"value".cast("string"), userEventSchema).as("event")
+  )
+  .select(
+    $"topic",
+    $"partition",
+    $"offset", 
+    $"kafka_timestamp",
+    $"event.*"
+  )
+  .filter($"userId".isNotNull)  // Filtrer les messages malformés
+
+// === ANALYTICS TEMPS RÉEL ===
+
+// Métriques par topic et partition
+val kafkaMetrics = kafkaStream
+  .groupBy("topic", "partition")
+  .agg(
+    count("*").as("message_count"),
+    max("offset").as("latest_offset"),
+    min("timestamp").as("earliest_timestamp"),
+    max("timestamp").as("latest_timestamp")
+  )
+
+// Analyse des événements utilisateur
+val userAnalytics = parsedEvents
+  .withWatermark("timestamp", "10 minutes")
+  .groupBy(
+    window($"timestamp", "5 minutes", "1 minute"),
+    $"action"
+  )
+  .agg(
+    count("*").as("event_count"),
+    countDistinct("userId").as("unique_users"),
+    countDistinct("sessionId").as("unique_sessions"),
+    sum("value").as("total_value"),
+    avg("value").as("avg_value")
+  )
+
+println("Stream Kafka configuré avec analytics temps réel")</code></pre>
+                            </div>
+
+                            <div class="ml-feature">
+                                <h6><i class="fas fa-rocket me-2"></i>Pattern producteur/consommateur avancé</h6>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <i class="fas fa-cogs me-2"></i>Écriture vers Kafka
+                                    </div>
+                                    <pre><code class="language-scala">// === ÉCRITURE VERS KAFKA ===
+
+// Transformation pour écriture Kafka
+val processedEvents = parsedEvents
+  .filter($"action".isin("purchase", "high_value_action"))
+  .withColumn("alert_type", 
+    when($"value" > 1000, "high_value")
+    .when($"action" === "purchase", "conversion")
+    .otherwise("standard"))
+  .select(
+    $"userId".as("key"),  // Clé Kafka (pour partitioning)
+    to_json(struct(
+      $"userId", $"sessionId", $"action", $"timestamp", 
+      $"value", $"alert_type"
+    )).as("value")  // Message JSON
+  )
+
+// Écriture vers Kafka
+val kafkaWriter = processedEvents.writeStream
+  .format("kafka")
+  .options(kafkaOptions)
+  .option("topic", "processed_events")
+  .option("checkpointLocation", s"$checkpointDir/kafka-writer")
+  .outputMode("append")
+  .trigger(Trigger.ProcessingTime("10 seconds"))
+  .start()
+
+// === ROUTING CONDITIONNEL ===
+
+// Écriture vers différents topics selon le contenu
+def writeToMultipleTopics(df: DataFrame): Unit = {
+  // Alertes haute priorité
+  val highPriorityAlerts = df
+    .filter($"alert_type" === "high_value")
+    .select($"key", $"value")
+
+  highPriorityAlerts.writeStream
+    .format("kafka")
+    .options(kafkaOptions)
+    .option("topic", "alerts_high_priority")
+    .option("checkpointLocation", s"$checkpointDir/high-priority")
+    .outputMode("append")
+    .trigger(Trigger.ProcessingTime("1 second"))  // Plus fréquent
+    .start()
+
+  // Événements standard
+  val standardEvents = df
+    .filter($"alert_type" === "standard")
+    .select($"key", $"value")
+
+  standardEvents.writeStream
+    .format("kafka")
+    .options(kafkaOptions)
+    .option("topic", "events_standard")
+    .option("checkpointLocation", s"$checkpointDir/standard")
+    .outputMode("append")
+    .trigger(Trigger.ProcessingTime("30 seconds"))
+    .start()
+}
+
+writeToMultipleTopics(processedEvents)</code></pre>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- ML Introduction -->
+                        <section id="ml-intro" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-brain me-2"></i>
+                                Introduction au Machine Learning avec MLlib
+                            </h2>
+                            
+                            <div class="concept-card ml">
+                                <div class="concept-title">
+                                    <i class="fas fa-brain"></i>
+                                    MLlib - Machine Learning scalable
+                                </div>
+                                <p>
+                                    MLlib est la librairie ML de Spark, conçue pour traiter des téraoctets de données 
+                                    avec des algorithmes distribués et des pipelines de production.
+                                </p>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="ml-feature">
+                                        <h6><i class="fas fa-chart-line me-2"></i>Apprentissage supervisé</h6>
+                                        <p class="mb-0">
+                                            Classification, régression : Random Forest, 
+                                            Logistic Regression, SVM, Neural Networks.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="ml-feature">
+                                        <h6><i class="fas fa-sitemap me-2"></i>Apprentissage non-supervisé</h6>
+                                        <p class="mb-0">
+                                            Clustering (K-Means), réduction de dimensionnalité (PCA),
+                                            détection d'anomalies.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-database me-2"></i>Préparation des données ML
+                                </div>
+                                <pre><code class="language-scala">import org.apache.spark.ml._
+import org.apache.spark.ml.feature._
+import org.apache.spark.ml.classification._
+import org.apache.spark.ml.regression._
+import org.apache.spark.ml.clustering._
+import org.apache.spark.ml.evaluation._
+import org.apache.spark.ml.tuning._
+import org.apache.spark.sql.functions._
+
+// === GÉNÉRATION DE DONNÉES D'EXEMPLE ===
+
+// Dataset de e-commerce pour ML
+case class Customer(
+  customerId: Int,
+  age: Int,
+  income: Double,
+  education: String,
+  maritalStatus: String,
+  numChildren: Int,
+  homeOwner: Boolean,
+  totalSpent: Double,
+  numOrders: Int,
+  avgOrderValue: Double,
+  daysSinceLastOrder: Int,
+  preferredCategory: String,
+  churnRisk: Double  // Target variable
+)
+
+// Génération de données synthétiques
+val customersData = (1 to 50000).map { i =>
+  val age = 18 + scala.util.Random.nextInt(65)
+  val income = 25000 + scala.util.Random.nextDouble() * 100000
+  val education = Array("High School", "Bachelor", "Master", "PhD")(scala.util.Random.nextInt(4))
+  val maritalStatus = Array("Single", "Married", "Divorced")(scala.util.Random.nextInt(3))
+  val numChildren = scala.util.Random.nextInt(4)
+  val homeOwner = scala.util.Random.nextBoolean()
+  val numOrders = 1 + scala.util.Random.nextInt(50)
+  val avgOrderValue = 20 + scala.util.Random.nextDouble() * 500
+  val totalSpent = numOrders * avgOrderValue * (0.8 + scala.util.Random.nextDouble() * 0.4)
+  val daysSinceLastOrder = scala.util.Random.nextInt(365)
+  val preferredCategory = Array("Electronics", "Clothing", "Books", "Sports", "Home")(scala.util.Random.nextInt(5))
+  
+  // Calcul du risque de churn (logique business simplifiée)
+  val churnRisk = {
+    val ageScore = if (age < 25 || age > 65) 0.3 else 0.1
+    val incomeScore = if (income < 40000) 0.2 else 0.0
+    val recencyScore = math.min(daysSinceLastOrder / 365.0 * 0.5, 0.5)
+    val loyaltyScore = if (numOrders < 5) 0.2 else 0.0
+    
+    math.min(ageScore + incomeScore + recencyScore + loyaltyScore + scala.util.Random.nextDouble() * 0.1, 1.0)
+  }
+  
+  Customer(i, age, income, education, maritalStatus, numChildren, homeOwner, 
+          totalSpent, numOrders, avgOrderValue, daysSinceLastOrder, preferredCategory, churnRisk)
+}
+
+val customersDF = customersData.toDF().cache()
+println(s"Dataset créé: ${customersDF.count()} clients")
+customersDF.show(10)
+
+// === FEATURE ENGINEERING ===
+
+// 1. StringIndexer pour variables catégorielles
+val educationIndexer = new StringIndexer()
+  .setInputCol("education")
+  .setOutputCol("educationIndex")
+
+val maritalIndexer = new StringIndexer()
+  .setInputCol("maritalStatus") 
+  .setOutputCol("maritalIndex")
+
+val categoryIndexer = new StringIndexer()
+  .setInputCol("preferredCategory")
+  .setOutputCol("categoryIndex")
+
+// 2. OneHotEncoder pour encoding
+val educationEncoder = new OneHotEncoder()
+  .setInputCol("educationIndex")
+  .setOutputCol("educationVec")
+
+val maritalEncoder = new OneHotEncoder()
+  .setInputCol("maritalIndex")
+  .setOutputCol("maritalVec")
+
+val categoryEncoder = new OneHotEncoder()
+  .setInputCol("categoryIndex")
+  .setOutputCol("categoryVec")
+
+// 3. Feature scaling
+val scaler = new StandardScaler()
+  .setInputCol("features")
+  .setOutputCol("scaledFeatures")
+  .setWithStd(true)
+  .setWithMean(true)
+
+// 4. Assemblage des features
+val assembler = new VectorAssembler()
+  .setInputCols(Array(
+    "age", "income", "numChildren", "totalSpent", "numOrders", 
+    "avgOrderValue", "daysSinceLastOrder", "educationVec", 
+    "maritalVec", "categoryVec"
+  ))
+  .setOutputCol("features")
+
+println("Pipeline de feature engineering configuré")</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- ML Pipelines -->
+                        <section id="ml-pipelines" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-project-diagram me-2"></i>
+                                ML Pipelines - Automatisation complète
+                            </h2>
+                            
+                            <div class="concept-card pipeline">
+                                <div class="concept-title">
+                                    <i class="fas fa-project-diagram"></i>
+                                    Pipelines ML industriels
+                                </div>
+                                <p>
+                                    Les Pipelines MLlib automatisent la chaîne complète : preprocessing, 
+                                    feature engineering, entraînement, évaluation et déploiement.
+                                </p>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-cogs me-2"></i>Pipeline complet de classification
+                                </div>
+                                <pre><code class="language-scala">// === CONSTRUCTION DU PIPELINE ===
+
+// Création d'une variable binaire de churn (seuil à 0.6)
+val dataWithChurnLabel = customersDF
+  .withColumn("churn", when($"churnRisk" > 0.6, 1.0).otherwise(0.0))
+
+// Split train/test
+val Array(trainingData, testData) = dataWithChurnLabel
+  .randomSplit(Array(0.8, 0.2), seed = 42)
+
+// Cache pour performance
+trainingData.cache()
+testData.cache()
+
+println(s"Training set: ${trainingData.count()} clients")
+println(s"Test set: ${testData.count()} clients")
+
+// Distribution des classes
+println("Distribution churn dans training set:")
+trainingData.groupBy("churn").count().show()
+
+// === MODÈLES DE CLASSIFICATION ===
+
+// 1. Random Forest
+val rf = new RandomForestClassifier()
+  .setLabelCol("churn")
+  .setFeaturesCol("scaledFeatures")
+  .setNumTrees(100)
+  .setMaxDepth(10)
+  .setMinInstancesPerNode(5)
+  .setSeed(42)
+
+// 2. Logistic Regression
+val lr = new LogisticRegression()
+  .setLabelCol("churn")
+  .setFeaturesCol("scaledFeatures")
+  .setMaxIter(100)
+  .setRegParam(0.01)
+  .setElasticNetParam(0.5)
+
+// 3. Gradient Boosted Trees
+val gbt = new GBTClassifier()
+  .setLabelCol("churn")
+  .setFeaturesCol("scaledFeatures")
+  .setMaxIter(50)
+  .setMaxDepth(8)
+  .setMinInstancesPerNode(10)
+
+// === CONSTRUCTION DES PIPELINES ===
+
+// Pipeline Random Forest
+val rfPipeline = new Pipeline()
+  .setStages(Array(
+    educationIndexer, maritalIndexer, categoryIndexer,
+    educationEncoder, maritalEncoder, categoryEncoder,
+    assembler, scaler, rf
+  ))
+
+// Pipeline Logistic Regression
+val lrPipeline = new Pipeline()
+  .setStages(Array(
+    educationIndexer, maritalIndexer, categoryIndexer,
+    educationEncoder, maritalEncoder, categoryEncoder,
+    assembler, scaler, lr
+  ))
+
+// Pipeline GBT
+val gbtPipeline = new Pipeline()
+  .setStages(Array(
+    educationIndexer, maritalIndexer, categoryIndexer,
+    educationEncoder, maritalEncoder, categoryEncoder,
+    assembler, scaler, gbt
+  ))
+
+// === ENTRAÎNEMENT DES MODÈLES ===
+
+println("=== ENTRAÎNEMENT DES MODÈLES ===")
+
+val startTime = System.currentTimeMillis()
+
+// Entraînement Random Forest
+val rfModel = rfPipeline.fit(trainingData)
+val rfTime = System.currentTimeMillis() - startTime
+println(f"Random Forest entraîné en ${rfTime}ms")
+
+// Entraînement Logistic Regression
+val lrStartTime = System.currentTimeMillis()
+val lrModel = lrPipeline.fit(trainingData)
+val lrTime = System.currentTimeMillis() - lrStartTime
+println(f"Logistic Regression entraînée en ${lrTime}ms")
+
+// Entraînement GBT
+val gbtStartTime = System.currentTimeMillis()
+val gbtModel = gbtPipeline.fit(trainingData)
+val gbtTime = System.currentTimeMillis() - gbtStartTime
+println(f"GBT entraîné en ${gbtTime}ms")
+
+// === PRÉDICTIONS ===
+
+val rfPredictions = rfModel.transform(testData)
+val lrPredictions = lrModel.transform(testData)
+val gbtPredictions = gbtModel.transform(testData)
+
+// === ÉVALUATION DES MODÈLES ===
+
+val evaluator = new BinaryClassificationEvaluator()
+  .setLabelCol("churn")
+  .setRawPredictionCol("rawPrediction")
+  .setMetricName("areaUnderROC")
+
+val multiEvaluator = new MulticlassClassificationEvaluator()
+  .setLabelCol("churn")
+  .setPredictionCol("prediction")
+
+// Calcul des métriques
+val rfAUC = evaluator.evaluate(rfPredictions)
+val rfAccuracy = multiEvaluator.setMetricName("accuracy").evaluate(rfPredictions)
+val rfPrecision = multiEvaluator.setMetricName("weightedPrecision").evaluate(rfPredictions)
+val rfRecall = multiEvaluator.setMetricName("weightedRecall").evaluate(rfPredictions)
+
+val lrAUC = evaluator.evaluate(lrPredictions)
+val lrAccuracy = multiEvaluator.setMetricName("accuracy").evaluate(lrPredictions)
+
+val gbtAUC = evaluator.evaluate(gbtPredictions)
+val gbtAccuracy = multiEvaluator.setMetricName("accuracy").evaluate(gbtPredictions)
+
+// Résultats comparatifs
+println("=== RÉSULTATS COMPARATIFS ===")
+println(f"Random Forest - AUC: $rfAUC%.4f, Accuracy: $rfAccuracy%.4f")
+println(f"Logistic Regression - AUC: $lrAUC%.4f, Accuracy: $lrAccuracy%.4f") 
+println(f"GBT - AUC: $gbtAUC%.4f, Accuracy: $gbtAccuracy%.4f")
+
+// Feature importance (Random Forest)
+val rfClassifier = rfModel.stages.last.asInstanceOf[RandomForestClassificationModel]
+val featureImportances = rfClassifier.featureImportances.toArray.zipWithIndex
+  .sortBy(-_._1)
+  .take(10)
+
+println("=== TOP 10 FEATURES IMPORTANTES ===")
+featureImportances.foreach { case (importance, idx) =>
+  println(f"Feature $idx: $importance%.4f")
+}</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Real-time ML -->
+                        <section id="real-time-ml" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-rocket me-2"></i>
+                                Machine Learning en temps réel
+                            </h2>
+                            
+                            <div class="concept-card realtime">
+                                <div class="concept-title">
+                                    <i class="fas fa-rocket"></i>
+                                    ML + Streaming = Prédictions temps réel
+                                </div>
+                                <p>
+                                    Combinez MLlib avec Structured Streaming pour des prédictions 
+                                    en temps réel sur des flux de données continus.
+                                </p>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-stream me-2"></i>Pipeline de prédiction temps réel
+                                </div>
+                                <pre><code class="language-scala">// === MODÈLE PRÉ-ENTRAÎNÉ ===
+
+// Utiliser le meilleur modèle (supposons Random Forest)
+val bestModel = rfModel
+println("Modèle sélectionné: Random Forest")
+
+// Sauvegarde du modèle pour réutilisation
+bestModel.write.overwrite().save("models/churn_prediction_rf")
+
+// Chargement d'un modèle sauvegardé
+// val loadedModel = PipelineModel.load("models/churn_prediction_rf")
+
+// === STREAM DE NOUVELLES DONNÉES ===
+
+// Simulation d'un stream de nouveaux clients
+val newCustomerStream = spark.readStream
+  .format("rate")
+  .option("rowsPerSecond", 100)  // 100 nouveaux clients par seconde
+  .option("numPartitions", 4)
+  .load()
+  .select(
+    ($"value" + 50001).cast("int").as("customerId"),
+    (18 + (rand() * 47)).cast("int").as("age"),
+    (25000 + rand() * 100000).as("income"),
+    array(lit("High School"), lit("Bachelor"), lit("Master"), lit("PhD"))
+      .getItem((rand() * 4).cast("int")).as("education"),
+    array(lit("Single"), lit("Married"), lit("Divorced"))
+      .getItem((rand() * 3).cast("int")).as("maritalStatus"),
+    (rand() * 4).cast("int").as("numChildren"),
+    (rand() > 0.5).as("homeOwner"),
+    (rand() * 25000).as("totalSpent"),
+    (1 + rand() * 49).cast("int").as("numOrders"),
+    (20 + rand() * 480).as("avgOrderValue"),
+    (rand() * 365).cast("int").as("daysSinceLastOrder"),
+    array(lit("Electronics"), lit("Clothing"), lit("Books"), lit("Sports"), lit("Home"))
+      .getItem((rand() * 5).cast("int")).as("preferredCategory")
+  )
+
+// === PRÉDICTIONS EN TEMPS RÉEL ===
+
+// Application du modèle sur le stream
+val predictionsStream = bestModel.transform(newCustomerStream)
+  .select(
+    $"customerId",
+    $"age", $"income", $"education", $"totalSpent",
+    $"prediction".as("churn_prediction"),
+    $"probability".getItem(1).as("churn_probability")  // Probabilité de churn
+  )
+
+// Filtrer les clients à haut risque
+val highRiskCustomers = predictionsStream
+  .filter($"churn_probability" > 0.7)  // Seuil d'alerte
+  .withColumn("alert_timestamp", current_timestamp())
+  .withColumn("risk_level", 
+    when($"churn_probability" > 0.9, "CRITICAL")
+    .when($"churn_probability" > 0.8, "HIGH")
+    .otherwise("MEDIUM")
+  )
+
+// === ACTIONS TEMPS RÉEL ===
+
+// 1. Alertes immédiates
+val alertsQuery = highRiskCustomers.writeStream
+  .outputMode("append")
+  .format("console")
+  .option("truncate", false)
+  .trigger(Trigger.ProcessingTime("5 seconds"))
+  .start()
+
+// 2. Sauvegarde pour suivi
+val savePredictions = predictionsStream.writeStream
+  .outputMode("append")
+  .format("delta")  // Format transactionnel
+  .option("path", "output/churn_predictions/")
+  .option("checkpointLocation", "checkpoint/predictions/")
+  .trigger(Trigger.ProcessingTime("30 seconds"))
+  .start()
+
+// 3. Métriques temps réel
+val realtimeMetrics = predictionsStream
+  .withWatermark("current_timestamp", "1 minute")
+  .groupBy(
+    window(current_timestamp(), "5 minutes"),
+    $"churn_prediction"
+  )
+  .agg(
+    count("*").as("count"),
+    avg("churn_probability").as("avg_probability"),
+    max("churn_probability").as("max_probability")
+  )
+
+val metricsQuery = realtimeMetrics.writeStream
+  .outputMode("update")
+  .format("console")
+  .option("truncate", false)
+  .trigger(Trigger.ProcessingTime("10 seconds"))
+  .start()
+
+// === FEEDBACK LOOP ===
+
+// Collecte du feedback pour amélioration continue
+case class CustomerFeedback(
+  customerId: Int,
+  actualChurn: Boolean,
+  predictedChurn: Double,
+  feedbackTimestamp: Long
+)
+
+// Simulation de feedback (dans la réalité, vient du système CRM)
+val feedbackStream = spark.readStream
+  .format("rate")
+  .option("rowsPerSecond", 10)  // 10 retours par seconde
+  .load()
+  .select(
+    ($"value" % 50000 + 1).as("customerId"),
+    (rand() > 0.8).as("actualChurn"),  // 20% de churn réel
+    rand().as("predictedChurn"),
+    $"timestamp".cast("long").as("feedbackTimestamp")
+  )
+
+// Calcul de la dérive du modèle
+val modelDrift = feedbackStream
+  .withWatermark("feedbackTimestamp", "10 minutes")
+  .groupBy(window(to_timestamp($"feedbackTimestamp"), "1 hour"))
+  .agg(
+    count("*").as("total_feedback"),
+    avg(abs($"actualChurn".cast("double") - $"predictedChurn")).as("avg_error"),
+    corr($"actualChurn".cast("double"), $"predictedChurn").as("correlation")
+  )
+  .filter($"avg_error" > 0.3 || $"correlation" < 0.6)  // Seuils de dérive
+
+val driftAlerts = modelDrift.writeStream
+  .outputMode("update")
+  .format("console")
+  .option("truncate", false)
+  .trigger(Trigger.ProcessingTime("1 hour"))
+  .start()
+
+println("Pipeline ML temps réel démarré")
+println("- Prédictions: 100 clients/seconde")
+println("- Alertes: clients à risque > 70%")
+println("- Monitoring: dérive du modèle")</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Projet hands-on -->
+                        <section id="hands-on-projects" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-dumbbell me-2"></i>
+                                Projet hands-on : Détection de fraude temps réel
+                            </h2>
+                            
+                            <div class="exercise-card">
+                                <div class="exercise-header">
+                                    <i class="fas fa-shield-alt me-2"></i>
+                                    Projet final : Système anti-fraude bancaire temps réel
+                                </div>
+                                <div class="exercise-body">
+                                    <div class="explanation-section">
+                                        <h5>Mission : Détecter les fraudes bancaires en temps réel</h5>
+                                        <p><strong>Contexte :</strong> Créer un système complet de détection de fraude qui analyse les transactions bancaires en temps réel avec Kafka + Spark Streaming + MLlib.</p>
+                                        
+                                        <h6>Architecture du système :</h6>
+                                        <ol>
+                                            <li><strong>Ingestion</strong> : Transactions depuis Kafka</li>
+                                            <li><strong>Feature Engineering</strong> : Enrichissement temps réel</li>
+                                            <li><strong>Détection ML</strong> : Modèle de classification</li>
+                                            <li><strong>Actions</strong> : Alertes, blocage automatique</li>
+                                        </ol>
+
+                                        <h6>Défis techniques :</h6>
+                                        <ul>
+                                            <li>Latence < 100ms par transaction</li>
+                                            <li>Précision > 95% (minimiser faux positifs)</li>
+                                            <li>Gestion de 10K+ transactions/seconde</li>
+                                            <li>Adaptation aux nouveaux patterns de fraude</li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="answer-section">
+                                        <h5><i class="fas fa-code me-2"></i>Solution complète anti-fraude</h5>
+                                        <div class="code-block">
+                                            <pre><code class="language-scala">// === SYSTÈME ANTI-FRAUDE COMPLET ===
+
+object FraudDetectionSystem {
+  
+  case class Transaction(
+    transactionId: String,
+    accountId: String,
+    cardId: String,
+    amount: Double,
+    merchant: String,
+    merchantCategory: String,
+    location: String,
+    timestamp: Long,
+    channel: String  // ATM, Online, POS
+  )
+  
+  case class EnrichedTransaction(
+    transactionId: String,
+    accountId: String,
+    amount: Double,
+    merchant: String,
+    merchantCategory: String,
+    location: String,
+    timestamp: Long,
+    channel: String,
+    // Features enrichies
+    hourOfDay: Int,
+    dayOfWeek: Int,
+    isWeekend: Boolean,
+    isNight: Boolean,
+    amountZScore: Double,
+    frequencyLast1H: Long,
+    frequencyLast24H: Long,
+    avgAmountLast7D: Double,
+    locationRisk: Double,
+    merchantRisk: Double,
+    // Target
+    isFraud: Double
+  )
+  
+  def main(args: Array[String]): Unit = {
+    
+    // === CONFIGURATION SYSTÈME ===
+    
+    val spark = SparkSession.builder()
+      .appName("Real-time Fraud Detection")
+      .master("local[*]")
+      .config("spark.sql.adaptive.enabled", "true")
+      .config("spark.sql.streaming.checkpointLocation", "/tmp/fraud-checkpoint")
+      .getOrCreate()
+    
+    import spark.implicits._
+    
+    // === INGESTION KAFKA ===
+    
+    val kafkaStream = spark.readStream
+      .format("kafka")
+      .option("kafka.bootstrap.servers", "localhost:9092")
+      .option("subscribe", "bank_transactions")
+      .option("startingOffsets", "latest")
+      .option("kafka.max.poll.records", "1000")
+      .load()
+    
+    // Schema des transactions
+    val transactionSchema = StructType(Array(
+      StructField("transactionId", StringType, false),
+      StructField("accountId", StringType, false),
+      StructField("cardId", StringType, false),
+      StructField("amount", DoubleType, false),
+      StructField("merchant", StringType, false),
+      StructField("merchantCategory", StringType, false),
+      StructField("location", StringType, false),
+      StructField("timestamp", LongType, false),
+      StructField("channel", StringType, false)
+    ))
+    
+    // Parsing des messages
+    val transactions = kafkaStream
+      .select(from_json($"value".cast("string"), transactionSchema).as("transaction"))
+      .select($"transaction.*")
+      .as[Transaction]
+    
+    // === FEATURE ENGINEERING TEMPS RÉEL ===
+    
+    def enrichTransactions(df: DataFrame): DataFrame = {
+      df.withColumn("transaction_time", to_timestamp($"timestamp" / 1000))
+        .withColumn("hourOfDay", hour($"transaction_time"))
+        .withColumn("dayOfWeek", dayofweek($"transaction_time"))
+        .withColumn("isWeekend", $"dayOfWeek".isin(1, 7))
+        .withColumn("isNight", $"hourOfDay" < 6 || $"hourOfDay" > 22)
+    }
+    
+    val enrichedTransactions = enrichTransactions(transactions.toDF())
+    
+    // === MODÈLE DE DÉTECTION PRÉ-ENTRAÎNÉ ===
+    
+    // Simulation d'un modèle ML pré-entraîné
+    // Dans la réalité, chargé depuis un modèle sauvegardé
+    def detectFraud(transaction: EnrichedTransaction): (Double, String, Double) = {
+      
+      // Score de risque basé sur des règles business
+      var riskScore = 0.0
+      var reasons = List.empty[String]
+      
+      // Règle 1: Montant anormalement élevé
+      if (transaction.amount > 5000) {
+        riskScore += 0.3
+        reasons = "High amount" :: reasons
+      }
+      
+      // Règle 2: Transaction nocturne
+      if (transaction.isNight) {
+        riskScore += 0.2
+        reasons = "Night transaction" :: reasons
+      }
+      
+      // Règle 3: Catégorie marchande à risque
+      if (Set("Gambling", "Cash Advance", "ATM").contains(transaction.merchantCategory)) {
+        riskScore += 0.25
+        reasons = "High-risk category" :: reasons
+      }
+      
+      // Règle 4: Fréquence anormale
+      if (transaction.frequencyLast1H > 5) {
+        riskScore += 0.35
+        reasons = "High frequency" :: reasons
+      }
+      
+      // Règle 5: Nouveau lieu géographique
+      if (transaction.locationRisk > 0.8) {
+        riskScore += 0.2
+        reasons = "Unusual location" :: reasons
+      }
+      
+      val finalScore = math.min(riskScore, 1.0)
+      val fraudPrediction = if (finalScore > 0.7) 1.0 else 0.0
+      
+      (fraudPrediction, reasons.mkString(", "), finalScore)
+    }
+    
+    // UDF pour la détection
+    val fraudDetectionUDF = udf((row: Row) => {
+      // Convertir Row en EnrichedTransaction (simplifié)
+      val enriched = EnrichedTransaction(
+        transactionId = row.getAs[String]("transactionId"),
+        accountId = row.getAs[String]("accountId"),
+        amount = row.getAs[Double]("amount"),
+        merchant = row.getAs[String]("merchant"),
+        merchantCategory = row.getAs[String]("merchantCategory"),
+        location = row.getAs[String]("location"),
+        timestamp = row.getAs[Long]("timestamp"),
+        channel = row.getAs[String]("channel"),
+        hourOfDay = row.getAs[Int]("hourOfDay"),
+        dayOfWeek = row.getAs[Int]("dayOfWeek"),
+        isWeekend = row.getAs[Boolean]("isWeekend"),
+        isNight = row.getAs[Boolean]("isNight"),
+        amountZScore = 0.0,  // Calculé en amont
+        frequencyLast1H = scala.util.Random.nextInt(10),  // Simulé
+        frequencyLast24H = scala.util.Random.nextInt(50), // Simulé
+        avgAmountLast7D = 200 + scala.util.Random.nextDouble() * 800,
+        locationRisk = scala.util.Random.nextDouble(),
+        merchantRisk = scala.util.Random.nextDouble(),
+        isFraud = 0.0  // À prédire
+      )
+      
+      detectFraud(enriched)
+    })
+    
+    // === DÉTECTION EN TEMPS RÉEL ===
+    
+    val fraudDetections = enrichedTransactions
+      .withColumn("detection_result", fraudDetectionUDF(struct($"*")))
+      .withColumn("is_fraud", $"detection_result._1")
+      .withColumn("fraud_reasons", $"detection_result._2")  
+      .withColumn("fraud_score", $"detection_result._3")
+      .drop("detection_result")
+    
+    // === ACTIONS AUTOMATIQUES ===
+    
+    // 1. Alertes immédiates pour fraudes détectées
+    val fraudAlerts = fraudDetections
+      .filter($"is_fraud" === 1.0)
+      .select(
+        $"transactionId",
+        $"accountId", 
+        $"amount",
+        $"merchant",
+        $"location",
+        $"fraud_score",
+        $"fraud_reasons",
+        current_timestamp().as("alert_timestamp")
+      )
+    
+    val alertsQuery = fraudAlerts.writeStream
+      .outputMode("append")
+      .format("console")
+      .option("truncate", false)
+      .trigger(Trigger.ProcessingTime("1 second"))  // Latence très faible
+      .start()
+    
+    // 2. Blocage automatique des cartes (simulation)
+    val cardBlocking = fraudAlerts
+      .filter($"fraud_score" > 0.9)  // Score très élevé
+      .select($"cardId", $"transactionId", $"fraud_score")
+      .withColumn("action", lit("BLOCK_CARD"))
+      .withColumn("timestamp", current_timestamp())
+    
+    // 3. Sauvegarde pour audit et amélioration
+    val auditLog = fraudDetections.writeStream
+      .outputMode("append")
+      .format("delta")
+      .option("path", "output/fraud_audit/")
+      .partitionBy("year", "month", "day")  // Partition par date
+      .option("checkpointLocation", "checkpoint/fraud_audit/")
+      .trigger(Trigger.ProcessingTime("30 seconds"))
+      .start()
+    
+    // === MÉTRIQUES TEMPS RÉEL ===
+    
+    val fraudMetrics = fraudDetections
+      .withWatermark("transaction_time", "5 minutes")
+      .groupBy(
+        window($"transaction_time", "1 minute"),
+        $"is_fraud"
+      )
+      .agg(
+        count("*").as("transaction_count"),
+        avg("amount").as("avg_amount"),
+        avg("fraud_score").as("avg_fraud_score"),
+        sum("amount").as("total_amount")
+      )
+      .withColumn("fraud_rate", $"transaction_count" / sum("transaction_count").over())
+    
+    val metricsQuery = fraudMetrics.writeStream
+      .outputMode("update") 
+      .format("console")
+      .option("truncate", false)
+      .trigger(Trigger.ProcessingTime("10 seconds"))
+      .start()
+    
+    // === DASHBOARD TEMPS RÉEL ===
+    
+    // Simulation d'intégration avec un dashboard
+    val dashboardMetrics = fraudDetections
+      .withWatermark("transaction_time", "2 minutes")
+      .groupBy(window($"transaction_time", "30 seconds"))
+      .agg(
+        count("*").as("total_transactions"),
+        sum("is_fraud").as("fraud_count"),
+        avg("fraud_score").as("avg_risk_score"),
+        sum("amount").as("total_volume"),
+        sum(when($"is_fraud" === 1.0, $"amount").otherwise(0)).as("blocked_amount")
+      )
+      .withColumn("fraud_percentage", $"fraud_count" / $"total_transactions" * 100)
+      .withColumn("blocked_percentage", $"blocked_amount" / $"total_volume" * 100)
+    
+    // === RÉSUMÉ SYSTÈME ===
+    
+    println("=== SYSTÈME ANTI-FRAUDE DÉMARRÉ ===")
+    println("• Latence cible: < 100ms par transaction")
+    println("• Débit: 10,000+ transactions/seconde")  
+    println("• Précision cible: > 95%")
+    println("• Actions: Alertes + Blocage automatique")
+    println("• Monitoring: Métriques temps réel")
+    
+    // Attente de la terminaison
+    alertsQuery.awaitTermination()
+  }
+}
+
+// Démarrage du système
+FraudDetectionSystem.main(Array())</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Navigation entre modules -->
+                        <div class="navigation-buttons">
+                            <div class="row">
+                                <div class="col-6">
+                                    <a href="Module 6 - Approfondissement en Programmation Fonctionnelle.html" class="btn btn-outline-primary">
+                                        <i class="fas fa-arrow-left me-2"></i>
+                                        Module 6 - Programmation Fonctionnelle
+                                    </a>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <a href="Module 8 - Introduction à Databricks et SparkSQL sur le Cloud.html" class="btn btn-primary">
+                                        Module 8 - Cloud & Databricks
+                                        <i class="fas fa-arrow-right ms-2"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bouton de retour en haut -->
+    <button class="scroll-to-top btn" id="scrollToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/scala.min.js"></script>
+    
+    <script>
+        hljs.highlightAll();
+        
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.style.display = 'flex';
+            } else {
+                scrollToTopBtn.style.display = 'none';
+            }
+        });
+        
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        document.querySelectorAll('.toc-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    const offsetTop = targetElement.offsetTop - 100;
+                    window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+                }
+            });
+        });
+        
+        function updateActiveLink() {
+            const sections = document.querySelectorAll('section[id]');
+            const tocLinks = document.querySelectorAll('.toc-link');
+            
+            let activeSection = null;
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 150 && rect.bottom >= 150) {
+                    activeSection = section;
+                }
+            });
+            
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (activeSection && link.getAttribute('href') === '#' + activeSection.id) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', updateActiveLink);
+        updateActiveLink();
+        
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.section, .concept-card').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>

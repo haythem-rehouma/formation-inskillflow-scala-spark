@@ -1,0 +1,1638 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 2 - Mettre en place l'environnement pour Scala - Cours Scala & Apache Spark</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Highlight.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    
+    <!-- Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #dc143c;
+            --secondary-color: #2563eb;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --info-color: #0284c7;
+            --dark-color: #1f2937;
+            --light-bg: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-muted: #64748b;
+            --question-bg: #f1f5f9;
+            --answer-bg: #dcfce7;
+            --explanation-bg: #fef3c7;
+            --code-bg: #0f172a;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 100px;
+            height: calc(100vh - 120px);
+            overflow-y: auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .toc-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .toc-link {
+            display: block;
+            padding: 0.5rem 0;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-left: 3px solid transparent;
+            padding-left: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .toc-link:hover, .toc-link.active {
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+            background-color: rgba(220, 20, 60, 0.05);
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .content-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .content-header h1 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .content-header .lead {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .content-body {
+            padding: 2rem;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .install-card {
+            background: var(--light-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--info-color);
+            transition: all 0.3s ease;
+        }
+
+        .install-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .install-card.java { border-left-color: #f59e0b; }
+        .install-card.scala { border-left-color: #dc143c; }
+        .install-card.sbt { border-left-color: #10b981; }
+        .install-card.ide { border-left-color: #8b5cf6; }
+        .install-card.spark { border-left-color: #f97316; }
+
+        .install-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .os-tabs {
+            display: flex;
+            background: white;
+            border-radius: 8px;
+            padding: 0.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .os-tab {
+            flex: 1;
+            text-align: center;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .os-tab.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .os-tab:hover:not(.active) {
+            background: var(--light-bg);
+        }
+
+        .os-content {
+            display: none;
+        }
+
+        .os-content.active {
+            display: block;
+        }
+
+        .checklist {
+            background: var(--success-color);
+            background: linear-gradient(135deg, rgba(5, 150, 105, 0.1), rgba(2, 132, 199, 0.1));
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--success-color);
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .checklist-item:hover {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .checklist-item input[type="checkbox"] {
+            margin-right: 1rem;
+            transform: scale(1.2);
+        }
+
+        .warning-box {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid #ef4444;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+
+        .info-box {
+            background: rgba(2, 132, 199, 0.1);
+            border-left: 4px solid var(--info-color);
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+
+        .success-box {
+            background: rgba(5, 150, 105, 0.1);
+            border-left: 4px solid var(--success-color);
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+
+        .code-block {
+            background: var(--code-bg);
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 1rem 0;
+            border: 1px solid #334155;
+        }
+
+        .code-header {
+            background: #1e293b;
+            padding: 0.75rem 1rem;
+            color: #94a3b8;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-bottom: 1px solid #334155;
+        }
+
+        pre {
+            margin: 0;
+            padding: 1rem;
+            background: var(--code-bg);
+            color: #e2e8f0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(220, 20, 60, 0.1);
+            color: var(--primary-color);
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        .question-accordion .accordion-item {
+            border: 1px solid var(--border-color);
+            margin-bottom: 1rem;
+            border-radius: 8px !important;
+            overflow: hidden;
+        }
+
+        .question-header {
+            background: var(--question-bg);
+            border: none;
+            color: var(--dark-color);
+            font-weight: 600;
+            padding: 1.25rem 1.5rem;
+        }
+
+        .question-header:not(.collapsed) {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .question-header::after {
+            background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>");
+        }
+
+        .question-header:not(.collapsed)::after {
+            background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>");
+        }
+
+        .answer-section {
+            background: var(--answer-bg);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 6px;
+            border-left: 4px solid var(--success-color);
+        }
+
+        .explanation-section {
+            background: var(--explanation-bg);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 6px;
+            border-left: 4px solid var(--warning-color);
+        }
+
+        .badge-concept {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            font-weight: 500;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(220, 20, 60, 0.3);
+        }
+
+        .navigation-buttons {
+            background: var(--light-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(220, 20, 60, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(220, 20, 60, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: static;
+                margin-bottom: 2rem;
+                height: auto;
+            }
+            
+            .content-header {
+                padding: 1.5rem;
+            }
+            
+            .content-body {
+                padding: 1.5rem;
+            }
+
+            .os-tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-code me-2"></i>
+                Cours Scala & Spark
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="fas fa-home me-1"></i>Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-book me-1"></i>Modules
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="Module 1 - Introduction aux Paradigmes de Programmation.html">Module 1 - Paradigmes</a></li>
+                            <li><a class="dropdown-item" href="Module 2 - Mettre en place l'environnement pour Scala.html">Module 2 - Environnement</a></li>
+                            <li><a class="dropdown-item" href="Module 3 - Introduction à Scala.html">Module 3 - Introduction Scala</a></li>
+                            <li><a class="dropdown-item" href="Module 4 - Fondements théoriques de Spark - RDD, DataFrame, Dataset.html">Module 4 - Fondements Spark</a></li>
+                            <li><a class="dropdown-item" href="Module 5 - Pratique Spark - RDD, DataFrame & Dataset.html">Module 5 - Pratique Spark</a></li>
+                            <li><a class="dropdown-item" href="Module 6 - Approfondissement en Programmation Fonctionnelle.html">Module 6 - Prog. Fonctionnelle</a></li>
+                            <li><a class="dropdown-item" href="Module 7 - Spark Streaming et introduction au Machine Learning.html">Module 7 - Streaming & ML</a></li>
+                            <li><a class="dropdown-item" href="module8.html">Module 8 - Cloud</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid" style="margin-top: 80px;">
+        <div class="row">
+            <!-- Sidebar avec table des matières -->
+            <div class="col-lg-3">
+                <div class="sidebar">
+                    <h5 class="toc-title">
+                        <i class="fas fa-list me-2"></i>
+                        Module 2 - Environnement
+                    </h5>
+                    <div class="toc-content">
+                        <a href="#introduction" class="toc-link">
+                            <i class="fas fa-play-circle me-2"></i>
+                            Introduction
+                        </a>
+                        <a href="#prerequis" class="toc-link">
+                            <i class="fas fa-clipboard-check me-2"></i>
+                            Prérequis système
+                        </a>
+                        <a href="#java-installation" class="toc-link">
+                            <i class="fas fa-coffee me-2"></i>
+                            Installation Java/JDK
+                        </a>
+                        <a href="#scala-installation" class="toc-link">
+                            <i class="fas fa-code me-2"></i>
+                            Installation Scala
+                        </a>
+                        <a href="#sbt-installation" class="toc-link">
+                            <i class="fas fa-tools me-2"></i>
+                            Installation sbt
+                        </a>
+                        <a href="#ide-configuration" class="toc-link">
+                            <i class="fas fa-laptop-code me-2"></i>
+                            Configuration IDE
+                        </a>
+                        <a href="#premier-projet" class="toc-link">
+                            <i class="fas fa-rocket me-2"></i>
+                            Premier projet
+                        </a>
+                        <a href="#spark-installation" class="toc-link">
+                            <i class="fas fa-fire me-2"></i>
+                            Installation Spark
+                        </a>
+                        <a href="#verification" class="toc-link">
+                            <i class="fas fa-check-circle me-2"></i>
+                            Vérification
+                        </a>
+                        <a href="#depannage" class="toc-link">
+                            <i class="fas fa-question-circle me-2"></i>
+                            Dépannage
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenu principal -->
+            <div class="col-lg-9">
+                <div class="main-content">
+                    <!-- En-tête -->
+                    <div class="content-header">
+                        <h1>
+                            <i class="fas fa-tools me-3"></i>
+                            Module 2 - Mettre en place l'environnement pour Scala
+                        </h1>
+                        <p class="lead mb-0">
+                            Configurez un environnement de développement complet pour Scala et Apache Spark
+                        </p>
+                        <span class="badge badge-concept mt-2">Module 2</span>
+                    </div>
+
+                    <!-- Corps du contenu -->
+                    <div class="content-body">
+                        
+                        <!-- Introduction -->
+                        <section id="introduction" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-play-circle me-2"></i>
+                                Introduction
+                            </h2>
+                            <p class="lead">
+                                Un environnement de développement bien configuré est la clé du succès pour programmer en Scala et utiliser Apache Spark. 
+                                Ce module vous guidera étape par étape pour installer et configurer tous les outils nécessaires.
+                            </p>
+                            
+                            <div class="info-box">
+                                <h6><i class="fas fa-info-circle me-2"></i>Ce que vous allez installer</h6>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <ul class="mb-0">
+                                            <li><strong>Java Development Kit (JDK)</strong> : Base pour Scala</li>
+                                            <li><strong>Scala</strong> : Le langage de programmation</li>
+                                            <li><strong>sbt</strong> : Outil de build pour Scala</li>
+                                            <li><strong>IDE</strong> : IntelliJ IDEA ou VS Code</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <ul class="mb-0">
+                                            <li><strong>Apache Spark</strong> : Framework Big Data</li>
+                                            <li><strong>Plugins</strong> : Extensions pour l'IDE</li>
+                                            <li><strong>Git</strong> : Contrôle de version</li>
+                                            <li><strong>Outils de test</strong> : Validation de l'installation</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="warning-box">
+                                <h6><i class="fas fa-exclamation-triangle me-2"></i>Temps d'installation estimé</h6>
+                                <p class="mb-0">
+                                    Prévoyez <strong>1 à 2 heures</strong> pour une installation complète, selon votre système et votre connexion Internet. 
+                                    Suivez les étapes dans l'ordre pour éviter les problèmes de compatibilité.
+                                </p>
+                            </div>
+                        </section>
+
+                        <!-- Prérequis -->
+                        <section id="prerequis" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-clipboard-check me-2"></i>
+                                Prérequis système
+                            </h2>
+                            
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="install-card">
+                                        <div class="install-title">
+                                            <i class="fab fa-windows"></i>
+                                            Windows
+                                        </div>
+                                        <ul class="mb-0">
+                                            <li>Windows 10/11</li>
+                                            <li>8 GB RAM minimum</li>
+                                            <li>5 GB espace disque</li>
+                                            <li>Droits administrateur</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="install-card">
+                                        <div class="install-title">
+                                            <i class="fab fa-apple"></i>
+                                            macOS
+                                        </div>
+                                        <ul class="mb-0">
+                                            <li>macOS 10.14+</li>
+                                            <li>8 GB RAM minimum</li>
+                                            <li>5 GB espace disque</li>
+                                            <li>Homebrew recommandé</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="install-card">
+                                        <div class="install-title">
+                                            <i class="fab fa-linux"></i>
+                                            Linux
+                                        </div>
+                                        <ul class="mb-0">
+                                            <li>Ubuntu 18.04+</li>
+                                            <li>8 GB RAM minimum</li>
+                                            <li>5 GB espace disque</li>
+                                            <li>Curl et wget installés</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="checklist">
+                                <h6><i class="fas fa-list-check me-2"></i>Checklist avant installation</h6>
+                                <div class="checklist-item">
+                                    <input type="checkbox" id="check1">
+                                    <label for="check1">Connexion Internet stable</label>
+                                </div>
+                                <div class="checklist-item">
+                                    <input type="checkbox" id="check2">
+                                    <label for="check2">Espace disque suffisant (minimum 5 GB libres)</label>
+                                </div>
+                                <div class="checklist-item">
+                                    <input type="checkbox" id="check3">
+                                    <label for="check3">Droits administrateur/sudo</label>
+                                </div>
+                                <div class="checklist-item">
+                                    <input type="checkbox" id="check4">
+                                    <label for="check4">Antivirus configuré pour autoriser les téléchargements</label>
+                                </div>
+                                <div class="checklist-item">
+                                    <input type="checkbox" id="check5">
+                                    <label for="check5">Fermer tous les programmes non essentiels</label>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Installation Java -->
+                        <section id="java-installation" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-coffee me-2"></i>
+                                Installation Java Development Kit (JDK)
+                            </h2>
+                            
+                            <div class="install-card java">
+                                <div class="install-title">
+                                    <i class="fas fa-coffee"></i>
+                                    Java JDK 11 ou 17 (Recommandé)
+                                </div>
+                                <p>
+                                    Scala s'exécute sur la JVM (Java Virtual Machine). Nous recommandons OpenJDK 11 ou 17 
+                                    pour une compatibilité optimale avec Scala et Spark.
+                                </p>
+                            </div>
+
+                            <div class="os-tabs">
+                                <div class="os-tab active" data-os="windows">
+                                    <i class="fab fa-windows me-2"></i>Windows
+                                </div>
+                                <div class="os-tab" data-os="macos">
+                                    <i class="fab fa-apple me-2"></i>macOS
+                                </div>
+                                <div class="os-tab" data-os="linux">
+                                    <i class="fab fa-linux me-2"></i>Linux
+                                </div>
+                            </div>
+
+                            <!-- Windows -->
+                            <div class="os-content active" id="windows-java">
+                                <h6>Installation sur Windows</h6>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <i class="fas fa-download me-2"></i>Option 1: Téléchargement manuel
+                                    </div>
+                                    <pre><code># 1. Aller sur https://adoptium.net/
+# 2. Choisir "Temurin 17 (LTS)"
+# 3. Sélectionner Windows x64
+# 4. Télécharger le fichier .msi
+# 5. Exécuter l'installeur en tant qu'administrateur</code></pre>
+                                </div>
+
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <i class="fas fa-terminal me-2"></i>Option 2: Avec Chocolatey
+                                    </div>
+                                    <pre><code class="language-powershell"># Installer Chocolatey si pas déjà fait
+Set-ExecutionPolicy Bypass -Scope Process -Force
+iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+
+# Installer OpenJDK 17
+choco install openjdk17</code></pre>
+                                </div>
+
+                                <div class="info-box">
+                                    <h6>Configuration des variables d'environnement</h6>
+                                    <ol>
+                                        <li>Ouvrir "Paramètres système avancés"</li>
+                                        <li>Cliquer sur "Variables d'environnement"</li>
+                                        <li>Ajouter <code>JAVA_HOME</code> pointant vers le dossier d'installation JDK</li>
+                                        <li>Ajouter <code>%JAVA_HOME%\bin</code> au PATH</li>
+                                    </ol>
+                                </div>
+                            </div>
+
+                            <!-- macOS -->
+                            <div class="os-content" id="macos-java">
+                                <h6>Installation sur macOS</h6>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <i class="fas fa-terminal me-2"></i>Avec Homebrew (Recommandé)
+                                    </div>
+                                    <pre><code class="language-bash"># Installer Homebrew si pas déjà fait
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Installer OpenJDK 17
+brew install openjdk@17
+
+# Créer un lien symbolique
+sudo ln -sfn /usr/local/opt/openjdk@17/libexec/openjdk.jdk \
+     /Library/Java/JavaVirtualMachines/openjdk-17.jdk</code></pre>
+                                </div>
+
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <i class="fas fa-cog me-2"></i>Configuration du profil shell
+                                    </div>
+                                    <pre><code class="language-bash"># Ajouter à ~/.zshrc ou ~/.bash_profile
+echo 'export JAVA_HOME=/usr/local/opt/openjdk@17' >> ~/.zshrc
+echo 'export PATH=$JAVA_HOME/bin:$PATH' >> ~/.zshrc
+
+# Recharger le profil
+source ~/.zshrc</code></pre>
+                                </div>
+                            </div>
+
+                            <!-- Linux -->
+                            <div class="os-content" id="linux-java">
+                                <h6>Installation sur Linux (Ubuntu/Debian)</h6>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <i class="fas fa-terminal me-2"></i>Installation avec apt
+                                    </div>
+                                    <pre><code class="language-bash"># Mettre à jour la liste des paquets
+sudo apt update
+
+# Installer OpenJDK 17
+sudo apt install openjdk-17-jdk
+
+# Vérifier l'installation
+java -version
+javac -version</code></pre>
+                                </div>
+
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <i class="fas fa-cog me-2"></i>Configuration des variables d'environnement
+                                    </div>
+                                    <pre><code class="language-bash"># Ajouter au fichier ~/.bashrc
+echo 'export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64' >> ~/.bashrc
+echo 'export PATH=$JAVA_HOME/bin:$PATH' >> ~/.bashrc
+
+# Recharger le profil
+source ~/.bashrc</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="success-box">
+                                <h6><i class="fas fa-check-circle me-2"></i>Vérification de l'installation Java</h6>
+                                <div class="code-block">
+                                    <div class="code-header">Test de l'installation</div>
+                                    <pre><code class="language-bash"># Vérifier la version Java
+java -version
+
+# Vérifier le compilateur
+javac -version
+
+# Vérifier les variables d'environnement
+echo $JAVA_HOME</code></pre>
+                                </div>
+                                <p class="mb-0">Vous devriez voir une version Java 17.x.x s'afficher.</p>
+                            </div>
+                        </section>
+
+                        <!-- Installation Scala -->
+                        <section id="scala-installation" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-code me-2"></i>
+                                Installation Scala
+                            </h2>
+                            
+                            <div class="install-card scala">
+                                <div class="install-title">
+                                    <i class="fas fa-code"></i>
+                                    Scala 2.13.x (Stable)
+                                </div>
+                                <p>
+                                    Nous installons Scala 2.13, la version stable recommandée pour Apache Spark. 
+                                    L'installation inclut le compilateur Scala et le REPL interactif.
+                                </p>
+                            </div>
+
+                            <div class="os-tabs">
+                                <div class="os-tab active" data-os="windows-scala">
+                                    <i class="fab fa-windows me-2"></i>Windows
+                                </div>
+                                <div class="os-tab" data-os="macos-scala">
+                                    <i class="fab fa-apple me-2"></i>macOS
+                                </div>
+                                <div class="os-tab" data-os="linux-scala">
+                                    <i class="fab fa-linux me-2"></i>Linux
+                                </div>
+                            </div>
+
+                            <!-- Windows Scala -->
+                            <div class="os-content active" id="windows-scala">
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <i class="fas fa-terminal me-2"></i>Installation avec Chocolatey
+                                    </div>
+                                    <pre><code class="language-powershell"># Installer Scala
+choco install scala
+
+# Ou téléchargement manuel depuis https://www.scala-lang.org/download/</code></pre>
+                                </div>
+                            </div>
+
+                            <!-- macOS Scala -->
+                            <div class="os-content" id="macos-scala">
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <i class="fas fa-terminal me-2"></i>Installation avec Homebrew
+                                    </div>
+                                    <pre><code class="language-bash"># Installer Scala
+brew install scala
+
+# Installer également Coursier (gestionnaire d'artefacts Scala)
+brew install coursier/formulas/coursier</code></pre>
+                                </div>
+                            </div>
+
+                            <!-- Linux Scala -->
+                            <div class="os-content" id="linux-scala">
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <i class="fas fa-terminal me-2"></i>Installation avec Coursier (Recommandé)
+                                    </div>
+                                    <pre><code class="language-bash"># Télécharger et installer Coursier
+curl -fL https://github.com/coursier/launchers/raw/master/cs-x86_64-pc-linux.gz | gzip -d > cs
+chmod +x cs
+sudo mv cs /usr/local/bin/
+
+# Installer Scala via Coursier
+cs install scala:2.13.12
+cs install scalac:2.13.12</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="success-box">
+                                <h6><i class="fas fa-check-circle me-2"></i>Test de l'installation Scala</h6>
+                                <div class="code-block">
+                                    <div class="code-header">Vérification</div>
+                                    <pre><code class="language-bash"># Vérifier la version Scala
+scala -version
+
+# Lancer le REPL Scala
+scala
+
+# Dans le REPL, tester:
+scala> println("Hello, Scala!")
+scala> val x = 42
+scala> :quit</code></pre>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Installation sbt -->
+                        <section id="sbt-installation" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-tools me-2"></i>
+                                Installation sbt (Scala Build Tool)
+                            </h2>
+                            
+                            <div class="install-card sbt">
+                                <div class="install-title">
+                                    <i class="fas fa-tools"></i>
+                                    sbt - Outil de build officiel
+                                </div>
+                                <p>
+                                    sbt est l'outil de build standard pour Scala. Il gère les dépendances, 
+                                    compile le code, exécute les tests et crée les packages distribables.
+                                </p>
+                            </div>
+
+                            <div class="os-tabs">
+                                <div class="os-tab active" data-os="windows-sbt">
+                                    <i class="fab fa-windows me-2"></i>Windows
+                                </div>
+                                <div class="os-tab" data-os="macos-sbt">
+                                    <i class="fab fa-apple me-2"></i>macOS
+                                </div>
+                                <div class="os-tab" data-os="linux-sbt">
+                                    <i class="fab fa-linux me-2"></i>Linux
+                                </div>
+                            </div>
+
+                            <!-- Windows sbt -->
+                            <div class="os-content active" id="windows-sbt">
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <i class="fas fa-terminal me-2"></i>Installation
+                                    </div>
+                                    <pre><code class="language-powershell"># Avec Chocolatey
+choco install sbt
+
+# Ou télécharger le MSI depuis https://www.scala-sbt.org/download.html</code></pre>
+                                </div>
+                            </div>
+
+                            <!-- macOS sbt -->
+                            <div class="os-content" id="macos-sbt">
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <i class="fas fa-terminal me-2"></i>Installation avec Homebrew
+                                    </div>
+                                    <pre><code class="language-bash"># Installer sbt
+brew install sbt</code></pre>
+                                </div>
+                            </div>
+
+                            <!-- Linux sbt -->
+                            <div class="os-content" id="linux-sbt">
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <i class="fas fa-terminal me-2"></i>Installation sur Ubuntu/Debian
+                                    </div>
+                                    <pre><code class="language-bash"># Ajouter le dépôt sbt
+echo "deb https://repo.scala-sbt.org/scalasbt/debian all main" | sudo tee /etc/apt/sources.list.d/sbt.list
+echo "deb https://repo.scala-sbt.org/scalasbt/debian /" | sudo tee /etc/apt/sources.list.d/sbt_old.list
+
+# Ajouter la clé GPG
+curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823" | sudo apt-key add
+
+# Installer sbt
+sudo apt update
+sudo apt install sbt</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="success-box">
+                                <h6><i class="fas fa-check-circle me-2"></i>Test de sbt</h6>
+                                <div class="code-block">
+                                    <div class="code-header">Vérification</div>
+                                    <pre><code class="language-bash"># Vérifier la version sbt
+sbt about
+
+# La première exécution peut prendre du temps (téléchargement des dépendances)</code></pre>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Configuration IDE -->
+                        <section id="ide-configuration" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-laptop-code me-2"></i>
+                                Configuration de l'IDE
+                            </h2>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="install-card ide">
+                                        <div class="install-title">
+                                            <i class="fas fa-lightbulb"></i>
+                                            IntelliJ IDEA (Recommandé)
+                                        </div>
+                                        <p>IDE le plus populaire pour Scala avec excellent support et débogage intégré.</p>
+                                        <a href="#" class="btn btn-primary btn-sm" onclick="showIdeConfig('intellij')">
+                                            <i class="fas fa-cog me-1"></i>Configurer
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="install-card ide">
+                                        <div class="install-title">
+                                            <i class="fas fa-code"></i>
+                                            Visual Studio Code
+                                        </div>
+                                        <p>Éditeur léger avec plugins Scala et support métaux avancé.</p>
+                                        <a href="#" class="btn btn-primary btn-sm" onclick="showIdeConfig('vscode')">
+                                            <i class="fas fa-cog me-1"></i>Configurer
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Configuration IntelliJ -->
+                            <div id="intellij-config" style="display: none;">
+                                <h6>Configuration IntelliJ IDEA</h6>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <i class="fas fa-download me-2"></i>Installation
+                                    </div>
+                                    <pre><code># 1. Télécharger IntelliJ IDEA Community (gratuit)
+#    depuis https://www.jetbrains.com/idea/download/
+# 2. Installer l'application
+# 3. Au premier lancement, installer le plugin Scala:
+#    File -> Settings -> Plugins -> Marketplace -> "Scala"</code></pre>
+                                </div>
+
+                                <div class="info-box">
+                                    <h6>Plugins essentiels pour Scala</h6>
+                                    <ul class="mb-0">
+                                        <li><strong>Scala</strong> : Support officiel Scala</li>
+                                        <li><strong>sbt</strong> : Intégration sbt (souvent inclus)</li>
+                                        <li><strong>Git</strong> : Contrôle de version (inclus)</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Configuration VS Code -->
+                            <div id="vscode-config" style="display: none;">
+                                <h6>Configuration Visual Studio Code</h6>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <i class="fas fa-download me-2"></i>Installation
+                                    </div>
+                                    <pre><code># 1. Télécharger VS Code depuis https://code.visualstudio.com/
+# 2. Installer l'application
+# 3. Installer les extensions Scala</code></pre>
+                                </div>
+
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <i class="fas fa-puzzle-piece me-2"></i>Extensions VS Code pour Scala
+                                    </div>
+                                    <pre><code class="language-bash"># Extensions recommandées (installer depuis l'interface VS Code):
+# - Scala (Metals)
+# - Scala Syntax (official)
+# - GitLens
+# - Bracket Pair Colorizer</code></pre>
+                                </div>
+
+                                <div class="success-box">
+                                    <h6>Configuration Metals</h6>
+                                    <p class="mb-0">
+                                        Metals est le serveur de langue Scala qui fournit l'auto-complétion, 
+                                        la navigation dans le code et le débogage. Il se configure automatiquement 
+                                        lors de l'ouverture d'un projet Scala.
+                                    </p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Premier projet -->
+                        <section id="premier-projet" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-rocket me-2"></i>
+                                Premier projet Scala
+                            </h2>
+                            
+                            <p>Créons un projet Scala simple pour valider notre installation.</p>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-folder me-2"></i>Création du projet
+                                </div>
+                                <pre><code class="language-bash"># Créer un nouveau dossier pour le projet
+mkdir mon-premier-scala
+cd mon-premier-scala
+
+# Initialiser un projet sbt
+sbt new scala/hello-world.g8</code></pre>
+                            </div>
+
+                            <div class="explanation-section">
+                                <h6>Structure du projet généré</h6>
+                                <div class="code-block">
+                                    <pre><code>mon-premier-scala/
+├── build.sbt              # Configuration du projet
+├── project/
+│   └── build.properties   # Version sbt
+└── src/
+    └── main/
+        └── scala/
+            └── Main.scala  # Code principal</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-code me-2"></i>Contenu de Main.scala
+                                </div>
+                                <pre><code class="language-scala">object Main extends App {
+  println("Hello, Scala!")
+  
+  // Test des concepts de base
+  val nom = "Développeur"
+  val nombres = List(1, 2, 3, 4, 5)
+  
+  println(s"Bonjour, $nom!")
+  println(s"Somme des nombres: ${nombres.sum}")
+  
+  // Programmation fonctionnelle
+  val pairs = nombres.filter(_ % 2 == 0)
+  println(s"Nombres pairs: $pairs")
+}</code></pre>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-play me-2"></i>Exécution du projet
+                                </div>
+                                <pre><code class="language-bash"># Compiler et exécuter
+sbt run
+
+# Ou lancer le REPL avec les classes du projet
+sbt console</code></pre>
+                            </div>
+
+                            <div class="success-box">
+                                <h6><i class="fas fa-check-circle me-2"></i>Résultat attendu</h6>
+                                <div class="code-block">
+                                    <pre><code>Hello, Scala!
+Bonjour, Développeur!
+Somme des nombres: 15
+Nombres pairs: List(2, 4)</code></pre>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Installation Spark -->
+                        <section id="spark-installation" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-fire me-2"></i>
+                                Installation Apache Spark
+                            </h2>
+                            
+                            <div class="install-card spark">
+                                <div class="install-title">
+                                    <i class="fas fa-fire"></i>
+                                    Apache Spark 3.5.x
+                                </div>
+                                <p>
+                                    Installation d'Apache Spark pour le développement local. 
+                                    Nous utilisons la version pré-compilée pour Hadoop.
+                                </p>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-download me-2"></i>Téléchargement et installation
+                                </div>
+                                <pre><code class="language-bash"># Télécharger Spark (remplacer par la version actuelle)
+curl -O https://archive.apache.org/dist/spark/spark-3.5.0/spark-3.5.0-bin-hadoop3.tgz
+
+# Extraire l'archive
+tar -xzf spark-3.5.0-bin-hadoop3.tgz
+
+# Déplacer vers un dossier standard
+sudo mv spark-3.5.0-bin-hadoop3 /opt/spark</code></pre>
+                            </div>
+
+                            <div class="os-tabs">
+                                <div class="os-tab active" data-os="windows-spark">
+                                    <i class="fab fa-windows me-2"></i>Windows
+                                </div>
+                                <div class="os-tab" data-os="unix-spark">
+                                    <i class="fas fa-terminal me-2"></i>macOS/Linux
+                                </div>
+                            </div>
+
+                            <!-- Windows Spark -->
+                            <div class="os-content active" id="windows-spark">
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <i class="fas fa-cog me-2"></i>Configuration Windows
+                                    </div>
+                                    <pre><code># Ajouter aux variables d'environnement:
+# SPARK_HOME = C:\opt\spark
+# PATH += %SPARK_HOME%\bin
+
+# Télécharger winutils.exe pour Hadoop:
+# https://github.com/steveloughran/winutils/blob/master/hadoop-3.0.0/bin/winutils.exe
+# Placer dans %SPARK_HOME%\bin\</code></pre>
+                                </div>
+                            </div>
+
+                            <!-- Unix Spark -->
+                            <div class="os-content" id="unix-spark">
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <i class="fas fa-cog me-2"></i>Configuration Unix
+                                    </div>
+                                    <pre><code class="language-bash"># Ajouter au profil shell (~/.bashrc, ~/.zshrc)
+echo 'export SPARK_HOME=/opt/spark' >> ~/.bashrc
+echo 'export PATH=$SPARK_HOME/bin:$PATH' >> ~/.bashrc
+
+# Recharger le profil
+source ~/.bashrc</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="success-box">
+                                <h6><i class="fas fa-check-circle me-2"></i>Test de Spark</h6>
+                                <div class="code-block">
+                                    <div class="code-header">Lancer Spark Shell</div>
+                                    <pre><code class="language-bash"># Lancer le shell Spark Scala
+spark-shell
+
+# Dans le shell Spark, tester:
+scala> val data = Seq(1, 2, 3, 4, 5)
+scala> val rdd = sc.parallelize(data)
+scala> rdd.map(_ * 2).collect()
+scala> :quit</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-code me-2"></i>Premier programme Spark
+                                </div>
+                                <pre><code class="language-scala">// Dans votre projet sbt, ajouter au build.sbt:
+libraryDependencies += "org.apache.spark" %% "spark-core" % "3.5.0"
+libraryDependencies += "org.apache.spark" %% "spark-sql" % "3.5.0"
+
+// Exemple de code Spark:
+import org.apache.spark.sql.SparkSession
+
+object SparkExample extends App {
+  val spark = SparkSession.builder()
+    .appName("Premier Test Spark")
+    .master("local[*]")
+    .getOrCreate()
+    
+  import spark.implicits._
+  
+  val data = Seq(("Alice", 25), ("Bob", 30), ("Charlie", 35))
+  val df = data.toDF("nom", "age")
+  
+  df.show()
+  df.filter($"age" > 28).show()
+  
+  spark.stop()
+}</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Vérification -->
+                        <section id="verification" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-check-circle me-2"></i>
+                                Vérification complète de l'installation
+                            </h2>
+                            
+                            <div class="checklist">
+                                <h6><i class="fas fa-list-check me-2"></i>Tests de validation</h6>
+                                
+                                <div class="checklist-item">
+                                    <input type="checkbox" id="verify1">
+                                    <label for="verify1"><strong>Java :</strong> <code>java -version</code> affiche Java 11 ou 17</label>
+                                </div>
+                                
+                                <div class="checklist-item">
+                                    <input type="checkbox" id="verify2">
+                                    <label for="verify2"><strong>Scala :</strong> <code>scala -version</code> affiche Scala 2.13.x</label>
+                                </div>
+                                
+                                <div class="checklist-item">
+                                    <input type="checkbox" id="verify3">
+                                    <label for="verify3"><strong>sbt :</strong> <code>sbt about</code> s'exécute sans erreur</label>
+                                </div>
+                                
+                                <div class="checklist-item">
+                                    <input type="checkbox" id="verify4">
+                                    <label for="verify4"><strong>IDE :</strong> Plugin Scala installé et fonctionnel</label>
+                                </div>
+                                
+                                <div class="checklist-item">
+                                    <input type="checkbox" id="verify5">
+                                    <label for="verify5"><strong>Projet test :</strong> <code>sbt run</code> du premier projet fonctionne</label>
+                                </div>
+                                
+                                <div class="checklist-item">
+                                    <input type="checkbox" id="verify6">
+                                    <label for="verify6"><strong>Spark :</strong> <code>spark-shell</code> se lance correctement</label>
+                                </div>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-rocket me-2"></i>Script de validation complète
+                                </div>
+                                <pre><code class="language-bash">#!/bin/bash
+echo "=== Test d'environnement Scala/Spark ==="
+
+echo "1. Test Java:"
+java -version
+
+echo -e "\n2. Test Scala:"
+scala -version
+
+echo -e "\n3. Test sbt:"
+sbt about
+
+echo -e "\n4. Test variables d'environnement:"
+echo "JAVA_HOME: $JAVA_HOME"
+echo "SPARK_HOME: $SPARK_HOME"
+
+echo -e "\n5. Test Spark (si installé):"
+spark-shell --version 2>/dev/null || echo "Spark non trouvé"
+
+echo -e "\n=== Fin des tests ==="</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Dépannage -->
+                        <section id="depannage" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-question-circle me-2"></i>
+                                Guide de dépannage
+                            </h2>
+                            
+                            <div class="accordion question-accordion" id="troubleshootingAccordion">
+                                
+                                <!-- Problème 1 -->
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button question-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#trouble1">
+                                            <i class="fas fa-exclamation-triangle me-2"></i>
+                                            "java: command not found"
+                                        </button>
+                                    </h3>
+                                    <div id="trouble1" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="answer-section">
+                                                <h5><i class="fas fa-wrench me-2"></i>Solutions</h5>
+                                                <ol>
+                                                    <li><strong>Vérifier l'installation :</strong> Java est-il bien installé ?</li>
+                                                    <li><strong>Variables d'environnement :</strong> JAVA_HOME défini ? PATH mis à jour ?</li>
+                                                    <li><strong>Redémarrer le terminal</strong> après modification des variables</li>
+                                                    <li><strong>Réinstaller Java</strong> si nécessaire</li>
+                                                </ol>
+                                            </div>
+
+                                            <div class="code-block">
+                                                <div class="code-header">Test de diagnostic</div>
+                                                <pre><code class="language-bash"># Windows
+where java
+echo %JAVA_HOME%
+
+# Unix
+which java
+echo $JAVA_HOME
+/usr/libexec/java_home -V  # macOS uniquement</code></pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Problème 2 -->
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button question-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#trouble2">
+                                            <i class="fas fa-exclamation-triangle me-2"></i>
+                                            sbt est très lent au démarrage
+                                        </button>
+                                    </h3>
+                                    <div id="trouble2" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="explanation-section">
+                                                <h6>Pourquoi sbt est lent ?</h6>
+                                                <p>
+                                                    Au premier lancement, sbt télécharge toutes ses dépendances et celles de Scala. 
+                                                    Cela peut prendre plusieurs minutes selon votre connexion Internet.
+                                                </p>
+                                            </div>
+
+                                            <div class="answer-section">
+                                                <h5><i class="fas fa-lightning me-2"></i>Optimisations</h5>
+                                                <ol>
+                                                    <li><strong>Patience :</strong> Le premier lancement prend du temps</li>
+                                                    <li><strong>Garder sbt ouvert :</strong> Utiliser <code>sbt shell</code></li>
+                                                    <li><strong>Augmenter la mémoire :</strong> Créer <code>.sbtopts</code></li>
+                                                </ol>
+                                            </div>
+
+                                            <div class="code-block">
+                                                <div class="code-header">Fichier .sbtopts pour optimiser sbt</div>
+                                                <pre><code># Créer .sbtopts dans le dossier du projet
+-Xmx2G
+-XX:+UseG1GC
+-XX:+CMSClassUnloadingEnabled</code></pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Problème 3 -->
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button question-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#trouble3">
+                                            <i class="fas fa-exclamation-triangle me-2"></i>
+                                            Plugin Scala ne fonctionne pas dans IntelliJ
+                                        </button>
+                                    </h3>
+                                    <div id="trouble3" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="answer-section">
+                                                <h5><i class="fas fa-cog me-2"></i>Étapes de résolution</h5>
+                                                <ol>
+                                                    <li><strong>Vérifier la version :</strong> Plugin compatible avec votre IntelliJ ?</li>
+                                                    <li><strong>Redémarrer IntelliJ</strong> après installation du plugin</li>
+                                                    <li><strong>Réimporter le projet :</strong> File → Reload sbt project</li>
+                                                    <li><strong>Vérifier le SDK :</strong> Project Structure → Project SDK</li>
+                                                    <li><strong>Nettoyer le cache :</strong> File → Invalidate Caches and Restart</li>
+                                                </ol>
+                                            </div>
+
+                                            <div class="warning-box">
+                                                <h6>Problèmes connus</h6>
+                                                <ul class="mb-0">
+                                                    <li>IntelliJ version trop ancienne</li>
+                                                    <li>Conflit entre versions Java</li>
+                                                    <li>Projet sbt corrompu</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Problème 4 -->
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button question-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#trouble4">
+                                            <i class="fas fa-exclamation-triangle me-2"></i>
+                                            Spark ne démarre pas
+                                        </button>
+                                    </h3>
+                                    <div id="trouble4" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="answer-section">
+                                                <h5><i class="fas fa-fire me-2"></i>Diagnostics Spark</h5>
+                                                <ol>
+                                                    <li><strong>Variables d'environnement :</strong> SPARK_HOME défini ?</li>
+                                                    <li><strong>Java compatible :</strong> Java 11 ou 17 requis</li>
+                                                    <li><strong>Mémoire suffisante :</strong> Minimum 4 GB RAM libre</li>
+                                                    <li><strong>Ports disponibles :</strong> Port 4040 libre ?</li>
+                                                </ol>
+                                            </div>
+
+                                            <div class="code-block">
+                                                <div class="code-header">Tests de diagnostic Spark</div>
+                                                <pre><code class="language-bash"># Tester Spark avec logs détaillés
+spark-shell --conf spark.ui.port=4041 --driver-memory 2g
+
+# Vérifier les logs
+tail -f $SPARK_HOME/logs/spark-*.out</code></pre>
+                                            </div>
+
+                                            <div class="info-box">
+                                                <h6>Configuration minimale recommandée</h6>
+                                                <ul class="mb-0">
+                                                    <li>4 GB RAM libre minimum</li>
+                                                    <li>Java 11 ou 17</li>
+                                                    <li>Spark 3.3+ pour Java 17</li>
+                                                    <li>Firewall autorisant les ports 4040-4050</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </section>
+                        
+                        <!-- Navigation entre modules -->
+                        <div class="navigation-buttons">
+                            <div class="row">
+                                <div class="col-6">
+                                    <a href="Module 1 - Introduction aux Paradigmes de Programmation.html" class="btn btn-outline-primary">
+                                        <i class="fas fa-arrow-left me-2"></i>
+                                        Module 1 - Paradigmes
+                                    </a>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <a href="Module 3 - Introduction à Scala.html" class="btn btn-primary">
+                                        Module 3 - Introduction Scala
+                                        <i class="fas fa-arrow-right ms-2"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bouton de retour en haut -->
+    <button class="scroll-to-top btn" id="scrollToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts JavaScript -->
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Highlight.js JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/scala.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/powershell.min.js"></script>
+    
+    <script>
+        // Initialisation de Highlight.js
+        hljs.highlightAll();
+        
+        // Gestion des onglets OS
+        document.querySelectorAll('.os-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetOs = tab.getAttribute('data-os');
+                const tabContainer = tab.closest('.section');
+                
+                // Désactiver tous les onglets du même conteneur
+                tabContainer.querySelectorAll('.os-tab').forEach(t => t.classList.remove('active'));
+                tabContainer.querySelectorAll('.os-content').forEach(c => c.classList.remove('active'));
+                
+                // Activer l'onglet cliqué
+                tab.classList.add('active');
+                const targetContent = tabContainer.querySelector(`#${targetOs}`);
+                if (targetContent) {
+                    targetContent.classList.add('active');
+                }
+            });
+        });
+        
+        // Fonction pour afficher la configuration IDE
+        function showIdeConfig(ide) {
+            document.querySelectorAll('#intellij-config, #vscode-config').forEach(el => {
+                el.style.display = 'none';
+            });
+            document.getElementById(`${ide}-config`).style.display = 'block';
+        }
+        
+        // Gestion du bouton de retour en haut
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.style.display = 'flex';
+            } else {
+                scrollToTopBtn.style.display = 'none';
+            }
+        });
+        
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Smooth scroll pour les liens de la table des matières
+        document.querySelectorAll('.toc-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    const offsetTop = targetElement.offsetTop - 100;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Mettre en évidence le lien actif dans la table des matières
+        function updateActiveLink() {
+            const sections = document.querySelectorAll('section[id]');
+            const tocLinks = document.querySelectorAll('.toc-link');
+            
+            let activeSection = null;
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 150 && rect.bottom >= 150) {
+                    activeSection = section;
+                }
+            });
+            
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (activeSection && link.getAttribute('href') === '#' + activeSection.id) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', updateActiveLink);
+        updateActiveLink(); // Appel initial
+        
+        // Animation d'entrée pour les éléments
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observer les sections pour l'animation
+        document.querySelectorAll('.section, .install-card').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+        
+        // Sauvegarder l'état des checkboxes dans localStorage
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            const savedState = localStorage.getItem(checkbox.id);
+            if (savedState === 'true') {
+                checkbox.checked = true;
+            }
+            
+            checkbox.addEventListener('change', () => {
+                localStorage.setItem(checkbox.id, checkbox.checked);
+            });
+        });
+    </script>
+
+</body>
+</html>

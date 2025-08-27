@@ -1,0 +1,1872 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formation Scala & Apache Spark - Complète</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #dc143c;
+            --secondary-color: #2563eb;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --info-color: #0284c7;
+            --dark-color: #1f2937;
+            --light-bg: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-muted: #64748b;
+            --completion-green: #10b981;
+            --completion-gold: #f59e0b;
+            --inskillflow-blue: #0ea5e9;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--light-bg) 0%, #e2e8f0 100%);
+            color: var(--dark-color);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 5rem 0;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="white" opacity="0.1"/><circle cx="25" cy="75" r="1.5" fill="white" opacity="0.08"/><circle cx="75" cy="25" r="1" fill="white" opacity="0.06"/></svg>') repeat;
+            animation: float 20s infinite linear;
+        }
+
+        .hero-visual {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .hero-code-preview {
+            background: #1a1a1a;
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: #e2e8f0;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-code-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 30px;
+            background: #2d2d2d;
+            border-bottom: 1px solid #404040;
+        }
+
+        .code-dots {
+            position: absolute;
+            top: 10px;
+            left: 12px;
+            display: flex;
+            gap: 6px;
+        }
+
+        .code-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .code-dot.red { background: #ff5f56; }
+        .code-dot.yellow { background: #ffbd2e; }
+        .code-dot.green { background: #27ca3f; }
+
+        .tech-illustration {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tech-illustration::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), transparent, rgba(255,255,255,0.1));
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            50% { transform: translateX(0%) translateY(0%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .phase-illustration {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .phase-illustration.phase1 {
+            background: linear-gradient(135deg, #dc322f, #cb4154);
+        }
+
+        .phase-illustration.phase2 {
+            background: linear-gradient(135deg, #e25a1c, #f97316);
+        }
+
+        .phase-illustration.phase3 {
+            background: linear-gradient(135deg, #059669, #10b981);
+        }
+
+        .module-preview-image {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(135deg, var(--light-bg), #e2e8f0);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-preview-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120"><rect x="10" y="20" width="180" height="8" fill="%23e2e8f0" rx="4"/><rect x="10" y="35" width="140" height="8" fill="%23cbd5e1" rx="4"/><rect x="10" y="50" width="160" height="8" fill="%23e2e8f0" rx="4"/><rect x="10" y="75" width="120" height="12" fill="%23dc143c" rx="6"/></svg>') no-repeat center;
+            opacity: 0.6;
+        }
+
+        .module-preview-image.scala {
+            background: linear-gradient(135deg, rgba(220, 50, 47, 0.1), rgba(203, 65, 84, 0.1));
+        }
+
+        .module-preview-image.spark {
+            background: linear-gradient(135deg, rgba(226, 90, 28, 0.1), rgba(249, 115, 22, 0.1));
+        }
+
+        .module-preview-image.advanced {
+            background: linear-gradient(135deg, rgba(5, 150, 105, 0.1), rgba(16, 185, 129, 0.1));
+        }
+
+        .success-visual {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+            border: 2px solid rgba(16, 185, 129, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .success-visual::before {
+            content: '\f19d';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            font-size: 8rem;
+            opacity: 0.05;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-15deg);
+            color: var(--completion-green);
+        }
+
+        @keyframes float {
+            0% { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(-50px) translateY(-50px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .completion-badge {
+            background: linear-gradient(135deg, var(--completion-green), var(--success-color));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+            animation: pulse-glow 2s infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
+            100% { box-shadow: 0 8px 30px rgba(16, 185, 129, 0.6); }
+        }
+
+        .creator-info {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+
+        .creator-info h6 {
+            margin-bottom: 1rem;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
+        .creator-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .creator-link {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .creator-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stats-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .stats-card .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stats-card .stat-label {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        .achievement-section {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            margin: 3rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .achievement-title {
+            color: var(--completion-green);
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .tech-mastery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .tech-card {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tech-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(220, 20, 60, 0.15);
+        }
+
+        .tech-card.scala { border-left: 4px solid #dc322f; }
+        .tech-card.spark { border-left: 4px solid #e25a1c; }
+        .tech-card.streaming { border-left: 4px solid #0ea5e9; }
+        .tech-card.ml { border-left: 4px solid #8b5cf6; }
+        .tech-card.cloud { border-left: 4px solid #059669; }
+
+        .module-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(135deg, var(--completion-green), var(--success-color));
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .module-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .module-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-right: 1.5rem;
+            box-shadow: 0 4px 15px rgba(220, 20, 60, 0.3);
+        }
+
+        .module-completion-badge {
+            background: var(--completion-green);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .module-title {
+            color: var(--dark-color);
+            font-weight: 700;
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .module-description {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .module-meta {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .module-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-module {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .btn-module:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(220, 20, 60, 0.4);
+            color: white;
+        }
+
+        .progress-section {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            margin: 3rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .progress-ring {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 2rem;
+        }
+
+        .progress-ring svg {
+            transform: rotate(-90deg);
+        }
+
+        .progress-ring-circle {
+            stroke: var(--border-color);
+            stroke-width: 8;
+            fill: transparent;
+            r: 90;
+            cx: 100;
+            cy: 100;
+        }
+
+        .progress-ring-progress {
+            stroke: var(--completion-green);
+            stroke-width: 8;
+            fill: transparent;
+            r: 90;
+            cx: 100;
+            cy: 100;
+            stroke-dasharray: 565.48;
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset 2s ease;
+            stroke-linecap: round;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--completion-green);
+        }
+
+        .tech-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin: 0.25rem;
+            transition: all 0.3s ease;
+        }
+
+        .tech-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .scala-badge { 
+            background: linear-gradient(135deg, #dc322f, #cb4154); 
+            color: white;
+        }
+        
+        .spark-badge { 
+            background: linear-gradient(135deg, #e25a1c, #f97316); 
+            color: white;
+        }
+        
+        .azure-badge { 
+            background: linear-gradient(135deg, #0078d4, #1e88e5); 
+            color: white;
+        }
+        
+        .aws-badge { 
+            background: linear-gradient(135deg, #ff9900, #ffa726); 
+            color: white;
+        }
+
+        .streaming-badge { 
+            background: linear-gradient(135deg, #0ea5e9, #06b6d4); 
+            color: white;
+        }
+
+        .ml-badge { 
+            background: linear-gradient(135deg, #8b5cf6, #a855f7); 
+            color: white;
+        }
+
+        .project-showcase {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-left: 4px solid var(--completion-gold);
+        }
+
+        .project-showcase h5 {
+            color: var(--completion-gold);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, var(--dark-color), #374151);
+            color: white;
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        .footer-section {
+            margin-bottom: 2rem;
+        }
+
+        .footer-title {
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--inskillflow-blue);
+        }
+
+        .footer-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-link:hover {
+            color: var(--inskillflow-blue);
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            background: rgba(14, 165, 233, 0.1);
+            color: var(--inskillflow-blue);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--inskillflow-blue);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(14, 165, 233, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .tech-mastery {
+                grid-template-columns: 1fr;
+            }
+            .module-meta {
+                gap: 1rem;
+            }
+            .creator-links {
+                flex-direction: column;
+            }
+        }
+
+        .celebration-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Modules Overview Styles */
+        .modules-overview-section {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem 2rem 2rem;
+            margin: 3rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .modules-main-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+        }
+
+        .quick-nav-section {
+            background: var(--light-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .nav-category {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            margin-bottom: 1rem;
+        }
+
+        .nav-category:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(220, 20, 60, 0.15);
+        }
+
+        .nav-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .nav-icon.scala {
+            background: linear-gradient(135deg, #dc322f, #cb4154);
+        }
+
+        .nav-icon.spark {
+            background: linear-gradient(135deg, #e25a1c, #f97316);
+        }
+
+        .nav-icon.advanced {
+            background: linear-gradient(135deg, #059669, #10b981);
+        }
+
+        .nav-modules {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .nav-module-link {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-module-link:hover {
+            background: var(--secondary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+        }
+
+        /* Phase Styles */
+        .modules-phase {
+            margin: 4rem 0;
+        }
+
+        .phase-header {
+            background: linear-gradient(135deg, var(--light-bg), #e2e8f0);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .phase-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .phase-number {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .phase-description {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 0;
+        }
+
+        /* Smooth scrolling for navigation links */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Module cards enhanced for phases */
+        .modules-phase .module-card {
+            margin-bottom: 2rem;
+        }
+
+        .modules-phase .module-card:hover {
+            transform: translateY(-8px);
+        }
+
+        /* Professional Design Elements */
+        .hero-title {
+            background: linear-gradient(135deg, #ffffff, #f8fafc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .completion-badge {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .completion-badge::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .success-trophy {
+            display: inline-block;
+            font-size: 4rem;
+            background: linear-gradient(135deg, #ffd700, #ffed4a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+            animation: trophy-shine 3s infinite;
+        }
+
+        @keyframes trophy-shine {
+            0%, 100% { filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3)) brightness(1); }
+            50% { filter: drop-shadow(2px 2px 8px rgba(255,215,0,0.5)) brightness(1.2); }
+        }
+
+        .professional-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .professional-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: slide 3s infinite;
+        }
+
+        @keyframes slide {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .corporate-badge {
+            background: linear-gradient(135deg, #2d3748, #4a5568);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(45, 55, 72, 0.4);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .achievement-title {
+            background: linear-gradient(135deg, var(--completion-green), #48bb78);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .phase-title {
+            position: relative;
+        }
+
+        .phase-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Celebration Animation Container -->
+    <div class="celebration-animation" id="celebrationContainer"></div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <div class="text-center mb-5">
+                    <div class="completion-badge">
+                        <i class="fas fa-certificate me-2"></i>
+                        FORMATION 100% COMPLÉTÉE
+                        <div class="corporate-badge ms-3">
+                            <i class="fas fa-check-circle me-1"></i>
+                            EXPERT CERTIFIÉ
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <h1 class="hero-title">
+                            Formation Scala & Apache Spark
+                            <span class="d-block" style="font-size: 0.7em; margin-top: 0.5rem;">
+                                <span class="text-warning">Expert</span> Big Data Cloud-Native
+                            </span>
+                        </h1>
+                        <p class="hero-subtitle">
+                            Maîtrisez la programmation fonctionnelle et le traitement de données à grande échelle 
+                            avec une stack technique moderne : Scala, Spark, Streaming, ML et Cloud
+                        </p>
+                        <div class="d-flex gap-2 mb-4 flex-wrap justify-content-center justify-content-lg-start">
+                            <span class="tech-badge scala-badge">
+                                <i class="fas fa-code me-1"></i>Scala Expert
+                            </span>
+                            <span class="tech-badge spark-badge">
+                                <i class="fas fa-fire me-1"></i>Apache Spark
+                            </span>
+                            <span class="tech-badge streaming-badge">
+                                <i class="fas fa-stream me-1"></i>Streaming
+                            </span>
+                            <span class="tech-badge ml-badge">
+                                <i class="fas fa-brain me-1"></i>Machine Learning
+                            </span>
+                            <span class="tech-badge azure-badge">
+                                <i class="fab fa-microsoft me-1"></i>Azure
+                            </span>
+                            <span class="tech-badge aws-badge">
+                                <i class="fab fa-aws me-1"></i>AWS
+                            </span>
+                        </div>
+
+                        <!-- Creator Info -->
+                        <div class="creator-info">
+                            <h6>Créée par Haythem Rehouma</h6>
+                            <div class="creator-links">
+                                <a href="https://www.inskillflow.com/" target="_blank" class="creator-link">
+                                    <i class="fas fa-graduation-cap"></i>
+                                    inskillflow.com
+                                </a>
+                                <a href="https://www.linkedin.com/in/haythemrehouma/" target="_blank" class="creator-link">
+                                    <i class="fab fa-linkedin"></i>
+                                    LinkedIn Profile
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <!-- Hero Visual -->
+                        <div class="hero-visual">
+                            <h6 class="mb-3">Aperçu Scala</h6>
+                            <div class="hero-code-preview">
+                                <div class="code-dots">
+                                    <div class="code-dot red"></div>
+                                    <div class="code-dot yellow"></div>
+                                    <div class="code-dot green"></div>
+                                </div>
+                                <div style="margin-top: 35px;">
+<span style="color: #ff7b72;">case class</span> <span style="color: #79c0ff;">Customer</span>(<br/>
+&nbsp;&nbsp;<span style="color: #ffa657;">id</span>: <span style="color: #79c0ff;">Long</span>,<br/>
+&nbsp;&nbsp;<span style="color: #ffa657;">name</span>: <span style="color: #79c0ff;">String</span><br/>
+)<br/><br/>
+<span style="color: #ff7b72;">val</span> <span style="color: #ffa657;">customers</span> = spark<br/>
+&nbsp;&nbsp;.<span style="color: #d2a8ff;">read</span><br/>
+&nbsp;&nbsp;.<span style="color: #d2a8ff;">parquet</span>(<span style="color: #a5d6ff;">"data/"</span>)<br/>
+&nbsp;&nbsp;.<span style="color: #d2a8ff;">as</span>[Customer]<br/>
+&nbsp;&nbsp;.<span style="color: #d2a8ff;">cache</span>()
+                                </div>
+                            </div>
+                            <p class="small opacity-75 mb-2">Code Scala + Spark en action</p>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stats-card">
+                                <span class="stat-number">8</span>
+                                <span class="stat-label">Modules</span>
+                            </div>
+                            <div class="stats-card">
+                                <span class="stat-number">42</span>
+                                <span class="stat-label">Heures</span>
+                            </div>
+                            <div class="stats-card">
+                                <span class="stat-number">100+</span>
+                                <span class="stat-label">Exercices</span>
+                            </div>
+                            <div class="stats-card">
+                                <span class="stat-number">6</span>
+                                <span class="stat-label">Projets</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        
+        <!-- Achievement Section -->
+        <div class="achievement-section">
+            <div class="professional-gradient">
+                <div class="text-center">
+                    <div class="mb-3">
+                        <div class="d-inline-block position-relative">
+                            <i class="fas fa-award" style="font-size: 3.5rem; color: #ffd700; filter: drop-shadow(0 0 10px rgba(255,215,0,0.5));"></i>
+                            <div class="position-absolute top-0 end-0" style="transform: translate(50%, -50%);">
+                                <div style="width: 20px; height: 20px; background: var(--success-color); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-check text-white" style="font-size: 0.7rem;"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-inline-block position-relative ms-4">
+                            <i class="fas fa-certificate" style="font-size: 3.5rem; color: #e2e8f0; filter: drop-shadow(0 0 8px rgba(226,232,240,0.3));"></i>
+                            <div class="position-absolute top-0 end-0" style="transform: translate(50%, -50%);">
+                                <div style="width: 20px; height: 20px; background: var(--info-color); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-star text-white" style="font-size: 0.7rem;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2 class="text-white mb-0" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">Formation Terminée avec Succès</h2>
+                </div>
+            </div>
+            <div class="text-center mb-4 mt-4">
+                <p class="lead">
+                    <strong>Félicitations !</strong> Vous avez complété une formation de niveau expert 
+                    couvrant l'ensemble de l'écosystème Scala & Big Data.
+                </p>
+                <div class="corporate-badge">
+                    <i class="fas fa-graduation-cap me-2"></i>
+                    NIVEAU EXPERT ATTEINT
+                </div>
+            </div>
+            
+            <div class="tech-mastery">
+                <div class="tech-card scala">
+                    <div class="tech-illustration" style="background: linear-gradient(135deg, #dc322f, #cb4154);">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h5>Scala Expert</h5>
+                    <p class="mb-0">Programmation fonctionnelle, patterns avancés, immutabilité</p>
+                </div>
+                <div class="tech-card spark">
+                    <div class="tech-illustration" style="background: linear-gradient(135deg, #e25a1c, #f97316);">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <h5>Apache Spark</h5>
+                    <p class="mb-0">RDD, DataFrame, Dataset, optimisations et architecture distribuée</p>
+                </div>
+                <div class="tech-card streaming">
+                    <div class="tech-illustration" style="background: linear-gradient(135deg, #0ea5e9, #06b6d4);">
+                        <i class="fas fa-stream"></i>
+                    </div>
+                    <h5>Streaming</h5>
+                    <p class="mb-0">Structured Streaming, Kafka, traitement temps réel</p>
+                </div>
+                <div class="tech-card ml">
+                    <div class="tech-illustration" style="background: linear-gradient(135deg, #8b5cf6, #a855f7);">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h5>Machine Learning</h5>
+                    <p class="mb-0">MLlib, pipelines ML, prédictions temps réel</p>
+                </div>
+                <div class="tech-card cloud">
+                    <div class="tech-illustration" style="background: linear-gradient(135deg, #059669, #10b981);">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <h5>Cloud Computing</h5>
+                    <p class="mb-0">Databricks, Azure, AWS, Data Lakehouse</p>
+                </div>
+            </div>
+
+            <div class="project-showcase">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="me-3">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--completion-gold), #f59e0b); border-radius: 15px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-rocket text-white" style="font-size: 1.5rem;"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h5 class="mb-1">Projets Industriels Réalisés</h5>
+                        <p class="text-muted mb-0">6 projets enterprise-ready développés durant la formation</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3 p-3" style="background: linear-gradient(135deg, rgba(5, 150, 105, 0.1), rgba(16, 185, 129, 0.1)); border-radius: 8px; border-left: 4px solid var(--success-color);">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-chart-bar text-success me-2"></i>
+                                <strong>Pipeline ETL E-commerce</strong>
+                            </div>
+                            <p class="small mb-0 text-muted">500K+ records • Performance optimisée</p>
+                        </div>
+                        <div class="mb-3 p-3" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.1)); border-radius: 8px; border-left: 4px solid #dc2626;">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-shield-alt text-danger me-2"></i>
+                                <strong>Système Anti-fraude Temps Réel</strong>
+                            </div>
+                            <p class="small mb-0 text-muted">Latence < 100ms • Précision 95%+</p>
+                        </div>
+                        <div class="mb-3 p-3" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(124, 58, 237, 0.1)); border-radius: 8px; border-left: 4px solid #8b5cf6;">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-users text-purple me-2"></i>
+                                <strong>Analytics RFM & Churn Prediction</strong>
+                            </div>
+                            <p class="small mb-0 text-muted">Segmentation avancée • ML prédictif</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3 p-3" style="background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(6, 182, 212, 0.1)); border-radius: 8px; border-left: 4px solid var(--info-color);">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-cloud text-info me-2"></i>
+                                <strong>Data Lakehouse Multi-Cloud</strong>
+                            </div>
+                            <p class="small mb-0 text-muted">Azure + AWS • Delta Lake • Governance</p>
+                        </div>
+                        <div class="mb-3 p-3" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1)); border-radius: 8px; border-left: 4px solid var(--success-color);">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-robot text-success me-2"></i>
+                                <strong>ML Pipelines avec MLflow</strong>
+                            </div>
+                            <p class="small mb-0 text-muted">Automatisation ML • Production ready</p>
+                        </div>
+                        <div class="mb-3 p-3" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.1)); border-radius: 8px; border-left: 4px solid var(--warning-color);">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-stream text-warning me-2"></i>
+                                <strong>Streaming Analytics avec Kafka</strong>
+                            </div>
+                            <p class="small mb-0 text-muted">Temps réel • 10K+ events/sec</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Section -->
+        <div class="progress-section">
+            <h3 class="mb-4">
+                <i class="fas fa-chart-line me-2 text-success"></i>
+                Progression Complète
+            </h3>
+            <div class="position-relative d-inline-block">
+                <div class="progress-ring">
+                    <svg width="200" height="200">
+                        <circle class="progress-ring-circle"></circle>
+                        <circle class="progress-ring-progress" id="progressCircle"></circle>
+                    </svg>
+                </div>
+                <div class="progress-text">
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <div style="font-size: 2.5rem; font-weight: 800;">100%</div>
+                        <div class="corporate-badge mt-2">
+                            <i class="fas fa-crown me-1"></i>
+                            EXPERT
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <h4 class="text-success">8/8 Modules Terminés</h4>
+                <p class="text-muted">Formation complètement maîtrisée - Prêt pour des projets enterprise</p>
+            </div>
+        </div>
+
+        <!-- Modules Navigation Overview -->
+        <div class="modules-overview-section">
+            <div class="text-center mb-5">
+                <h2 class="modules-main-title">
+                    <i class="fas fa-graduation-cap me-3"></i>
+                    Parcours de Formation Complet
+                </h2>
+                <p class="lead text-muted">
+                    8 modules progressifs pour devenir expert Scala & Big Data Cloud
+                </p>
+            </div>
+
+            <!-- Quick Navigation -->
+            <div class="quick-nav-section">
+                <h5 class="text-center mb-4">Navigation Rapide</h5>
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <div class="nav-category">
+                            <div class="nav-icon scala">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h6>Fondamentaux Scala</h6>
+                            <p class="small text-muted">Modules 1-3: Concepts de base et syntaxe</p>
+                            <div class="nav-modules">
+                                <a href="#module1" class="nav-module-link">1</a>
+                                <a href="#module2" class="nav-module-link">2</a>
+                                <a href="#module3" class="nav-module-link">3</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="nav-category">
+                            <div class="nav-icon spark">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                            <h6>Big Data Spark</h6>
+                            <p class="small text-muted">Modules 4-5: Spark Core et pratique</p>
+                            <div class="nav-modules">
+                                <a href="#module4" class="nav-module-link">4</a>
+                                <a href="#module5" class="nav-module-link">5</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="nav-category">
+                            <div class="nav-icon advanced">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <h6>Expert & Cloud</h6>
+                            <p class="small text-muted">Modules 6-8: FP, ML, et Cloud</p>
+                            <div class="nav-modules">
+                                <a href="#module6" class="nav-module-link">6</a>
+                                <a href="#module7" class="nav-module-link">7</a>
+                                <a href="#module8" class="nav-module-link">8</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Phase 1: Fondamentaux Scala -->
+        <div class="modules-phase">
+            <div class="phase-header">
+                <div class="phase-illustration phase1">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3 class="phase-title">
+                    <span class="phase-number">Phase 1</span>
+                    Fondamentaux Scala
+                </h3>
+                <p class="phase-description">
+                    Apprenez les concepts de base de Scala et la programmation fonctionnelle
+                </p>
+            </div>
+            
+            <div class="row">
+            <!-- Module 1 -->
+            <div class="col-lg-6">
+                <div class="module-card" id="module1">
+                    <div class="module-header">
+                        <div class="module-number">1</div>
+                        <div class="flex-grow-1">
+                            <div class="module-completion-badge">
+                                <i class="fas fa-check"></i>
+                                Terminé
+                            </div>
+                        </div>
+                    </div>
+                    <div class="module-preview-image scala">
+                        <div style="font-size: 2rem; color: #dc322f;">
+                            <i class="fas fa-sitemap me-2"></i>
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                    </div>
+                    <h3 class="module-title">Introduction aux Paradigmes de Programmation</h3>
+                    <p class="module-description">
+                        Fondements théoriques : programmation fonctionnelle vs orientée objet, 
+                        immutabilité, fonctions pures et concepts essentiels pour Scala.
+                    </p>
+                    <div class="module-meta">
+                        <span><i class="fas fa-clock"></i>3h</span>
+                        <span><i class="fas fa-tasks"></i>8 exercices</span>
+                        <span><i class="fas fa-layer-group"></i>Fondamental</span>
+                        <span><i class="fas fa-trophy text-warning"></i>Concepts théoriques</span>
+                    </div>
+                    <a href="Module 1 - Introduction aux Paradigmes de Programmation.html" class="btn-module">
+                        <i class="fas fa-eye"></i>
+                        Consulter le module
+                    </a>
+                </div>
+            </div>
+
+            <!-- Module 2 -->
+            <div class="col-lg-6">
+                <div class="module-card" id="module2">
+                    <div class="module-header">
+                        <div class="module-number">2</div>
+                        <div class="flex-grow-1">
+                            <div class="module-completion-badge">
+                                <i class="fas fa-check"></i>
+                                Terminé
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="module-title">Environnement de Développement Scala</h3>
+                    <p class="module-description">
+                        Setup complet : installation JVM, Scala, SBT, IDE (IntelliJ/VSCode), 
+                        premiers projets et bonnes pratiques de développement.
+                    </p>
+                    <div class="module-meta">
+                        <span><i class="fas fa-clock"></i>2h</span>
+                        <span><i class="fas fa-tasks"></i>5 exercices</span>
+                        <span><i class="fas fa-layer-group"></i>Configuration</span>
+                        <span><i class="fas fa-tools text-info"></i>Setup professionnel</span>
+                    </div>
+                    <a href="Module 2 - Mettre en place l'environnement pour Scala.html" class="btn-module">
+                        <i class="fas fa-eye"></i>
+                        Consulter le module
+                    </a>
+                </div>
+            </div>
+
+            <!-- Module 3 -->
+            <div class="col-lg-6">
+                <div class="module-card" id="module3">
+                    <div class="module-header">
+                        <div class="module-number">3</div>
+                        <div class="flex-grow-1">
+                            <div class="module-completion-badge">
+                                <i class="fas fa-check"></i>
+                                Terminé
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="module-title">Maîtrise du Langage Scala</h3>
+                    <p class="module-description">
+                        Syntaxe complète, types de données, pattern matching, case classes, 
+                        collections, fonctions d'ordre supérieur et programmation idiomatique.
+                    </p>
+                    <div class="module-meta">
+                        <span><i class="fas fa-clock"></i>6h</span>
+                        <span><i class="fas fa-tasks"></i>15 exercices</span>
+                        <span><i class="fas fa-layer-group"></i>Syntaxe Core</span>
+                        <span><i class="fas fa-code text-danger"></i>Scala maîtrisé</span>
+                    </div>
+                    <a href="Module 3 - Introduction à Scala.html" class="btn-module">
+                        <i class="fas fa-eye"></i>
+                        Consulter le module
+                    </a>
+                </div>
+            </div>
+            </div> <!-- End row Phase 1 -->
+        </div> <!-- End Phase 1 -->
+
+        <!-- Phase 2: Big Data Spark -->
+        <div class="modules-phase">
+            <div class="phase-header">
+                <div class="phase-illustration phase2">
+                    <i class="fas fa-fire"></i>
+                </div>
+                <h3 class="phase-title">
+                    <span class="phase-number">Phase 2</span>
+                    Big Data avec Apache Spark
+                </h3>
+                <p class="phase-description">
+                    Maîtrisez le traitement de données à grande échelle avec Apache Spark
+                </p>
+            </div>
+            
+            <div class="row">
+            <!-- Module 4 -->
+            <div class="col-lg-6">
+                <div class="module-card" id="module4">
+                    <div class="module-header">
+                        <div class="module-number">4</div>
+                        <div class="flex-grow-1">
+                            <div class="module-completion-badge">
+                                <i class="fas fa-check"></i>
+                                Terminé
+                            </div>
+                        </div>
+                    </div>
+                    <div class="module-preview-image spark">
+                        <div style="font-size: 2rem; color: #e25a1c;">
+                            <i class="fas fa-fire me-2"></i>
+                            <i class="fas fa-database"></i>
+                        </div>
+                    </div>
+                    <h3 class="module-title">Fondements Spark : RDD, DataFrame, Dataset</h3>
+                    <p class="module-description">
+                        Architecture distribuée, abstractions Spark, lazy evaluation, 
+                        fault tolerance, optimisations et théorie du traitement distribué.
+                    </p>
+                    <div class="module-meta">
+                        <span><i class="fas fa-clock"></i>5h</span>
+                        <span><i class="fas fa-tasks"></i>12 exercices</span>
+                        <span><i class="fas fa-layer-group"></i>Big Data Theory</span>
+                        <span><i class="fas fa-fire text-warning"></i>Spark maîtrisé</span>
+                    </div>
+                    <a href="Module 4 - Fondements théoriques de Spark - RDD, DataFrame, Dataset.html" class="btn-module">
+                        <i class="fas fa-eye"></i>
+                        Consulter le module
+                    </a>
+                </div>
+            </div>
+
+            <!-- Module 5 -->
+            <div class="col-lg-6">
+                <div class="module-card" id="module5">
+                    <div class="module-header">
+                        <div class="module-number">5</div>
+                        <div class="flex-grow-1">
+                            <div class="module-completion-badge">
+                                <i class="fas fa-check"></i>
+                                Terminé
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="module-title">Pratique Intensive Spark & Projets</h3>
+                    <p class="module-description">
+                        Hands-on complet : ETL e-commerce 500K+ records, optimisations performance, 
+                        RFM analysis, churn prediction et cas d'usage industriels.
+                    </p>
+                    <div class="module-meta">
+                        <span><i class="fas fa-clock"></i>8h</span>
+                        <span><i class="fas fa-tasks"></i>20 exercices</span>
+                        <span><i class="fas fa-layer-group"></i>Pratique Intensive</span>
+                        <span><i class="fas fa-chart-bar text-success"></i>ETL Expert</span>
+                    </div>
+                    <a href="Module 5 - Pratique Spark - RDD, DataFrame & Dataset.html" class="btn-module">
+                        <i class="fas fa-eye"></i>
+                        Consulter le module
+                    </a>
+                </div>
+            </div>
+            </div> <!-- End row Phase 2 -->
+        </div> <!-- End Phase 2 -->
+
+        <!-- Phase 3: Expert & Cloud -->
+        <div class="modules-phase">
+            <div class="phase-header">
+                <div class="phase-illustration phase3">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <h3 class="phase-title">
+                    <span class="phase-number">Phase 3</span>
+                    Niveau Expert & Cloud
+                </h3>
+                <p class="phase-description">
+                    Concepts avancés, Machine Learning et déploiement Cloud
+                </p>
+            </div>
+            
+            <div class="row">
+            <!-- Module 6 -->
+            <div class="col-lg-6">
+                <div class="module-card" id="module6">
+                    <div class="module-header">
+                        <div class="module-number">6</div>
+                        <div class="flex-grow-1">
+                            <div class="module-completion-badge">
+                                <i class="fas fa-check"></i>
+                                Terminé
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="module-title">Programmation Fonctionnelle Avancée</h3>
+                    <p class="module-description">
+                        Concepts experts : monades, functors, type classes, implicits, 
+                        for-comprehensions et patterns fonctionnels avancés en Scala.
+                    </p>
+                    <div class="module-meta">
+                        <span><i class="fas fa-clock"></i>6h</span>
+                        <span><i class="fas fa-tasks"></i>15 exercices</span>
+                        <span><i class="fas fa-layer-group"></i>Expert Level</span>
+                        <span><i class="fas fa-graduation-cap text-purple"></i>FP Expert</span>
+                    </div>
+                    <a href="Module 6 - Approfondissement en Programmation Fonctionnelle.html" class="btn-module">
+                        <i class="fas fa-eye"></i>
+                        Consulter le module
+                    </a>
+                </div>
+            </div>
+
+            <!-- Module 7 -->
+            <div class="col-lg-6">
+                <div class="module-card" id="module7">
+                    <div class="module-header">
+                        <div class="module-number">7</div>
+                        <div class="flex-grow-1">
+                            <div class="module-completion-badge">
+                                <i class="fas fa-check"></i>
+                                Terminé
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="module-title">Spark Streaming & Machine Learning</h3>
+                    <p class="module-description">
+                        Streaming temps réel, intégration Kafka, MLlib, pipelines ML, 
+                        prédictions temps réel et projet anti-fraude bancaire complet.
+                    </p>
+                    <div class="module-meta">
+                        <span><i class="fas fa-clock"></i>7h</span>
+                        <span><i class="fas fa-tasks"></i>18 exercices</span>
+                        <span><i class="fas fa-layer-group"></i>Real-time & ML</span>
+                        <span><i class="fas fa-brain text-info"></i>ML Expert</span>
+                    </div>
+                    <a href="Module 7 - Spark Streaming et introduction au Machine Learning.html" class="btn-module">
+                        <i class="fas fa-eye"></i>
+                        Consulter le module
+                    </a>
+                </div>
+            </div>
+
+            <!-- Module 8 -->
+            <div class="col-lg-6">
+                <div class="module-card" id="module8">
+                    <div class="module-header">
+                        <div class="module-number">8</div>
+                        <div class="flex-grow-1">
+                            <div class="module-completion-badge">
+                                <i class="fas fa-check"></i>
+                                Terminé
+                            </div>
+                        </div>
+                    </div>
+                    <div class="module-preview-image advanced">
+                        <div style="font-size: 2rem; color: #059669;">
+                            <i class="fas fa-cloud me-2"></i>
+                            <i class="fab fa-aws me-1"></i>
+                            <i class="fab fa-microsoft"></i>
+                        </div>
+                    </div>
+                    <h3 class="module-title">Cloud & Databricks Data Lakehouse</h3>
+                    <p class="module-description">
+                        Databricks, Azure, AWS, SparkSQL avancé, Delta Lake, Data Lakehouse 
+                        complet, governance et architecture multi-cloud moderne.
+                    </p>
+                    <div class="module-meta">
+                        <span><i class="fas fa-clock"></i>5h</span>
+                        <span><i class="fas fa-tasks"></i>12 exercices</span>
+                        <span><i class="fas fa-layer-group"></i>Cloud Native</span>
+                        <span><i class="fas fa-cloud text-success"></i>Cloud Expert</span>
+                    </div>
+                    <a href="Module 8 - Introduction à Databricks et SparkSQL sur le Cloud.html" class="btn-module">
+                        <i class="fas fa-eye"></i>
+                        Consulter le module
+                    </a>
+                </div>
+            </div>
+            </div> <!-- End row Phase 3 -->
+        </div> <!-- End Phase 3 -->
+
+        <!-- Final Success Section -->
+        <div class="achievement-section mt-5">
+            <div class="success-visual">
+                <div style="font-size: 4rem; margin-bottom: 1rem; position: relative; z-index: 2; color: var(--completion-green);">
+                    <i class="fas fa-trophy me-2"></i>
+                    <i class="fas fa-award me-2"></i>
+                    <i class="fas fa-medal"></i>
+                </div>
+                <h2 class="achievement-title" style="position: relative; z-index: 2;">Vous êtes maintenant un Expert</h2>
+            </div>
+            <div class="text-center">
+                <div class="lead mb-4">
+                    <strong>42 heures de formation intensive</strong> • <strong>100+ exercices pratiques</strong> • <strong>6 projets industriels</strong>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <p class="text-muted">
+                            Cette formation vous donne les compétences pour architecturer et développer 
+                            des solutions Big Data enterprise avec Scala et Spark sur Azure, AWS et Databricks. 
+                            Vous maîtrisez maintenant toute la stack moderne du Data Engineering.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 footer-section">
+                    <h4 class="footer-title">
+                        <i class="fas fa-graduation-cap me-2"></i>
+                        Formation Scala & Spark
+                    </h4>
+                    <p class="text-light opacity-75 mb-3">
+                        Formation complète et intensive pour devenir expert en programmation fonctionnelle 
+                        et traitement de données à grande échelle.
+                    </p>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <span class="badge bg-success">8 Modules</span>
+                        <span class="badge bg-warning">42 Heures</span>
+                        <span class="badge bg-info">100+ Exercices</span>
+                        <span class="badge bg-danger">6 Projets</span>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 footer-section">
+                    <h5 class="footer-title">Créateur</h5>
+                    <div class="mb-3">
+                        <h6 class="text-light">Haythem Rehouma</h6>
+                        <p class="text-light opacity-75 mb-2">Expert Data Engineering & Cloud Architecture</p>
+                    </div>
+                    
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/haythemrehouma/" target="_blank" class="social-link" title="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://www.inskillflow.com/" target="_blank" class="social-link" title="inskillflow Academy">
+                            <i class="fas fa-graduation-cap"></i>
+                        </a>
+                        <a href="https://github.com" target="_blank" class="social-link" title="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 footer-section">
+                    <h5 class="footer-title">Plateforme d'apprentissage</h5>
+                    <div class="mb-3">
+                        <a href="https://www.inskillflow.com/" target="_blank" class="footer-link">
+                            <i class="fas fa-external-link-alt"></i>
+                            inskillflow.com
+                        </a>
+                        <p class="text-light opacity-75 small mb-2">
+                            Plateforme de formations professionnelles en IA, Cloud, Data Engineering et DevOps
+                        </p>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <p class="text-light opacity-50 small">
+                            Build Tech Skills That Companies Need Today
+                        </p>
+                        <p class="text-light opacity-50 small">
+                            © 2025 inskillflow academy - Formation de niveau expert
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <hr class="my-4 opacity-25">
+            
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="text-light opacity-75 mb-0">
+                        <i class="fas fa-heart me-1 text-danger"></i>
+                        Formation conçue avec expertise pour la communauté Data
+                    </p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <small class="text-light opacity-50">
+                        Formation Expert • Niveau Professionnel • Cloud-Native • Enterprise Ready
+                    </small>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Animation d'entrée pour les cartes de modules
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observer les cartes de modules pour l'animation
+        document.querySelectorAll('.module-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+            observer.observe(card);
+        });
+
+        // Animation de la barre de progression circulaire
+        setTimeout(() => {
+            const progressCircle = document.getElementById('progressCircle');
+            if (progressCircle) {
+                const circumference = 565.48;
+                const offset = circumference - (100 / 100) * circumference;
+                progressCircle.style.strokeDashoffset = offset;
+            }
+        }, 1000);
+
+        // Animation des cartes de stats
+        document.querySelectorAll('.stats-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'scale(0.8)';
+            card.style.transition = `opacity 0.6s ease ${index * 0.2 + 0.5}s, transform 0.6s ease ${index * 0.2 + 0.5}s`;
+            
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'scale(1)';
+            }, (index * 200) + 500);
+        });
+
+        // Animation des badges technologiques
+        document.querySelectorAll('.tech-badge').forEach((badge, index) => {
+            badge.style.opacity = '0';
+            badge.style.transform = 'translateX(-20px)';
+            badge.style.transition = `opacity 0.5s ease ${index * 0.1 + 1}s, transform 0.5s ease ${index * 0.1 + 1}s`;
+            
+            setTimeout(() => {
+                badge.style.opacity = '1';
+                badge.style.transform = 'translateX(0)';
+            }, (index * 100) + 1000);
+        });
+
+        // Animation des illustrations techniques
+        document.querySelectorAll('.tech-illustration, .phase-illustration').forEach((illustration, index) => {
+            illustration.style.opacity = '0';
+            illustration.style.transform = 'scale(0.8) rotateY(45deg)';
+            illustration.style.transition = `opacity 0.8s ease ${index * 0.2 + 0.5}s, transform 0.8s ease ${index * 0.2 + 0.5}s`;
+            
+            setTimeout(() => {
+                illustration.style.opacity = '1';
+                illustration.style.transform = 'scale(1) rotateY(0deg)';
+            }, (index * 200) + 500);
+        });
+
+        // Animation des prévisualisations de modules
+        document.querySelectorAll('.module-preview-image').forEach((preview, index) => {
+            preview.style.opacity = '0';
+            preview.style.transform = 'translateY(20px)';
+            preview.style.transition = `opacity 0.6s ease ${index * 0.15 + 0.8}s, transform 0.6s ease ${index * 0.15 + 0.8}s`;
+            
+            setTimeout(() => {
+                preview.style.opacity = '1';
+                preview.style.transform = 'translateY(0)';
+            }, (index * 150) + 800);
+        });
+
+        // Effet de particules professionnel
+        function createProfessionalParticles() {
+            const colors = ['#dc143c', '#2563eb', '#059669', '#d97706', '#8b5cf6'];
+            const shapes = ['circle', 'square', 'diamond'];
+            const celebrationContainer = document.getElementById('celebrationContainer');
+            
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    const shape = shapes[Math.floor(Math.random() * shapes.length)];
+                    
+                    particle.style.position = 'fixed';
+                    particle.style.width = '6px';
+                    particle.style.height = '6px';
+                    particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.top = '-10px';
+                    particle.style.pointerEvents = 'none';
+                    particle.style.animation = 'fall 4s ease-out forwards';
+                    particle.style.opacity = '0.8';
+                    
+                    if (shape === 'circle') {
+                        particle.style.borderRadius = '50%';
+                    } else if (shape === 'diamond') {
+                        particle.style.transform = 'rotate(45deg)';
+                        particle.style.borderRadius = '2px';
+                    } else {
+                        particle.style.borderRadius = '1px';
+                    }
+                    
+                    celebrationContainer.appendChild(particle);
+                    
+                    setTimeout(() => {
+                        if (particle.parentNode) {
+                            particle.parentNode.removeChild(particle);
+                        }
+                    }, 4000);
+                }, i * 200);
+            }
+        }
+
+        // CSS pour l'animation de chute
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fall {
+                0% {
+                    transform: translateY(0) rotate(0deg);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Déclencher les particules professionnelles après le chargement
+        setTimeout(createProfessionalParticles, 2000);
+    </script>
+</body>
+</html>

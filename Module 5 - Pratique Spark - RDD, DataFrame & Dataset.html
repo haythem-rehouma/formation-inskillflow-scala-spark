@@ -1,0 +1,2113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 5 - Pratique Spark - RDD, DataFrame & Dataset</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Highlight.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #059669;
+            --secondary-color: #0284c7;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --info-color: #3b82f6;
+            --dark-color: #1f2937;
+            --light-bg: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-muted: #64748b;
+            --question-bg: #f1f5f9;
+            --answer-bg: #dcfce7;
+            --explanation-bg: #fef3c7;
+            --code-bg: #0f172a;
+            --practice-green: #059669;
+            --hands-on-blue: #0284c7;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--practice-green), var(--hands-on-blue));
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 100px;
+            height: calc(100vh - 120px);
+            overflow-y: auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .toc-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .toc-link {
+            display: block;
+            padding: 0.5rem 0;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-left: 3px solid transparent;
+            padding-left: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .toc-link:hover, .toc-link.active {
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+            background-color: rgba(5, 150, 105, 0.05);
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .content-header {
+            background: linear-gradient(135deg, var(--practice-green), var(--hands-on-blue));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .content-header h1 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .content-header .lead {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .content-body {
+            padding: 2rem;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .practice-card {
+            background: var(--light-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--practice-green);
+            transition: all 0.3s ease;
+        }
+
+        .practice-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .practice-card.rdd { border-left-color: #ef4444; }
+        .practice-card.dataframe { border-left-color: #10b981; }
+        .practice-card.dataset { border-left-color: #3b82f6; }
+        .practice-card.performance { border-left-color: #f59e0b; }
+        .practice-card.production { border-left-color: #8b5cf6; }
+
+        .practice-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .hands-on-box {
+            background: rgba(5, 150, 105, 0.05);
+            border: 2px solid var(--practice-green);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .hands-on-box h6 {
+            color: var(--practice-green);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .performance-tip {
+            background: rgba(245, 158, 11, 0.05);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .performance-tip h6 {
+            color: var(--warning-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .real-world-example {
+            background: rgba(59, 130, 246, 0.05);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .real-world-example h6 {
+            color: var(--info-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .code-block {
+            background: var(--code-bg);
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 1rem 0;
+            border: 1px solid #334155;
+        }
+
+        .code-header {
+            background: #1e293b;
+            padding: 0.75rem 1rem;
+            color: #94a3b8;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-bottom: 1px solid #334155;
+        }
+
+        pre {
+            margin: 0;
+            padding: 1rem;
+            background: var(--code-bg);
+            color: #e2e8f0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(5, 150, 105, 0.1);
+            color: var(--primary-color);
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        .exercise-card {
+            border: 2px solid var(--hands-on-blue);
+            border-radius: 8px;
+            margin: 2rem 0;
+            overflow: hidden;
+        }
+
+        .exercise-header {
+            background: var(--hands-on-blue);
+            color: white;
+            padding: 1rem;
+            font-weight: 600;
+        }
+
+        .exercise-body {
+            padding: 1.5rem;
+            background: rgba(2, 132, 199, 0.02);
+        }
+
+        .question-accordion .accordion-item {
+            border: 1px solid var(--border-color);
+            margin-bottom: 1rem;
+            border-radius: 8px !important;
+            overflow: hidden;
+        }
+
+        .question-header {
+            background: var(--question-bg);
+            border: none;
+            color: var(--dark-color);
+            font-weight: 600;
+            padding: 1.25rem 1.5rem;
+        }
+
+        .question-header:not(.collapsed) {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .question-header::after {
+            background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>");
+        }
+
+        .question-header:not(.collapsed)::after {
+            background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>");
+        }
+
+        .answer-section {
+            background: var(--answer-bg);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 6px;
+            border-left: 4px solid var(--success-color);
+        }
+
+        .explanation-section {
+            background: var(--explanation-bg);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 6px;
+            border-left: 4px solid var(--warning-color);
+        }
+
+        .info-box {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid var(--info-color);
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+
+        .success-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success-color);
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+
+        .warning-box {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid var(--warning-color);
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+
+        .badge-practice {
+            background: linear-gradient(135deg, var(--practice-green), var(--hands-on-blue));
+            color: white;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--practice-green), var(--hands-on-blue));
+            border: none;
+            font-weight: 500;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(5, 150, 105, 0.3);
+        }
+
+        .navigation-buttons {
+            background: var(--light-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, var(--practice-green), var(--hands-on-blue));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(5, 150, 105, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: static;
+                margin-bottom: 2rem;
+                height: auto;
+            }
+            
+            .content-header {
+                padding: 1.5rem;
+            }
+            
+            .content-body {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-code me-2"></i>
+                Cours Scala & Spark
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="fas fa-home me-1"></i>Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-book me-1"></i>Modules
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="Module 1 - Introduction aux Paradigmes de Programmation.html">Module 1 - Paradigmes</a></li>
+                            <li><a class="dropdown-item" href="Module 2 - Mettre en place l'environnement pour Scala.html">Module 2 - Environnement</a></li>
+                            <li><a class="dropdown-item" href="Module 3 - Introduction à Scala.html">Module 3 - Introduction Scala</a></li>
+                            <li><a class="dropdown-item" href="Module 4 - Fondements théoriques de Spark - RDD, DataFrame, Dataset.html">Module 4 - Fondements Spark</a></li>
+                            <li><a class="dropdown-item" href="Module 5 - Pratique Spark - RDD, DataFrame & Dataset.html">Module 5 - Pratique Spark</a></li>
+                            <li><a class="dropdown-item" href="Module 6 - Approfondissement en Programmation Fonctionnelle.html">Module 6 - Prog. Fonctionnelle</a></li>
+                            <li><a class="dropdown-item" href="Module 7 - Spark Streaming et introduction au Machine Learning.html">Module 7 - Streaming & ML</a></li>
+                            <li><a class="dropdown-item" href="Module 8 - Introduction à Databricks et SparkSQL sur le Cloud.html">Module 8 - Cloud</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid" style="margin-top: 80px;">
+        <div class="row">
+            <!-- Sidebar avec table des matières -->
+            <div class="col-lg-3">
+                <div class="sidebar">
+                    <h5 class="toc-title">
+                        <i class="fas fa-tools me-2"></i>
+                        Module 5 - Pratique Spark
+                    </h5>
+                    <div class="toc-content">
+                        <a href="#setup" class="toc-link">
+                            <i class="fas fa-cog me-2"></i>
+                            Setup et configuration
+                        </a>
+                        <a href="#rdd-advanced" class="toc-link">
+                            <i class="fas fa-layer-group me-2"></i>
+                            RDD avancé - Cas pratiques
+                        </a>
+                        <a href="#dataframe-analytics" class="toc-link">
+                            <i class="fas fa-chart-bar me-2"></i>
+                            DataFrame Analytics
+                        </a>
+                        <a href="#dataset-production" class="toc-link">
+                            <i class="fas fa-industry me-2"></i>
+                            Dataset en production
+                        </a>
+                        <a href="#performance" class="toc-link">
+                            <i class="fas fa-tachometer-alt me-2"></i>
+                            Performance et optimisation
+                        </a>
+                        <a href="#etl-pipeline" class="toc-link">
+                            <i class="fas fa-stream me-2"></i>
+                            Pipeline ETL
+                        </a>
+                        <a href="#real-world" class="toc-link">
+                            <i class="fas fa-globe me-2"></i>
+                            Cas d'usage industriels
+                        </a>
+                        <a href="#debugging" class="toc-link">
+                            <i class="fas fa-bug me-2"></i>
+                            Debugging et monitoring
+                        </a>
+                        <a href="#best-practices" class="toc-link">
+                            <i class="fas fa-star me-2"></i>
+                            Bonnes pratiques
+                        </a>
+                        <a href="#hands-on" class="toc-link">
+                            <i class="fas fa-dumbbell me-2"></i>
+                            Projets hands-on
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenu principal -->
+            <div class="col-lg-9">
+                <div class="main-content">
+                    <!-- En-tête -->
+                    <div class="content-header">
+                        <h1>
+                            <i class="fas fa-tools me-3"></i>
+                            Module 5 - Pratique Spark Intensive
+                        </h1>
+                        <p class="lead mb-0">
+                            RDD, DataFrame & Dataset - Maîtrisez Spark avec des projets réels et industriels
+                        </p>
+                        <span class="badge badge-practice mt-2">Module 5 - Hands-on</span>
+                    </div>
+
+                    <!-- Corps du contenu -->
+                    <div class="content-body">
+                        
+                        <!-- Setup -->
+                        <section id="setup" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-cog me-2"></i>
+                                Setup et configuration avancée
+                            </h2>
+                            
+                            <div class="practice-card">
+                                <div class="practice-title">
+                                    <i class="fas fa-rocket"></i>
+                                    Configuration professionnelle
+                                </div>
+                                <p>
+                                    Configurons un environnement Spark optimisé pour les cas d'usage intensifs 
+                                    avec les bonnes pratiques industrielles.
+                                </p>
+                            </div>
+
+                            <div class="hands-on-box">
+                                <h6><i class="fas fa-wrench me-2"></i>Configuration optimisée pour la pratique</h6>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <i class="fas fa-cogs me-2"></i>SparkSession configurée pour la production
+                                    </div>
+                                    <pre><code class="language-scala">import org.apache.spark.sql.{SparkSession, DataFrame, Dataset}
+import org.apache.spark.sql.functions._
+import org.apache.spark.sql.types._
+import org.apache.spark.storage.StorageLevel
+import org.apache.spark.serializer.KryoSerializer
+
+// Configuration avancée pour la pratique intensive
+val spark = SparkSession.builder()
+  .appName("Spark Pratique Intensive")
+  .master("local[*]")  // Utilise tous les cœurs
+  
+  // === PERFORMANCE OPTIMIZATIONS ===
+  .config("spark.sql.adaptive.enabled", "true")
+  .config("spark.sql.adaptive.coalescePartitions.enabled", "true")
+  .config("spark.sql.adaptive.skewJoin.enabled", "true")
+  
+  // === MEMORY MANAGEMENT ===
+  .config("spark.executor.memory", "4g")
+  .config("spark.driver.memory", "2g")
+  .config("spark.executor.memoryFraction", "0.8")
+  
+  // === SERIALIZATION ===
+  .config("spark.serializer", classOf[KryoSerializer].getName)
+  .config("spark.kryo.unsafe", "true")
+  
+  // === CACHING ===
+  .config("spark.sql.inMemoryColumnarStorage.compressed", "true")
+  .config("spark.sql.inMemoryColumnarStorage.batchSize", "20000")
+  
+  // === DEBUGGING ===
+  .config("spark.sql.execution.arrow.pyspark.enabled", "true")
+  .config("spark.eventLog.enabled", "true")
+  
+  .getOrCreate()
+
+import spark.implicits._
+
+// Configuration du niveau de log pour voir les détails importants
+spark.sparkContext.setLogLevel("WARN")
+
+// Métriques de performance
+println(s"=== CONFIGURATION SPARK ===")
+println(s"Version Spark: ${spark.version}")
+println(s"Cœurs disponibles: ${spark.sparkContext.defaultParallelism}")
+println(s"Memory per executor: ${spark.conf.get("spark.executor.memory")}")
+println(s"Driver memory: ${spark.conf.get("spark.driver.memory")}")
+
+// Utilitaires pour le développement
+def showPerformanceMetrics[T](name: String)(operation: => T): T = {
+  val startTime = System.currentTimeMillis()
+  val result = operation
+  val endTime = System.currentTimeMillis()
+  println(s"[$name] Temps d'exécution: ${endTime - startTime} ms")
+  result
+}
+
+def explainQuery(df: DataFrame): Unit = {
+  println("=== PLAN D'EXÉCUTION ===")
+  df.explain(true)
+}</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="performance-tip">
+                                <h6><i class="fas fa-lightbulb me-2"></i>Tips de configuration</h6>
+                                <ul class="mb-0">
+                                    <li><strong>AQE (Adaptive Query Execution)</strong> : Optimise automatiquement les requêtes</li>
+                                    <li><strong>Kryo Serializer</strong> : 10x plus rapide que Java serialization</li>
+                                    <li><strong>Memory Fraction</strong> : 80% de la mémoire pour les données, 20% pour l'exécution</li>
+                                    <li><strong>Event Log</strong> : Essential pour le debugging en production</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <!-- RDD Avancé -->
+                        <section id="rdd-advanced" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-layer-group me-2"></i>
+                                RDD avancé - Cas pratiques intensifs
+                            </h2>
+                            
+                            <div class="practice-card rdd">
+                                <div class="practice-title">
+                                    <i class="fas fa-database"></i>
+                                    Manipulations RDD complexes
+                                </div>
+                                <p>
+                                    Maîtrisez les patterns avancés de RDD avec des cas d'usage réels :
+                                    partitioning custom, transformations complexes, et optimisations.
+                                </p>
+                            </div>
+
+                            <div class="real-world-example">
+                                <h6><i class="fas fa-globe me-2"></i>Cas réel : Analyse de logs web</h6>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <i class="fas fa-server me-2"></i>Analyse de logs Apache avec RDD
+                                    </div>
+                                    <pre><code class="language-scala">// Simuler des logs web réels
+val webLogs = spark.sparkContext.parallelize(Seq(
+  "192.168.1.1 - - [10/Oct/2000:13:55:36 -0700] \"GET /index.html HTTP/1.0\" 200 2326",
+  "192.168.1.2 - - [10/Oct/2000:13:55:36 -0700] \"POST /api/users HTTP/1.1\" 201 1024",
+  "192.168.1.1 - - [10/Oct/2000:13:55:37 -0700] \"GET /api/products HTTP/1.1\" 200 5420",
+  "192.168.1.3 - - [10/Oct/2000:13:55:38 -0700] \"GET /admin HTTP/1.1\" 403 0",
+  "192.168.1.2 - - [10/Oct/2000:13:55:39 -0700] \"DELETE /api/users/123 HTTP/1.1\" 404 256",
+  "192.168.1.4 - - [10/Oct/2000:13:55:40 -0700] \"GET /images/logo.png HTTP/1.1\" 200 15678"
+) ++ (1 to 10000).map(i => 
+  s"192.168.${i%255}.${(i*3)%255} - - [10/Oct/2000:13:${55 + i%5}:${36 + i%60} -0700] \"GET /page$i.html HTTP/1.1\" 200 ${1000 + i%5000}"
+))
+
+// Pattern de parsing avec case class
+case class LogEntry(ip: String, timestamp: String, method: String, 
+                   url: String, protocol: String, statusCode: Int, responseSize: Long)
+
+// Parser custom pour les logs
+def parseLogLine(line: String): Option[LogEntry] = {
+  val logPattern = """^(\S+) \S+ \S+ \[([\w:/]+\s[+\-]\d{4})\] "(\S+) (\S+) (\S+)" (\d{3}) (\d+)""".r
+  
+  line match {
+    case logPattern(ip, timestamp, method, url, protocol, status, size) =>
+      Some(LogEntry(ip, timestamp, method, url, protocol, status.toInt, size.toLong))
+    case _ => None
+  }
+}
+
+// Transformation RDD complexe avec gestion d'erreurs
+val parsedLogs = showPerformanceMetrics("Parsing logs") {
+  webLogs
+    .map(parseLogLine)
+    .filter(_.isDefined)
+    .map(_.get)
+    .cache()  // Cache important pour réutilisation
+}
+
+println(s"Logs parsés avec succès: ${parsedLogs.count()}")
+
+// === ANALYSES AVANCÉES AVEC RDD ===
+
+// 1. Top 10 des IPs par nombre de requêtes
+val topIPs = showPerformanceMetrics("Top IPs") {
+  parsedLogs
+    .map(log => (log.ip, 1))
+    .reduceByKey(_ + _)
+    .map(_.swap)  // (count, ip)
+    .sortByKey(false)  // Tri décroissant
+    .take(10)
+}
+
+println("=== TOP 10 IPs ===")
+topIPs.foreach { case (count, ip) => 
+  println(f"$ip: $count%,d requêtes")
+}
+
+// 2. Distribution des codes de statut
+val statusDistribution = showPerformanceMetrics("Status codes") {
+  parsedLogs
+    .map(log => (log.statusCode, 1))
+    .reduceByKey(_ + _)
+    .collectAsMap()
+}
+
+println("=== DISTRIBUTION DES STATUS CODES ===")
+statusDistribution.toSeq.sortBy(_._1).foreach { case (status, count) =>
+  println(f"$status: $count%,d (${count * 100.0 / parsedLogs.count()}%.1f%%)")
+}
+
+// 3. Analyse temporelle avec partitioning custom
+class HourPartitioner(numPartitions: Int) extends org.apache.spark.Partitioner {
+  override def numPartitions: Int = numPartitions
+  override def getPartition(key: Any): Int = {
+    val hour = key.toString.toInt
+    hour % numPartitions
+  }
+}
+
+val hourlyTraffic = showPerformanceMetrics("Hourly analysis") {
+  parsedLogs
+    .map { log =>
+      // Extraire l'heure du timestamp
+      val hour = log.timestamp.substring(12, 14).toInt
+      (hour, (1, log.responseSize))
+    }
+    .partitionBy(new HourPartitioner(24))  // Partition par heure
+    .reduceByKey { case ((count1, size1), (count2, size2)) =>
+      (count1 + count2, size1 + size2)
+    }
+    .map { case (hour, (count, totalSize)) =>
+      (hour, count, totalSize, totalSize.toDouble / count)
+    }
+    .collect()
+    .sortBy(_._1)
+}
+
+println("=== TRAFIC PAR HEURE ===")
+hourlyTraffic.foreach { case (hour, requests, totalBytes, avgSize) =>
+  println(f"${hour}h: $requests%,d req, ${totalBytes/1024}%,d KB total, ${avgSize/1024}%.1f KB/req")
+}
+
+// 4. Pattern de détection d'anomalies
+val suspiciousActivity = showPerformanceMetrics("Anomaly detection") {
+  parsedLogs
+    .filter(log => log.statusCode == 403 || log.statusCode == 404)  // Erreurs suspectes
+    .map(log => (log.ip, (log.url, log.statusCode)))
+    .groupByKey()
+    .filter { case (ip, errors) => errors.size > 5 }  // Plus de 5 erreurs
+    .map { case (ip, errors) => 
+      (ip, errors.size, errors.map(_._2).groupBy(identity).mapValues(_.size))
+    }
+    .collect()
+}
+
+println("=== ACTIVITÉ SUSPECTE ===")
+suspiciousActivity.foreach { case (ip, errorCount, statusBreakdown) =>
+  println(s"IP $ip: $errorCount erreurs - $statusBreakdown")
+}</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="hands-on-box">
+                                <h6><i class="fas fa-tools me-2"></i>RDD Custom Transformations</h6>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <i class="fas fa-code me-2"></i>Transformations RDD personnalisées
+                                    </div>
+                                    <pre><code class="language-scala">// === TRANSFORMATIONS RDD AVANCÉES ===
+
+// 1. mapPartitions pour traitement batch
+val processedLogs = parsedLogs.mapPartitions { partition =>
+  // Setup coûteux une seule fois par partition
+  val formatter = java.time.format.DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z", java.util.Locale.ENGLISH)
+  val regexCache = scala.collection.mutable.Map[String, scala.util.matching.Regex]()
+  
+  partition.map { log =>
+    // Traitement optimisé par partition
+    val normalizedUrl = log.url.toLowerCase.replaceAll("""\d+""", "N")
+    val category = normalizedUrl match {
+      case url if url.contains("/api/") => "API"
+      case url if url.contains("/admin") => "Admin"
+      case url if url.contains("/images/") => "Static"
+      case _ => "Page"
+    }
+    
+    (log.copy(url = normalizedUrl), category)
+  }
+}
+
+// 2. glom() pour accéder aux partitions complètes
+val partitionInfo = parsedLogs.glom().map { partition =>
+  val size = partition.length
+  val uniqueIPs = partition.map(_.ip).toSet.size
+  val avgResponseSize = partition.map(_.responseSize).sum.toDouble / size
+  
+  (size, uniqueIPs, avgResponseSize)
+}.collect()
+
+println("=== INFO PARTITIONS ===")
+partitionInfo.zipWithIndex.foreach { case ((size, ips, avgSize), idx) =>
+  println(f"Partition $idx: $size logs, $ips IPs uniques, ${avgSize/1024}%.1f KB moyen")
+}
+
+// 3. coalesce() et repartition() intelligent
+val optimizedRDD = if (parsedLogs.getNumPartitions > spark.sparkContext.defaultParallelism) {
+  println(s"Réduction de ${parsedLogs.getNumPartitions} à ${spark.sparkContext.defaultParallelism} partitions")
+  parsedLogs.coalesce(spark.sparkContext.defaultParallelism)
+} else {
+  parsedLogs
+}
+
+// 4. Accumulator custom pour métriques
+val errorAccumulator = spark.sparkContext.longAccumulator("Errors")
+val largeResponseAccumulator = spark.sparkContext.longAccumulator("Large Responses")
+
+val metricsRDD = optimizedRDD.map { log =>
+  if (log.statusCode >= 400) errorAccumulator.add(1)
+  if (log.responseSize > 10000) largeResponseAccumulator.add(1)
+  log
+}
+
+// Déclencher le calcul
+val totalLogs = metricsRDD.count()
+
+println(s"=== MÉTRIQUES GLOBALES ===")
+println(s"Total logs: $totalLogs")
+println(s"Erreurs: ${errorAccumulator.value}")
+println(s"Réponses volumineuses (>10KB): ${largeResponseAccumulator.value}")
+
+// 5. Sampling intelligent
+val stratifiedSample = parsedLogs
+  .map(log => (log.statusCode, log))
+  .sampleByKey(false, Map(
+    200 -> 0.1,   // 10% des succès
+    404 -> 1.0,   // 100% des 404
+    500 -> 1.0    // 100% des erreurs serveur
+  ))
+  .values
+
+println(s"Échantillon stratifié: ${stratifiedSample.count()} logs")
+
+// Nettoyer le cache
+parsedLogs.unpersist()</code></pre>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- DataFrame Analytics -->
+                        <section id="dataframe-analytics" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-chart-bar me-2"></i>
+                                DataFrame Analytics - Analyse de données réelles
+                            </h2>
+                            
+                            <div class="practice-card dataframe">
+                                <div class="practice-title">
+                                    <i class="fas fa-table"></i>
+                                    Analytics avancées avec DataFrame
+                                </div>
+                                <p>
+                                    Maîtrisez les DataFrame avec des analyses complexes : 
+                                    agrégations avancées, window functions, jointures optimisées.
+                                </p>
+                            </div>
+
+                            <div class="real-world-example">
+                                <h6><i class="fas fa-shopping-cart me-2"></i>Cas réel : Analyse e-commerce</h6>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <i class="fas fa-store me-2"></i>Dataset e-commerce complexe
+                                    </div>
+                                    <pre><code class="language-scala">// === GÉNÉRATION DE DONNÉES E-COMMERCE RÉALISTES ===
+
+import java.sql.Timestamp
+import scala.util.Random
+
+case class Customer(customer_id: Int, name: String, email: String, 
+                   registration_date: Timestamp, segment: String, country: String)
+
+case class Product(product_id: Int, name: String, category: String, 
+                  price: Double, cost: Double, brand: String)
+
+case class Order(order_id: Int, customer_id: Int, order_date: Timestamp, 
+                status: String, total_amount: Double)
+
+case class OrderItem(order_item_id: Int, order_id: Int, product_id: Int, 
+                    quantity: Int, unit_price: Double, discount: Double)
+
+// Génération de données réalistes
+val random = new Random(42)  // Seed pour reproductibilité
+
+// Clients (10,000)
+val customers = showPerformanceMetrics("Generate customers") {
+  (1 to 10000).map { i =>
+    val segments = Array("Premium", "Standard", "Budget")
+    val countries = Array("France", "Germany", "UK", "Spain", "Italy")
+    
+    Customer(
+      customer_id = i,
+      name = s"Customer_$i",
+      email = s"customer$i@email.com",
+      registration_date = new Timestamp(System.currentTimeMillis() - random.nextInt(365*24*3600*1000L)),
+      segment = segments(random.nextInt(segments.length)),
+      country = countries(random.nextInt(countries.length))
+    )
+  }.toDS().cache()
+}
+
+// Produits (1,000)
+val products = showPerformanceMetrics("Generate products") {
+  (1 to 1000).map { i =>
+    val categories = Array("Electronics", "Clothing", "Books", "Sports", "Home")
+    val brands = Array("BrandA", "BrandB", "BrandC", "BrandD", "BrandE")
+    val price = 10 + random.nextDouble() * 1000
+    
+    Product(
+      product_id = i,
+      name = s"Product_$i",
+      category = categories(random.nextInt(categories.length)),
+      price = math.round(price * 100) / 100.0,
+      cost = math.round(price * 0.6 * 100) / 100.0,
+      brand = brands(random.nextInt(brands.length))
+    )
+  }.toDS().cache()
+}
+
+// Commandes (50,000)
+val orders = showPerformanceMetrics("Generate orders") {
+  (1 to 50000).map { i =>
+    val statuses = Array("Completed", "Pending", "Cancelled", "Shipped")
+    val customerId = 1 + random.nextInt(10000)
+    
+    Order(
+      order_id = i,
+      customer_id = customerId,
+      order_date = new Timestamp(System.currentTimeMillis() - random.nextInt(90*24*3600*1000L)),
+      status = statuses(random.nextInt(statuses.length)),
+      total_amount = 20 + random.nextDouble() * 2000
+    )
+  }.toDS().cache()
+}
+
+// Items de commande (200,000)
+val orderItems = showPerformanceMetrics("Generate order items") {
+  orders.flatMap { order =>
+    val numItems = 1 + random.nextInt(5)  // 1-5 items par commande
+    (1 to numItems).map { itemIdx =>
+      val productId = 1 + random.nextInt(1000)
+      val quantity = 1 + random.nextInt(3)
+      val unitPrice = 10 + random.nextDouble() * 500
+      
+      OrderItem(
+        order_item_id = order.order_id * 10 + itemIdx,
+        order_id = order.order_id,
+        product_id = productId,
+        quantity = quantity,
+        unit_price = math.round(unitPrice * 100) / 100.0,
+        discount = random.nextDouble() * 0.2  // 0-20% discount
+      )
+    }
+  }.cache()
+}
+
+println(s"=== DONNÉES GÉNÉRÉES ===")
+println(s"Clients: ${customers.count()}")
+println(s"Produits: ${products.count()}")
+println(s"Commandes: ${orders.count()}")
+println(s"Items: ${orderItems.count()}")</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="hands-on-box">
+                                <h6><i class="fas fa-chart-line me-2"></i>Analyses DataFrame avancées</h6>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <i class="fas fa-analytics me-2"></i>Analytics complexes avec SQL
+                                    </div>
+                                    <pre><code class="language-scala">// === ANALYSES AVANCÉES AVEC DATAFRAME ===
+
+// 1. ANALYSE DE COHORTS - Window Functions
+val cohortAnalysis = showPerformanceMetrics("Cohort analysis") {
+  customers
+    .withColumn("registration_month", date_format($"registration_date", "yyyy-MM"))
+    .join(orders, "customer_id")
+    .withColumn("order_month", date_format($"order_date", "yyyy-MM"))
+    .withColumn("period", 
+      months_between($"order_date", $"registration_date").cast("int"))
+    .groupBy("registration_month", "period")
+    .agg(
+      countDistinct("customer_id").as("active_customers"),
+      sum("total_amount").as("revenue"),
+      avg("total_amount").as("avg_order_value")
+    )
+    .orderBy("registration_month", "period")
+}
+
+println("=== ANALYSE DE COHORTES ===")
+cohortAnalysis.show(20)
+
+// 2. RFM ANALYSIS (Recency, Frequency, Monetary)
+val currentDate = current_date()
+val rfmAnalysis = showPerformanceMetrics("RFM Analysis") {
+  orders
+    .filter($"status" === "Completed")
+    .groupBy("customer_id")
+    .agg(
+      max($"order_date").as("last_order_date"),
+      count("order_id").as("frequency"),
+      sum("total_amount").as("monetary")
+    )
+    .withColumn("recency", datediff(currentDate, $"last_order_date"))
+    .withColumn("recency_score", 
+      when($"recency" <= 30, 5)
+      .when($"recency" <= 60, 4)
+      .when($"recency" <= 90, 3)
+      .when($"recency" <= 180, 2)
+      .otherwise(1))
+    .withColumn("frequency_score",
+      when($"frequency" >= 10, 5)
+      .when($"frequency" >= 5, 4)
+      .when($"frequency" >= 3, 3)
+      .when($"frequency" >= 2, 2)
+      .otherwise(1))
+    .withColumn("monetary_score",
+      when($"monetary" >= 1000, 5)
+      .when($"monetary" >= 500, 4)
+      .when($"monetary" >= 200, 3)
+      .when($"monetary" >= 100, 2)
+      .otherwise(1))
+    .withColumn("rfm_score", 
+      concat($"recency_score", $"frequency_score", $"monetary_score"))
+    .withColumn("customer_value",
+      when($"rfm_score".rlike("^[4-5][4-5][4-5]"), "Champions")
+      .when($"rfm_score".rlike("^[3-5][2-5][3-5]"), "Loyal Customers")
+      .when($"rfm_score".rlike("^[3-5][1-3][1-3]"), "Potential Loyalists")
+      .when($"rfm_score".rlike("^[4-5][0-1][0-1]"), "New Customers")
+      .when($"rfm_score".rlike("^[3-4][0-1][0-1]"), "Promising")
+      .when($"rfm_score".rlike("^[2-3][2-3][2-3]"), "Customers Needing Attention")
+      .when($"rfm_score".rlike("^[1-2][1-2][2-3]"), "At Risk")
+      .when($"rfm_score".rlike("^[0-2][4-5][4-5]"), "Can't Lose Them")
+      .when($"rfm_score".rlike("^[1-2][1-1][1-1]"), "Hibernating")
+      .otherwise("Lost"))
+    .cache()
+}
+
+// Distribution des segments clients
+val customerSegments = rfmAnalysis
+  .groupBy("customer_value")
+  .agg(
+    count("customer_id").as("count"),
+    avg("monetary").as("avg_revenue"),
+    avg("frequency").as("avg_frequency"),
+    avg("recency").as("avg_recency")
+  )
+  .orderBy($"count".desc)
+
+println("=== SEGMENTATION RFM ===")
+customerSegments.show()
+
+// 3. ANALYSE DES PANIERS (Market Basket Analysis)
+val basketAnalysis = showPerformanceMetrics("Market Basket") {
+  // Produits fréquemment achetés ensemble
+  orderItems
+    .join(products, "product_id")
+    .select("order_id", "category", "brand")
+    .groupBy("order_id")
+    .agg(collect_set("category").as("categories"),
+         collect_set("brand").as("brands"))
+    .filter(size($"categories") > 1)  // Paniers multi-catégories uniquement
+    .select(
+      explode($"categories").as("category1"),
+      $"categories", $"order_id"
+    )
+    .select(
+      $"category1",
+      explode($"categories").as("category2"),
+      $"order_id"
+    )
+    .filter($"category1" < $"category2")  // Éviter duplicatas A-B = B-A
+    .groupBy("category1", "category2")
+    .agg(
+      count("order_id").as("frequency"),
+      countDistinct("order_id").as("unique_baskets")
+    )
+    .filter($"frequency" > 10)  // Seuil de fréquence
+    .orderBy($"frequency".desc)
+}
+
+println("=== ANALYSE DES PANIERS (Catégories) ===")
+basketAnalysis.show()
+
+// 4. PERFORMANCE PAR RÉGION ET SEGMENT
+val geoSegmentAnalysis = showPerformanceMetrics("Geo-Segment analysis") {
+  customers
+    .join(orders.filter($"status" === "Completed"), "customer_id")
+    .join(orderItems, "order_id")
+    .join(products, "product_id")
+    .groupBy("country", "segment", "category")
+    .agg(
+      sum($"quantity" * $"unit_price" * (1 - $"discount")).as("revenue"),
+      sum("quantity").as("units_sold"),
+      countDistinct("customer_id").as("unique_customers"),
+      avg($"unit_price" * (1 - $"discount")).as("avg_price")
+    )
+    .withColumn("revenue_per_customer", $"revenue" / $"unique_customers")
+    .orderBy($"revenue".desc)
+}
+
+println("=== PERFORMANCE GÉO-SEGMENT ===")
+geoSegmentAnalysis.show(20)</code></pre>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Dataset Production -->
+                        <section id="dataset-production" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-industry me-2"></i>
+                                Dataset en production - Patterns industriels
+                            </h2>
+                            
+                            <div class="practice-card dataset">
+                                <div class="practice-title">
+                                    <i class="fas fa-shield-alt"></i>
+                                    Type Safety et performance industrielle
+                                </div>
+                                <p>
+                                    Maîtrisez les Dataset avec des patterns de production :
+                                    encoders custom, optimisations type-safe, et architecture scalable.
+                                </p>
+                            </div>
+
+                            <div class="real-world-example">
+                                <h6><i class="fas fa-building me-2"></i>Pattern industriel : Pipeline de données financières</h6>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <i class="fas fa-university me-2"></i>Dataset avec domaine métier complexe
+                                    </div>
+                                    <pre><code class="language-scala">// === DOMAINE MÉTIER FINANCIER ===
+
+import org.apache.spark.sql.{Encoder, Encoders}
+import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder
+import java.time.{LocalDate, LocalDateTime}
+import java.math.{BigDecimal, RoundingMode}
+
+// Case classes métier avec validation
+case class Account(
+  accountId: String,
+  customerId: String,
+  accountType: String,
+  balance: BigDecimal,
+  currency: String,
+  openDate: LocalDate,
+  status: String
+) {
+  require(balance.scale() <= 2, "Balance must have max 2 decimal places")
+  require(currency.length == 3, "Currency must be 3 characters")
+  require(accountType.nonEmpty, "Account type cannot be empty")
+}
+
+case class Transaction(
+  transactionId: String,
+  fromAccount: String,
+  toAccount: Option[String],
+  amount: BigDecimal,
+  currency: String,
+  transactionType: String,
+  timestamp: LocalDateTime,
+  description: String,
+  fees: BigDecimal = BigDecimal.ZERO
+) {
+  require(amount.compareTo(BigDecimal.ZERO) > 0, "Amount must be positive")
+  require(fees.compareTo(BigDecimal.ZERO) >= 0, "Fees cannot be negative")
+  
+  def netAmount: BigDecimal = amount.subtract(fees)
+}
+
+case class RiskScore(
+  customerId: String,
+  score: Double,
+  riskLevel: String,
+  factors: Map[String, Double],
+  calculatedAt: LocalDateTime
+) {
+  require(score >= 0 && score <= 100, "Score must be between 0 and 100")
+  require(Set("LOW", "MEDIUM", "HIGH", "CRITICAL").contains(riskLevel), "Invalid risk level")
+}
+
+// Encoders custom pour les types complexes
+implicit val bigDecimalEncoder: Encoder[BigDecimal] = Encoders.kryo[BigDecimal]
+implicit val localDateEncoder: Encoder[LocalDate] = Encoders.kryo[LocalDate]
+implicit val localDateTimeEncoder: Encoder[LocalDateTime] = Encoders.kryo[LocalDateTime]
+
+// === GÉNÉRATION DE DONNÉES FINANCIÈRES RÉALISTES ===
+
+val accounts = showPerformanceMetrics("Generate accounts") {
+  (1 to 100000).map { i =>
+    val accountTypes = Array("CHECKING", "SAVINGS", "CREDIT", "LOAN")
+    val currencies = Array("EUR", "USD", "GBP")
+    val statuses = Array("ACTIVE", "SUSPENDED", "CLOSED")
+    
+    Account(
+      accountId = f"ACC$i%08d",
+      customerId = f"CUST${(i-1)/3 + 1}%08d",
+      accountType = accountTypes(random.nextInt(accountTypes.length)),
+      balance = new BigDecimal(random.nextDouble() * 50000).setScale(2, RoundingMode.HALF_UP),
+      currency = currencies(random.nextInt(currencies.length)),
+      openDate = LocalDate.now().minusDays(random.nextInt(3650)),
+      status = statuses(random.nextInt(statuses.length))
+    )
+  }.toDS().cache()
+}
+
+val transactions = showPerformanceMetrics("Generate transactions") {
+  val accountIds = accounts.select("accountId").as[String].collect()
+  
+  (1 to 1000000).map { i =>
+    val fromAccount = accountIds(random.nextInt(accountIds.length))
+    val toAccount = if (random.nextBoolean()) Some(accountIds(random.nextInt(accountIds.length))) else None
+    val txTypes = Array("TRANSFER", "DEPOSIT", "WITHDRAWAL", "PAYMENT", "FEE")
+    
+    Transaction(
+      transactionId = f"TXN$i%010d",
+      fromAccount = fromAccount,
+      toAccount = toAccount,
+      amount = new BigDecimal(random.nextDouble() * 10000).setScale(2, RoundingMode.HALF_UP),
+      currency = "EUR",
+      transactionType = txTypes(random.nextInt(txTypes.length)),
+      timestamp = LocalDateTime.now().minusHours(random.nextInt(24*90)),
+      description = s"Transaction $i",
+      fees = new BigDecimal(random.nextDouble() * 10).setScale(2, RoundingMode.HALF_UP)
+    )
+  }.toDS().cache()
+}
+
+println(s"Comptes générés: ${accounts.count()}")
+println(s"Transactions générées: ${transactions.count()}")</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="hands-on-box">
+                                <h6><i class="fas fa-shield-alt me-2"></i>Dataset Type-Safe Operations</h6>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <i class="fas fa-code me-2"></i>Transformations Dataset avancées
+                                    </div>
+                                    <pre><code class="language-scala">// === TRANSFORMATIONS TYPE-SAFE AVANCÉES ===
+
+// 1. Calcul de risque avec type safety
+val riskCalculation = showPerformanceMetrics("Risk calculation") {
+  transactions
+    .filter(_.timestamp.isAfter(LocalDateTime.now().minusDays(30)))
+    .groupByKey(_.fromAccount)
+    .mapGroups { (accountId, txns) =>
+      val txnList = txns.toList
+      val totalAmount = txnList.map(_.amount).reduce(_.add(_))
+      val avgAmount = totalAmount.divide(new BigDecimal(txnList.size), 2, RoundingMode.HALF_UP)
+      val maxAmount = txnList.map(_.amount).maxBy(_.doubleValue())
+      val nightTransactions = txnList.count(_.timestamp.getHour < 6 || _.timestamp.getHour > 22)
+      val weekendTransactions = txnList.count(txn => {
+        val dayOfWeek = txn.timestamp.getDayOfWeek.getValue
+        dayOfWeek == 6 || dayOfWeek == 7
+      })
+      
+      // Calcul du score de risque
+      val volumeRisk = math.min(totalAmount.doubleValue() / 100000 * 30, 30)
+      val frequencyRisk = math.min(txnList.size / 100.0 * 20, 20)
+      val timeRisk = (nightTransactions + weekendTransactions) * 2.0
+      val amountRisk = math.min(maxAmount.doubleValue() / 10000 * 25, 25)
+      
+      val totalRisk = volumeRisk + frequencyRisk + timeRisk + amountRisk
+      val riskLevel = totalRisk match {
+        case r if r >= 80 => "CRITICAL"
+        case r if r >= 60 => "HIGH"
+        case r if r >= 30 => "MEDIUM"
+        case _ => "LOW"
+      }
+      
+      val factors = Map(
+        "volume" -> volumeRisk,
+        "frequency" -> frequencyRisk,
+        "timing" -> timeRisk,
+        "amount" -> amountRisk
+      )
+      
+      RiskScore(
+        customerId = accounts.filter(_.accountId == accountId).head.customerId,
+        score = totalRisk,
+        riskLevel = riskLevel,
+        factors = factors,
+        calculatedAt = LocalDateTime.now()
+      )
+    }
+    .cache()
+}
+
+println("=== TOP 10 COMPTES À RISQUE ===")
+riskCalculation
+  .orderBy($"score".desc)
+  .select("customerId", "score", "riskLevel", "factors")
+  .show(10, truncate = false)
+
+// 2. Agrégations complexes par client
+case class CustomerSummary(
+  customerId: String,
+  totalAccounts: Int,
+  totalBalance: BigDecimal,
+  avgBalance: BigDecimal,
+  accountTypes: Set[String],
+  riskScore: Double,
+  lastTransactionDate: LocalDateTime,
+  isHighValue: Boolean
+)
+
+val customerSummaries = showPerformanceMetrics("Customer summaries") {
+  accounts
+    .filter(_.status == "ACTIVE")
+    .joinWith(riskCalculation, accounts("customerId") === riskCalculation("customerId"))
+    .map { case (account, risk) => (account.customerId, account, risk) }
+    .groupByKey(_._1)
+    .mapGroups { (customerId, data) =>
+      val accountsAndRisk = data.toList
+      val customerAccounts = accountsAndRisk.map(_._2)
+      val riskScore = accountsAndRisk.head._3.score
+      
+      val totalBalance = customerAccounts.map(_.balance).reduce(_.add(_))
+      val avgBalance = totalBalance.divide(new BigDecimal(customerAccounts.size), 2, RoundingMode.HALF_UP)
+      val accountTypes = customerAccounts.map(_.accountType).toSet
+      
+      // Trouver la dernière transaction
+      val customerAccountIds = customerAccounts.map(_.accountId).toSet
+      val lastTransaction = transactions
+        .filter(t => customerAccountIds.contains(t.fromAccount))
+        .collect()
+        .maxBy(_.timestamp.toEpochSecond(java.time.ZoneOffset.UTC))
+      
+      CustomerSummary(
+        customerId = customerId,
+        totalAccounts = customerAccounts.size,
+        totalBalance = totalBalance,
+        avgBalance = avgBalance,
+        accountTypes = accountTypes,
+        riskScore = riskScore,
+        lastTransactionDate = lastTransaction.timestamp,
+        isHighValue = totalBalance.compareTo(new BigDecimal("100000")) > 0
+      )
+    }
+}
+
+println("=== RÉSUMÉ CLIENTS HIGH-VALUE ===")
+customerSummaries
+  .filter(_.isHighValue)
+  .orderBy($"totalBalance".desc)
+  .show(10, truncate = false)
+
+// 3. Pattern Validation avec Dataset
+case class ValidationResult(
+  recordId: String,
+  isValid: Boolean,
+  errors: List[String]
+)
+
+def validateTransaction(txn: Transaction): ValidationResult = {
+  var errors = List.empty[String]
+  
+  if (txn.amount.compareTo(BigDecimal.ZERO) <= 0) {
+    errors = "Amount must be positive" :: errors
+  }
+  
+  if (txn.amount.compareTo(new BigDecimal("1000000")) > 0) {
+    errors = "Amount exceeds limit" :: errors
+  }
+  
+  if (txn.fees.compareTo(txn.amount) > 0) {
+    errors = "Fees cannot exceed amount" :: errors
+  }
+  
+  if (txn.fromAccount == txn.toAccount.getOrElse("")) {
+    errors = "Cannot transfer to same account" :: errors
+  }
+  
+  ValidationResult(txn.transactionId, errors.isEmpty, errors)
+}
+
+val validationResults = showPerformanceMetrics("Transaction validation") {
+  transactions.map(validateTransaction).cache()
+}
+
+val invalidTransactions = validationResults.filter(!_.isValid)
+println(s"Transactions invalides: ${invalidTransactions.count()}")
+
+invalidTransactions
+  .groupBy("errors")
+  .count()
+  .orderBy($"count".desc)
+  .show(truncate = false)
+
+// Nettoyer les caches
+riskCalculation.unpersist()
+validationResults.unpersist()</code></pre>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Performance -->
+                        <section id="performance" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-tachometer-alt me-2"></i>
+                                Performance et optimisation pratique
+                            </h2>
+                            
+                            <div class="practice-card performance">
+                                <div class="practice-title">
+                                    <i class="fas fa-rocket"></i>
+                                    Optimisation Spark en production
+                                </div>
+                                <p>
+                                    Techniques avancées d'optimisation : partitioning intelligent,
+                                    broadcast joins, cache strategy, et monitoring des performances.
+                                </p>
+                            </div>
+
+                            <div class="performance-tip">
+                                <h6><i class="fas fa-chart-line me-2"></i>Benchmark et comparaisons</h6>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <i class="fas fa-stopwatch me-2"></i>Framework de benchmarking
+                                    </div>
+                                    <pre><code class="language-scala">// === FRAMEWORK DE BENCHMARKING ===
+
+case class BenchmarkResult(
+  operation: String,
+  approach: String,
+  executionTime: Long,
+  recordsProcessed: Long,
+  throughput: Double,
+  memoryUsed: Long
+)
+
+def benchmark[T](name: String, approach: String, recordCount: Long)(operation: => T): (T, BenchmarkResult) = {
+  // Forcer le garbage collection
+  System.gc()
+  Thread.sleep(1000)
+  
+  val runtime = Runtime.getRuntime
+  val memoryBefore = runtime.totalMemory() - runtime.freeMemory()
+  val startTime = System.currentTimeMillis()
+  
+  val result = operation
+  
+  val endTime = System.currentTimeMillis()
+  val memoryAfter = runtime.totalMemory() - runtime.freeMemory()
+  
+  val executionTime = endTime - startTime
+  val throughput = if (executionTime > 0) recordCount.toDouble / (executionTime / 1000.0) else 0
+  val memoryUsed = memoryAfter - memoryBefore
+  
+  val benchResult = BenchmarkResult(
+    operation = name,
+    approach = approach,
+    executionTime = executionTime,
+    recordsProcessed = recordCount,
+    throughput = throughput,
+    memoryUsed = memoryUsed
+  )
+  
+  println(f"[$name - $approach] ${executionTime}ms, ${recordCount}%,d records, ${throughput}%,.0f rec/sec, ${memoryUsed/1024/1024}MB")
+  
+  (result, benchResult)
+}
+
+// === COMPARAISON RDD vs DataFrame vs Dataset ===
+
+// Données test volumineuses
+val largeNumbers = (1 to 10000000).toList
+val largeRDD = spark.sparkContext.parallelize(largeNumbers, 200).cache()
+val largeDF = largeRDD.toDF("number").cache()
+val largeDS = largeDF.as[Int].cache()
+
+// Forcer l'évaluation
+largeRDD.count()
+largeDF.count()
+largeDS.count()
+
+println("=== BENCHMARK: FILTRAGE ET AGRÉGATION ===")
+
+// Test 1: Filtrage simple
+val (rddFiltered, rddBench1) = benchmark("Filter Even", "RDD", largeRDD.count()) {
+  largeRDD.filter(_ % 2 == 0).count()
+}
+
+val (dfFiltered, dfBench1) = benchmark("Filter Even", "DataFrame", largeDF.count()) {
+  largeDF.filter($"number" % 2 === 0).count()
+}
+
+val (dsFiltered, dsBench1) = benchmark("Filter Even", "Dataset", largeDS.count()) {
+  largeDS.filter(_ % 2 == 0).count()
+}
+
+// Test 2: Transformation et réduction
+val (rddSum, rddBench2) = benchmark("Sum Squares", "RDD", largeRDD.count()) {
+  largeRDD.filter(_ % 2 == 0).map(x => x.toLong * x).reduce(_ + _)
+}
+
+val (dfSum, dfBench2) = benchmark("Sum Squares", "DataFrame", largeDF.count()) {
+  largeDF.filter($"number" % 2 === 0)
+        .select(($"number" * $"number").as("square"))
+        .agg(sum("square"))
+        .collect()(0)(0)
+}
+
+val (dsSum, dsBench2) = benchmark("Sum Squares", "Dataset", largeDS.count()) {
+  largeDS.filter(_ % 2 == 0).map(x => x.toLong * x).reduce(_ + _)
+}
+
+// Test 3: Groupement complexe
+val testData = (1 to 1000000).map(i => (i % 1000, i % 100, i))
+val groupRDD = spark.sparkContext.parallelize(testData).cache()
+val groupDF = groupRDD.toDF("key1", "key2", "value").cache()
+
+val (rddGroup, rddBench3) = benchmark("Complex Group", "RDD", groupRDD.count()) {
+  groupRDD.groupByKey()
+          .mapValues(values => values.map(_._3).sum)
+          .count()
+}
+
+val (dfGroup, dfBench3) = benchmark("Complex Group", "DataFrame", groupDF.count()) {
+  groupDF.groupBy("key1", "key2")
+        .agg(sum("value").as("total"))
+        .count()
+}
+
+// Résultats du benchmark
+val allBenchmarks = List(rddBench1, dfBench1, dsBench1, rddBench2, dfBench2, dsBench2, rddBench3, dfBench3)
+val benchmarkDF = allBenchmarks.toDF()
+
+println("=== RÉSULTATS BENCHMARK ===")
+benchmarkDF.show(false)
+
+// Comparaison par opération
+benchmarkDF.groupBy("operation")
+          .agg(
+            min("executionTime").as("min_time"),
+            max("executionTime").as("max_time"),
+            avg("throughput").as("avg_throughput")
+          )
+          .show()
+
+// Nettoyer
+largeRDD.unpersist()
+largeDF.unpersist()
+largeDS.unpersist()
+groupRDD.unpersist()
+groupDF.unpersist()</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="hands-on-box">
+                                <h6><i class="fas fa-cogs me-2"></i>Techniques d'optimisation avancées</h6>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <i class="fas fa-magic me-2"></i>Optimisations de production
+                                    </div>
+                                    <pre><code class="language-scala">// === OPTIMISATIONS AVANCÉES ===
+
+// 1. BROADCAST JOINS INTELLIGENTS
+val smallTable = products.filter($"category" === "Electronics").cache()
+val broadcastThreshold = spark.conf.get("spark.sql.autoBroadcastJoinThreshold").toLong
+
+println(s"Taille de smallTable: ${smallTable.count()} rows")
+println(s"Seuil broadcast: ${broadcastThreshold / 1024 / 1024} MB")
+
+// Join optimisé avec broadcast explicite
+val optimizedJoin = showPerformanceMetrics("Broadcast Join") {
+  orderItems
+    .join(broadcast(smallTable), "product_id")
+    .agg(
+      sum($"quantity" * $"unit_price").as("total_revenue"),
+      countDistinct("order_id").as("unique_orders")
+    )
+}
+
+println("=== RÉSULTAT JOIN OPTIMISÉ ===")
+optimizedJoin.show()
+
+// 2. PARTITIONING INTELLIGENT
+import org.apache.spark.HashPartitioner
+
+// Partitioner custom pour les transactions par période
+class TimeBasedPartitioner(numPartitions: Int) extends org.apache.spark.Partitioner {
+  override def numPartitions: Int = numPartitions
+  
+  override def getPartition(key: Any): Int = {
+    val timestamp = key.asInstanceOf[LocalDateTime]
+    val hour = timestamp.getHour
+    hour % numPartitions
+  }
+}
+
+val timePartitionedTxns = showPerformanceMetrics("Time partitioning") {
+  transactions
+    .map(txn => (txn.timestamp, txn))
+    .rdd
+    .partitionBy(new TimeBasedPartitioner(24))
+    .cache()
+}
+
+println(s"Transactions partitionnées par heure: ${timePartitionedTxns.count()}")
+
+// Vérification de la distribution des partitions
+val partitionSizes = timePartitionedTxns.glom().map(_.length).collect()
+println(s"Tailles des partitions: ${partitionSizes.mkString(", ")}")
+
+// 3. CACHE STRATEGIQUE AVEC NIVEAUX
+val heavyComputationDF = transactions
+  .join(accounts, transactions("fromAccount") === accounts("accountId"))
+  .withColumn("hour", hour($"timestamp"))
+  .withColumn("day_of_week", dayofweek($"timestamp"))
+  .withColumn("is_weekend", $"day_of_week".isin(1, 7))
+  .withColumn("is_night", $"hour" < 6 || $"hour" > 22)
+  .withColumn("risk_factor", 
+    when($"is_weekend" && $"is_night", 3.0)
+    .when($"is_weekend" || $"is_night", 2.0)
+    .otherwise(1.0)
+  )
+
+// Cache avec différents niveaux
+import org.apache.spark.storage.StorageLevel
+
+println("=== TEST DE DIFFÉRENTS NIVEAUX DE CACHE ===")
+
+val memoryOnlyTime = benchmark("Heavy Computation", "MEMORY_ONLY", heavyComputationDF.count()) {
+  val cached = heavyComputationDF.persist(StorageLevel.MEMORY_ONLY)
+  val count1 = cached.count()
+  val count2 = cached.filter($"risk_factor" > 2.0).count()
+  cached.unpersist()
+  (count1, count2)
+}
+
+val memoryDiskTime = benchmark("Heavy Computation", "MEMORY_AND_DISK", heavyComputationDF.count()) {
+  val cached = heavyComputationDF.persist(StorageLevel.MEMORY_AND_DISK_SER)
+  val count1 = cached.count()
+  val count2 = cached.filter($"risk_factor" > 2.0).count()
+  cached.unpersist()
+  (count1, count2)
+}
+
+// 4. OPTIMISATION DES JOINTURES
+println("=== OPTIMISATION JOINTURES ===")
+
+// Join non-optimisé
+val slowJoin = showPerformanceMetrics("Slow Join") {
+  transactions
+    .join(accounts, transactions("fromAccount") === accounts("accountId"))
+    .join(customers, accounts("customerId") === customers("customer_id"))
+    .count()
+}
+
+// Join optimisé avec pré-filtrage et order
+val fastJoin = showPerformanceMetrics("Fast Join") {
+  // Pré-filtrer les données
+  val activeAccounts = accounts.filter($"status" === "ACTIVE").cache()
+  val recentTxns = transactions
+    .filter($"timestamp" > date_sub(current_timestamp(), 30))
+    .cache()
+  
+  // Join dans l'ordre optimal (plus petit d'abord)
+  val result = recentTxns
+    .join(activeAccounts, recentTxns("fromAccount") === activeAccounts("accountId"))
+    .join(broadcast(customers), activeAccounts("customerId") === customers("customer_id"))
+    .count()
+    
+  activeAccounts.unpersist()
+  recentTxns.unpersist()
+  result
+}
+
+println(f"Amélioration: ${slowJoin.toDouble / fastJoin}x plus rapide")
+
+// 5. MONITORING DES PERFORMANCES
+def getSparkMetrics(): Map[String, Any] = {
+  val sc = spark.sparkContext
+  Map(
+    "active_jobs" -> sc.statusTracker.getJobInfos.length,
+    "active_stages" -> sc.statusTracker.getStageInfos.length,
+    "executor_infos" -> sc.statusTracker.getExecutorInfos.map(e => 
+      s"${e.host}:${e.port} - ${e.totalCores} cores, ${e.maxMemory/1024/1024}MB"
+    ).mkString("; "),
+    "default_parallelism" -> sc.defaultParallelism,
+    "total_cores" -> sc.statusTracker.getExecutorInfos.map(_.totalCores).sum
+  )
+}
+
+println("=== MÉTRIQUES SPARK ===")
+getSparkMetrics().foreach { case (key, value) =>
+  println(s"$key: $value")
+}
+
+// Nettoyer les caches
+smallTable.unpersist()
+timePartitionedTxns.unpersist()</code></pre>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Projets Hands-on -->
+                        <section id="hands-on" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-dumbbell me-2"></i>
+                                Projets hands-on complets
+                            </h2>
+                            
+                            <div class="exercise-card">
+                                <div class="exercise-header">
+                                    <i class="fas fa-project-diagram me-2"></i>
+                                    Projet 1 : Pipeline ETL E-commerce Complet
+                                </div>
+                                <div class="exercise-body">
+                                    <div class="explanation-section">
+                                        <h5>Mission : Pipeline de données e-commerce en temps réel</h5>
+                                        <p><strong>Contexte :</strong> Vous devez créer un pipeline ETL complet pour analyser les données d'un site e-commerce.</p>
+                                        
+                                        <h6>Objectifs :</h6>
+                                        <ol>
+                                            <li><strong>Extract</strong> : Ingérer des données de ventes, produits et clients</li>
+                                            <li><strong>Transform</strong> : Nettoyer, enrichir et agréger les données</li>
+                                            <li><strong>Load</strong> : Sauvegarder les résultats optimisés</li>
+                                            <li><strong>Analytics</strong> : Calculer les KPI métier</li>
+                                        </ol>
+
+                                        <h6>Défis techniques :</h6>
+                                        <ul>
+                                            <li>Gestion des données corrompues</li>
+                                            <li>Jointures complexes multi-tables</li>
+                                            <li>Calculs de métriques business (cohorts, RFM, churn)</li>
+                                            <li>Performance sur gros volumes</li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="answer-section">
+                                        <h5><i class="fas fa-code me-2"></i>Solution complète</h5>
+                                        <div class="code-block">
+                                            <pre><code class="language-scala">// === PROJET COMPLET : ETL E-COMMERCE ===
+
+object ECommerceETL {
+  
+  case class RawSale(
+    timestamp: String,
+    customer_id: String,
+    product_id: String,
+    quantity: String,
+    price: String,
+    country: String
+  )
+  
+  case class CleanSale(
+    timestamp: Timestamp,
+    customer_id: Int,
+    product_id: Int,
+    quantity: Int,
+    price: Double,
+    country: String,
+    total_amount: Double
+  )
+  
+  case class CustomerMetrics(
+    customer_id: Int,
+    country: String,
+    first_purchase: Timestamp,
+    last_purchase: Timestamp,
+    total_orders: Long,
+    total_spent: Double,
+    avg_order_value: Double,
+    days_active: Long,
+    rfm_score: String,
+    predicted_churn: Boolean
+  )
+  
+  def main(args: Array[String]): Unit = {
+    
+    // === PHASE 1: EXTRACT ===
+    println("=== PHASE 1: EXTRACTION DES DONNÉES ===")
+    
+    // Simuler l'ingestion de données sales (CSV corrompu)
+    val rawSalesData = (1 to 500000).flatMap { i =>
+      val corrupted = random.nextDouble() < 0.05  // 5% de données corrompues
+      
+      if (corrupted) {
+        // Données corrompues intentionnelles
+        Seq(
+          s"invalid_timestamp,CUST$i,PROD${i%1000},$i,invalid_price,FR",
+          s"2024-01-${i%28+1}T10:00:00Z,invalid_customer,PROD${i%1000},$i,${10 + i%100},UK",
+          s"2024-01-${i%28+1}T10:00:00Z,CUST$i,PROD${i%1000},-$i,${10 + i%100},INVALID_COUNTRY"
+        )
+      } else {
+        Seq(s"2024-01-${i%28+1}T${i%24}:${i%60}:${i%60}Z,CUST${i%10000},PROD${i%1000},$i,${10 + i%100},${Array("FR","DE","UK","ES","IT")(i%5)}")
+      }
+    }.mkString("\n")
+    
+    // Parse avec gestion des erreurs
+    val rawSalesRDD = spark.sparkContext.parallelize(rawSalesData.split("\n"))
+    
+    def parseSale(line: String): Option[RawSale] = {
+      try {
+        val parts = line.split(",")
+        if (parts.length == 6) {
+          Some(RawSale(parts(0), parts(1), parts(2), parts(3), parts(4), parts(5)))
+        } else None
+      } catch {
+        case _: Exception => None
+      }
+    }
+    
+    val rawSales = rawSalesRDD
+      .map(parseSale)
+      .filter(_.isDefined)
+      .map(_.get)
+      .toDS()
+      .cache()
+    
+    val totalRaw = rawSales.count()
+    println(s"Données brutes extraites: $totalRaw enregistrements")
+    
+    // === PHASE 2: TRANSFORM ===
+    println("=== PHASE 2: TRANSFORMATION ET NETTOYAGE ===")
+    
+    // Nettoyage et validation
+    def cleanAndValidate(raw: RawSale): Option[CleanSale] = {
+      try {
+        val timestamp = Timestamp.valueOf(raw.timestamp.replace("T", " ").replace("Z", ""))
+        val customerId = raw.customer_id.replace("CUST", "").toInt
+        val productId = raw.product_id.replace("PROD", "").toInt
+        val quantity = raw.quantity.toInt
+        val price = raw.price.toDouble
+        val country = raw.country
+        
+        // Validations business
+        if (quantity > 0 && price > 0 && quantity <= 100 && price <= 10000 && 
+            Set("FR", "DE", "UK", "ES", "IT").contains(country)) {
+          Some(CleanSale(
+            timestamp = timestamp,
+            customer_id = customerId,
+            product_id = productId,
+            quantity = quantity,
+            price = price,
+            country = country,
+            total_amount = quantity * price
+          ))
+        } else None
+      } catch {
+        case _: Exception => None
+      }
+    }
+    
+    val cleanSales = rawSales
+      .map(cleanAndValidate)
+      .filter(_.isDefined)
+      .map(_.get)
+      .cache()
+    
+    val totalClean = cleanSales.count()
+    val dataQuality = totalClean.toDouble / totalRaw * 100
+    
+    println(s"Données nettoyées: $totalClean enregistrements")
+    println(f"Qualité des données: $dataQuality%.1f%%")
+    
+    // Enrichissement avec données temporelles
+    val enrichedSales = cleanSales
+      .withColumn("year", year($"timestamp"))
+      .withColumn("month", month($"timestamp"))
+      .withColumn("day_of_week", dayofweek($"timestamp"))
+      .withColumn("hour", hour($"timestamp"))
+      .withColumn("is_weekend", $"day_of_week".isin(1, 7))
+      .withColumn("season", 
+        when($"month".isin(12, 1, 2), "Winter")
+        .when($"month".isin(3, 4, 5), "Spring")
+        .when($"month".isin(6, 7, 8), "Summer")
+        .otherwise("Autumn")
+      )
+      .cache()
+    
+    // === PHASE 3: ANALYTICS BUSINESS ===
+    println("=== PHASE 3: CALCUL DES MÉTRIQUES BUSINESS ===")
+    
+    // 1. Métriques par client avec RFM
+    val customerMetrics = enrichedSales
+      .groupBy("customer_id", "country")
+      .agg(
+        min("timestamp").as("first_purchase"),
+        max("timestamp").as("last_purchase"),
+        count("*").as("total_orders"),
+        sum("total_amount").as("total_spent"),
+        avg("total_amount").as("avg_order_value")
+      )
+      .withColumn("days_active", 
+        datediff($"last_purchase", $"first_purchase"))
+      .withColumn("recency_days", 
+        datediff(current_date(), $"last_purchase"))
+      .withColumn("frequency_score",
+        when($"total_orders" >= 10, 5)
+        .when($"total_orders" >= 5, 4)
+        .when($"total_orders" >= 3, 3)
+        .when($"total_orders" >= 2, 2)
+        .otherwise(1))
+      .withColumn("monetary_score",
+        when($"total_spent" >= 1000, 5)
+        .when($"total_spent" >= 500, 4)
+        .when($"total_spent" >= 200, 3)
+        .when($"total_spent" >= 100, 2)
+        .otherwise(1))
+      .withColumn("recency_score",
+        when($"recency_days" <= 30, 5)
+        .when($"recency_days" <= 60, 4)
+        .when($"recency_days" <= 90, 3)
+        .when($"recency_days" <= 180, 2)
+        .otherwise(1))
+      .withColumn("rfm_score", 
+        concat($"recency_score", $"frequency_score", $"monetary_score"))
+      .withColumn("customer_segment",
+        when($"rfm_score".rlike("^[4-5][4-5][4-5]"), "Champions")
+        .when($"rfm_score".rlike("^[3-5][2-5][3-5]"), "Loyal")
+        .when($"rfm_score".rlike("^[1-2][1-2][1-2]"), "Lost")
+        .otherwise("Standard"))
+      .withColumn("predicted_churn", $"recency_days" > 90)
+      .cache()
+    
+    println("=== TOP 10 CLIENTS VIP ===")
+    customerMetrics
+      .filter($"customer_segment" === "Champions")
+      .orderBy($"total_spent".desc)
+      .select("customer_id", "country", "total_orders", "total_spent", "avg_order_value")
+      .show(10)
+    
+    // 2. Analyse temporelle et saisonnalité
+    val temporalAnalysis = enrichedSales
+      .groupBy("season", "country", "is_weekend")
+      .agg(
+        sum("total_amount").as("revenue"),
+        count("*").as("transactions"),
+        avg("total_amount").as("avg_transaction"),
+        countDistinct("customer_id").as("unique_customers")
+      )
+      .withColumn("revenue_per_customer", $"revenue" / $"unique_customers")
+      .orderBy($"revenue".desc)
+    
+    println("=== PERFORMANCE PAR SAISON ===")
+    temporalAnalysis.show()
+    
+    // 3. Analyse produits avec cross-selling
+    val productAnalysis = enrichedSales
+      .groupBy("product_id")
+      .agg(
+        sum("quantity").as("total_quantity"),
+        sum("total_amount").as("total_revenue"),
+        countDistinct("customer_id").as("unique_customers"),
+        count("*").as("transactions")
+      )
+      .withColumn("avg_price", $"total_revenue" / $"total_quantity")
+      .withColumn("popularity_score", 
+        ($"unique_customers" * 0.4) + ($"transactions" * 0.6))
+      .orderBy($"total_revenue".desc)
+      .cache()
+    
+    val topProducts = productAnalysis.take(10)
+    println("=== TOP 10 PRODUITS ===")
+    topProducts.foreach(row => 
+      println(s"Product ${row.getAs[Int]("product_id")}: ${row.getAs[Double]("total_revenue")}€ revenue")
+    )
+    
+    // === PHASE 4: SAUVEGARDE OPTIMISÉE ===
+    println("=== PHASE 4: SAUVEGARDE DES RÉSULTATS ===")
+    
+    // Sauvegarde partitionnée par pays et mois
+    enrichedSales
+      .write
+      .mode("overwrite")
+      .partitionBy("country", "year", "month")
+      .parquet("output/sales_enriched")
+    
+    customerMetrics
+      .write
+      .mode("overwrite")
+      .partitionBy("country", "customer_segment")
+      .parquet("output/customer_metrics")
+    
+    productAnalysis
+      .write
+      .mode("overwrite")
+      .parquet("output/product_analysis")
+    
+    // Résumé final
+    println("=== RÉSUMÉ ETL ===")
+    println(s"• Données traitées: ${totalRaw} → ${totalClean} (${f"$dataQuality%.1f"}% qualité)")
+    println(s"• Clients uniques: ${customerMetrics.count()}")
+    println(s"• Champions identifiés: ${customerMetrics.filter($"customer_segment" === "Champions").count()}")
+    println(s"• Clients à risque de churn: ${customerMetrics.filter($"predicted_churn").count()}")
+    println(s"• Revenus total: ${enrichedSales.agg(sum("total_amount")).collect()(0)(0)}€")
+    
+    // Nettoyer les caches
+    rawSales.unpersist()
+    cleanSales.unpersist()
+    enrichedSales.unpersist()
+    customerMetrics.unpersist()
+    productAnalysis.unpersist()
+  }
+}
+
+// Exécuter le pipeline
+ECommerceETL.main(Array())</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Navigation entre modules -->
+                        <div class="navigation-buttons">
+                            <div class="row">
+                                <div class="col-6">
+                                    <a href="Module 4 - Fondements théoriques de Spark - RDD, DataFrame, Dataset.html" class="btn btn-outline-primary">
+                                        <i class="fas fa-arrow-left me-2"></i>
+                                        Module 4 - Fondements Spark
+                                    </a>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <a href="Module 6 - Approfondissement en Programmation Fonctionnelle.html" class="btn btn-primary">
+                                        Module 6 - Programmation Fonctionnelle
+                                        <i class="fas fa-arrow-right ms-2"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bouton de retour en haut -->
+    <button class="scroll-to-top btn" id="scrollToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/scala.min.js"></script>
+    
+    <script>
+        hljs.highlightAll();
+        
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.style.display = 'flex';
+            } else {
+                scrollToTopBtn.style.display = 'none';
+            }
+        });
+        
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        document.querySelectorAll('.toc-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    const offsetTop = targetElement.offsetTop - 100;
+                    window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+                }
+            });
+        });
+        
+        function updateActiveLink() {
+            const sections = document.querySelectorAll('section[id]');
+            const tocLinks = document.querySelectorAll('.toc-link');
+            
+            let activeSection = null;
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 150 && rect.bottom >= 150) {
+                    activeSection = section;
+                }
+            });
+            
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (activeSection && link.getAttribute('href') === '#' + activeSection.id) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', updateActiveLink);
+        updateActiveLink();
+        
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.section, .practice-card').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>

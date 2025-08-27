@@ -1,0 +1,1779 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 8 - Introduction à Databricks et SparkSQL sur le Cloud</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Highlight.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #0ea5e9;
+            --secondary-color: #3b82f6;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --info-color: #0284c7;
+            --dark-color: #1f2937;
+            --light-bg: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-muted: #64748b;
+            --question-bg: #f1f5f9;
+            --answer-bg: #dcfce7;
+            --explanation-bg: #fef3c7;
+            --code-bg: #0f172a;
+            --cloud-blue: #0ea5e9;
+            --azure-blue: #0078d4;
+            --aws-orange: #ff9900;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--cloud-blue), var(--secondary-color));
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 100px;
+            height: calc(100vh - 120px);
+            overflow-y: auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .toc-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .toc-link {
+            display: block;
+            padding: 0.5rem 0;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-left: 3px solid transparent;
+            padding-left: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .toc-link:hover, .toc-link.active {
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+            background-color: rgba(14, 165, 233, 0.05);
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .content-header {
+            background: linear-gradient(135deg, var(--cloud-blue), var(--secondary-color));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="white" opacity="0.1"/></svg>') repeat;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(-50px) translateY(-50px); }
+        }
+
+        .content-header h1 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .content-header .lead {
+            opacity: 0.9;
+            font-size: 1.1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .content-body {
+            padding: 2rem;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .concept-card {
+            background: var(--light-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--info-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .concept-card.cloud { border-left-color: var(--cloud-blue); }
+        .concept-card.databricks { border-left-color: #ff3621; }
+        .concept-card.azure { border-left-color: var(--azure-blue); }
+        .concept-card.aws { border-left-color: var(--aws-orange); }
+        .concept-card.delta { border-left-color: #00a1c9; }
+
+        .concept-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cloud-feature {
+            background: rgba(14, 165, 233, 0.05);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .cloud-feature h6 {
+            color: var(--cloud-blue);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .azure-feature {
+            background: rgba(0, 120, 212, 0.05);
+            border: 1px solid rgba(0, 120, 212, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .azure-feature h6 {
+            color: var(--azure-blue);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .aws-feature {
+            background: rgba(255, 153, 0, 0.05);
+            border: 1px solid rgba(255, 153, 0, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .aws-feature h6 {
+            color: var(--aws-orange);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .cloud-comparison {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-color);
+            margin: 1.5rem 0;
+        }
+
+        .cloud-comparison th {
+            background: linear-gradient(135deg, var(--cloud-blue), var(--secondary-color));
+            color: white;
+            font-weight: 500;
+            border: none;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .cloud-comparison td {
+            padding: 1rem;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .cloud-comparison tbody tr:hover {
+            background-color: rgba(14, 165, 233, 0.05);
+        }
+
+        .architecture-diagram {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .architecture-component {
+            display: inline-block;
+            background: white;
+            border: 2px solid var(--cloud-blue);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 0.5rem;
+            min-width: 120px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .architecture-component.databricks {
+            border-color: #ff3621;
+            background: rgba(255, 54, 33, 0.1);
+        }
+
+        .architecture-component.azure {
+            border-color: var(--azure-blue);
+            background: rgba(0, 120, 212, 0.1);
+        }
+
+        .architecture-component.aws {
+            border-color: var(--aws-orange);
+            background: rgba(255, 153, 0, 0.1);
+        }
+
+        .code-block {
+            background: var(--code-bg);
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 1rem 0;
+            border: 1px solid #334155;
+        }
+
+        .code-header {
+            background: #1e293b;
+            padding: 0.75rem 1rem;
+            color: #94a3b8;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-bottom: 1px solid #334155;
+        }
+
+        pre {
+            margin: 0;
+            padding: 1rem;
+            background: var(--code-bg);
+            color: #e2e8f0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(14, 165, 233, 0.1);
+            color: var(--primary-color);
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        .final-project-card {
+            border: 2px solid var(--cloud-blue);
+            border-radius: 8px;
+            margin: 2rem 0;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.05), rgba(59, 130, 246, 0.05));
+        }
+
+        .final-project-header {
+            background: linear-gradient(135deg, var(--cloud-blue), var(--secondary-color));
+            color: white;
+            padding: 1rem;
+            font-weight: 600;
+        }
+
+        .final-project-body {
+            padding: 1.5rem;
+        }
+
+        .question-accordion .accordion-item {
+            border: 1px solid var(--border-color);
+            margin-bottom: 1rem;
+            border-radius: 8px !important;
+            overflow: hidden;
+        }
+
+        .question-header {
+            background: var(--question-bg);
+            border: none;
+            color: var(--dark-color);
+            font-weight: 600;
+            padding: 1.25rem 1.5rem;
+        }
+
+        .question-header:not(.collapsed) {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .question-header::after {
+            background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>");
+        }
+
+        .question-header:not(.collapsed)::after {
+            background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>");
+        }
+
+        .answer-section {
+            background: var(--answer-bg);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 6px;
+            border-left: 4px solid var(--success-color);
+        }
+
+        .explanation-section {
+            background: var(--explanation-bg);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 6px;
+            border-left: 4px solid var(--warning-color);
+        }
+
+        .info-box {
+            background: rgba(14, 165, 233, 0.1);
+            border-left: 4px solid var(--cloud-blue);
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+
+        .success-box {
+            background: rgba(5, 150, 105, 0.1);
+            border-left: 4px solid var(--success-color);
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+
+        .warning-box {
+            background: rgba(217, 119, 6, 0.1);
+            border-left: 4px solid var(--warning-color);
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+
+        .badge-cloud {
+            background: linear-gradient(135deg, var(--cloud-blue), var(--secondary-color));
+            color: white;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--cloud-blue), var(--secondary-color));
+            border: none;
+            font-weight: 500;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(14, 165, 233, 0.3);
+        }
+
+        .navigation-buttons {
+            background: var(--light-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+
+        .completion-banner {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .completion-banner::before {
+            content: '🎉';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 2rem;
+            animation: bounce 2s infinite;
+        }
+
+        .completion-banner::after {
+            content: '🚀';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 2rem;
+            animation: bounce 2s infinite 1s;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, var(--cloud-blue), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(14, 165, 233, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: static;
+                margin-bottom: 2rem;
+                height: auto;
+            }
+            
+            .content-header {
+                padding: 1.5rem;
+            }
+            
+            .content-body {
+                padding: 1.5rem;
+            }
+
+            .architecture-component {
+                display: block;
+                margin: 1rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-code me-2"></i>
+                Cours Scala & Spark
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="fas fa-home me-1"></i>Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-book me-1"></i>Modules
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="Module 1 - Introduction aux Paradigmes de Programmation.html">Module 1 - Paradigmes</a></li>
+                            <li><a class="dropdown-item" href="Module 2 - Mettre en place l'environnement pour Scala.html">Module 2 - Environnement</a></li>
+                            <li><a class="dropdown-item" href="Module 3 - Introduction à Scala.html">Module 3 - Introduction Scala</a></li>
+                            <li><a class="dropdown-item" href="Module 4 - Fondements théoriques de Spark - RDD, DataFrame, Dataset.html">Module 4 - Fondements Spark</a></li>
+                            <li><a class="dropdown-item" href="Module 5 - Pratique Spark - RDD, DataFrame & Dataset.html">Module 5 - Pratique Spark</a></li>
+                            <li><a class="dropdown-item" href="Module 6 - Approfondissement en Programmation Fonctionnelle.html">Module 6 - Prog. Fonctionnelle</a></li>
+                            <li><a class="dropdown-item" href="Module 7 - Spark Streaming et introduction au Machine Learning.html">Module 7 - Streaming & ML</a></li>
+                            <li><a class="dropdown-item" href="Module 8 - Introduction à Databricks et SparkSQL sur le Cloud.html">Module 8 - Cloud</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid" style="margin-top: 80px;">
+        <div class="row">
+            <!-- Sidebar avec table des matières -->
+            <div class="col-lg-3">
+                <div class="sidebar">
+                    <h5 class="toc-title">
+                        <i class="fas fa-cloud me-2"></i>
+                        Module 8 - Cloud & Databricks
+                    </h5>
+                    <div class="toc-content">
+                        <a href="#cloud-intro" class="toc-link">
+                            <i class="fas fa-cloud-upload-alt me-2"></i>
+                            Introduction au Cloud
+                        </a>
+                        <a href="#databricks" class="toc-link">
+                            <i class="fas fa-rocket me-2"></i>
+                            Databricks Platform
+                        </a>
+                        <a href="#azure-spark" class="toc-link">
+                            <i class="fab fa-microsoft me-2"></i>
+                            Azure Synapse & Databricks
+                        </a>
+                        <a href="#aws-spark" class="toc-link">
+                            <i class="fab fa-aws me-2"></i>
+                            AWS EMR & Glue
+                        </a>
+                        <a href="#sparksql-advanced" class="toc-link">
+                            <i class="fas fa-database me-2"></i>
+                            SparkSQL Avancé
+                        </a>
+                        <a href="#delta-lake" class="toc-link">
+                            <i class="fas fa-layer-group me-2"></i>
+                            Delta Lake
+                        </a>
+                        <a href="#multi-cloud" class="toc-link">
+                            <i class="fas fa-globe me-2"></i>
+                            Architecture Multi-Cloud
+                        </a>
+                        <a href="#monitoring" class="toc-link">
+                            <i class="fas fa-chart-line me-2"></i>
+                            Monitoring & Coûts
+                        </a>
+                        <a href="#devops" class="toc-link">
+                            <i class="fas fa-cogs me-2"></i>
+                            DevOps & CI/CD
+                        </a>
+                        <a href="#final-project" class="toc-link">
+                            <i class="fas fa-trophy me-2"></i>
+                            Projet Final Complet
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenu principal -->
+            <div class="col-lg-9">
+                <div class="main-content">
+                    <!-- En-tête -->
+                    <div class="content-header">
+                        <h1>
+                            <i class="fas fa-cloud me-3"></i>
+                            Module 8 - Cloud & Databricks
+                        </h1>
+                        <p class="lead mb-0">
+                            SparkSQL et Databricks sur Azure/AWS - Maîtrisez le Big Data dans le Cloud
+                        </p>
+                        <span class="badge badge-cloud mt-2">Module Final 8/8</span>
+                    </div>
+
+                    <!-- Corps du contenu -->
+                    <div class="content-body">
+                        
+                        <!-- Bannière de completion -->
+                        <div class="completion-banner">
+                            <h3 class="mb-2">🎯 Module Final - Vous y êtes presque !</h3>
+                            <p class="mb-0">Dernière étape pour devenir expert Scala & Spark Cloud !</p>
+                        </div>
+
+                        <!-- Introduction Cloud -->
+                        <section id="cloud-intro" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-cloud-upload-alt me-2"></i>
+                                Le Big Data dans le Cloud
+                            </h2>
+                            
+                            <div class="concept-card cloud">
+                                <div class="concept-title">
+                                    <i class="fas fa-cloud"></i>
+                                    Pourquoi migrer Spark vers le Cloud ?
+                                </div>
+                                <p>
+                                    Le Cloud transforme le Big Data : élasticité infinie, coûts optimisés, 
+                                    services managés et focus sur la valeur métier plutôt que l'infrastructure.
+                                </p>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="cloud-feature">
+                                        <h6><i class="fas fa-expand-arrows-alt me-2"></i>Élasticité</h6>
+                                        <p class="mb-0">
+                                            Scaling automatique selon la charge. 
+                                            Pas de cluster idle, ressources à la demande.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="cloud-feature">
+                                        <h6><i class="fas fa-euro-sign me-2"></i>Coût optimisé</h6>
+                                        <p class="mb-0">
+                                            Pay-per-use, spots instances, 
+                                            réduction jusqu'à 90% vs infrastructure dédiée.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="cloud-feature">
+                                        <h6><i class="fas fa-tools me-2"></i>Services managés</h6>
+                                        <p class="mb-0">
+                                            Databricks, EMR, Synapse : 
+                                            Spark pré-configuré, monitoring intégré.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="cloud-feature">
+                                        <h6><i class="fas fa-shield-alt me-2"></i>Sécurité & Compliance</h6>
+                                        <p class="mb-0">
+                                            IAM, encryption, audit trails, 
+                                            conformité RGPD/SOX out-of-the-box.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="architecture-diagram">
+                                <h5 class="mb-3">Évolution : On-premise → Cloud</h5>
+                                
+                                <div style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap;">
+                                    <div>
+                                        <h6 class="text-muted">On-premise</h6>
+                                        <div class="architecture-component">
+                                            <h6><i class="fas fa-server"></i> Hadoop</h6>
+                                            <small>Clusters fixes<br>Maintenance lourde</small>
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="margin: 1rem;">
+                                        <i class="fas fa-arrow-right fa-2x text-primary"></i>
+                                    </div>
+                                    
+                                    <div>
+                                        <h6 class="text-primary">Cloud Managed</h6>
+                                        <div class="architecture-component databricks">
+                                            <h6><i class="fas fa-cloud"></i> Databricks</h6>
+                                            <small>Auto-scaling<br>Zero-ops</small>
+                                        </div>
+                                        <div class="architecture-component azure">
+                                            <h6><i class="fab fa-microsoft"></i> Azure</h6>
+                                            <small>Synapse<br>Analytics</small>
+                                        </div>
+                                        <div class="architecture-component aws">
+                                            <h6><i class="fab fa-aws"></i> AWS</h6>
+                                            <small>EMR<br>Glue</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="cloud-comparison">
+                                <table class="table table-striped mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Aspect</th>
+                                            <th>On-premise</th>
+                                            <th>Cloud Managed</th>
+                                            <th>Gain</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Time to Market</strong></td>
+                                            <td>6-12 mois</td>
+                                            <td>1-2 heures</td>
+                                            <td><span class="text-success">99% plus rapide</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Coûts OPEX</strong></td>
+                                            <td>100% fixed</td>
+                                            <td>Pay-per-use</td>
+                                            <td><span class="text-success">60-90% économies</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Maintenance</strong></td>
+                                            <td>Équipe dédiée</td>
+                                            <td>Automatisée</td>
+                                            <td><span class="text-success">Zero-ops</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Scalabilité</strong></td>
+                                            <td>Hardware limité</td>
+                                            <td>Infinie</td>
+                                            <td><span class="text-success">Auto-scale</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Innovation</strong></td>
+                                            <td>Versions figées</td>
+                                            <td>Latest features</td>
+                                            <td><span class="text-success">Continuous updates</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                        <!-- Databricks -->
+                        <section id="databricks" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-rocket me-2"></i>
+                                Databricks - La plateforme unifiée
+                            </h2>
+                            
+                            <div class="concept-card databricks">
+                                <div class="concept-title">
+                                    <i class="fas fa-rocket"></i>
+                                    Databricks Lakehouse Platform
+                                </div>
+                                <p>
+                                    Databricks unifie Data Engineering, Data Science et Analytics 
+                                    avec Apache Spark optimisé et des outils collaboratifs intégrés.
+                                </p>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-play me-2"></i>Premier notebook Databricks
+                                </div>
+                                <pre><code class="language-scala">// === CONFIGURATION DATABRICKS ===
+
+// Les librairies sont pré-installées
+import org.apache.spark.sql.{SparkSession, DataFrame}
+import org.apache.spark.sql.functions._
+
+// SparkSession automatiquement disponible comme 'spark'
+println(s"Databricks Runtime: ${spark.conf.get("spark.databricks.clusterUsageTags.sparkVersion")}")
+println(s"Cluster ID: ${spark.conf.get("spark.databricks.clusterUsageTags.clusterId")}")
+println(s"Workspace: ${spark.conf.get("spark.databricks.workspaceUrl", "N/A")}")
+
+// === DATABRICKS FILE SYSTEM (DBFS) ===
+
+// Accès aux données via DBFS
+val sampleData = "/databricks-datasets/samples/population-vs-price/data_geo.csv"
+
+// Lecture directe depuis DBFS
+val housingData = spark.read
+  .option("header", "true")
+  .option("inferSchema", "true")
+  .csv(sampleData)
+
+println(s"Dataset chargé: ${housingData.count()} lignes")
+housingData.show(5)
+
+// === MAGIC COMMANDS DATABRICKS ===
+
+// %fs - File system operations
+// %sql - SQL queries  
+// %md - Markdown documentation
+// %sh - Shell commands
+// %pip - Install packages
+
+// Exemple d'installation de package
+// %pip install plotly
+
+// === DELTA LAKE INTÉGRÉ ===
+
+// Création d'une table Delta automatique
+housingData.write
+  .format("delta")
+  .mode("overwrite")
+  .option("path", "/tmp/housing_delta")
+  .saveAsTable("housing_analysis")
+
+// Requête SQL directe
+spark.sql("""
+  SELECT state, 
+         AVG(2014_Population) as avg_population,
+         AVG(2014_estimated_price) as avg_price,
+         COUNT(*) as cities_count
+  FROM housing_analysis 
+  GROUP BY state 
+  ORDER BY avg_price DESC
+  LIMIT 10
+""").show()
+
+// === VISUALIZATION INTÉGRÉE ===
+
+// Les résultats s'affichent automatiquement avec des graphiques
+val stateSummary = housingData
+  .groupBy("State")
+  .agg(
+    avg("2014_Population").as("avg_population"),
+    avg("2014_estimated_price").as("avg_price"),
+    count("*").as("cities")
+  )
+  .orderBy(desc("avg_price"))
+
+// Dans Databricks, ajouter display() pour les graphiques interactifs
+// display(stateSummary)</code></pre>
+                            </div>
+
+                            <div class="cloud-feature">
+                                <h6><i class="fas fa-star me-2"></i>Fonctionnalités Databricks uniques</h6>
+                                <ul class="mb-0">
+                                    <li><strong>Notebooks collaboratifs</strong> : Partage temps réel, version control Git</li>
+                                    <li><strong>Autoscaling intelligent</strong> : Clusters élastiques, spot instances</li>
+                                    <li><strong>Delta Lake intégré</strong> : ACID transactions, time travel</li>
+                                    <li><strong>MLflow natif</strong> : ML lifecycle management</li>
+                                    <li><strong>Optimizations</strong> : Photon engine (3x plus rapide)</li>
+                                    <li><strong>Governance</strong> : Unity Catalog pour la sécurité des données</li>
+                                </ul>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-cogs me-2"></i>Configuration avancée Databricks
+                                </div>
+                                <pre><code class="language-scala">// === CLUSTER CONFIGURATION OPTIMALE ===
+
+// Configuration via Cluster UI ou API
+val clusterConfig = """
+{
+  "cluster_name": "Production-Analytics-Cluster",
+  "spark_version": "12.2.x-scala2.12",
+  "node_type_id": "i3.xlarge",
+  "driver_node_type_id": "i3.2xlarge", 
+  "num_workers": 2,
+  "autoscale": {
+    "min_workers": 2,
+    "max_workers": 10
+  },
+  "auto_termination_minutes": 60,
+  "enable_elastic_disk": true,
+  "cluster_source": "UI",
+  "spark_conf": {
+    "spark.sql.adaptive.enabled": "true",
+    "spark.sql.adaptive.coalescePartitions.enabled": "true",
+    "spark.databricks.delta.optimizeWrite.enabled": "true",
+    "spark.databricks.delta.autoCompact.enabled": "true"
+  },
+  "custom_tags": {
+    "Team": "DataEngineering",
+    "Project": "Analytics-Platform",
+    "Environment": "Production"
+  }
+}
+"""
+
+// === SECRETS MANAGEMENT ===
+
+// Stockage sécurisé des credentials
+// dbutils.secrets.get(scope="azure-key-vault", key="storage-account-key")
+
+// Configuration sécurisée pour Azure Storage
+spark.conf.set(
+  "fs.azure.account.key.mystorageaccount.dfs.core.windows.net",
+  dbutils.secrets.get(scope="azure-secrets", key="storage-key")
+)
+
+// === JOBS ET WORKFLOWS ===
+
+// Configuration d'un job programmé
+val jobConfig = """
+{
+  "name": "Daily-ETL-Pipeline",
+  "new_cluster": {
+    "spark_version": "12.2.x-scala2.12",
+    "node_type_id": "i3.large",
+    "num_workers": 5,
+    "spark_conf": {
+      "spark.sql.adaptive.enabled": "true"
+    }
+  },
+  "notebook_task": {
+    "notebook_path": "/Production/ETL/daily_pipeline",
+    "base_parameters": {
+      "date": "{{ds}}",
+      "environment": "production"
+    }
+  },
+  "schedule": {
+    "quartz_cron_expression": "0 0 2 * * ?",
+    "timezone_id": "Europe/Paris"
+  },
+  "email_notifications": {
+    "on_failure": ["data-team@company.com"],
+    "on_success": ["data-team@company.com"]
+  },
+  "timeout_seconds": 3600,
+  "max_retries": 2
+}
+"""
+
+// === MONITORING ET OBSERVABILITÉ ===
+
+// Métriques custom dans Databricks
+def logMetrics(stageName: String, recordsProcessed: Long, duration: Long): Unit = {
+  println(s"METRICS: stage=$stageName, records=$recordsProcessed, duration=${duration}ms")
+  
+  // Integration avec des systèmes de monitoring externes
+  // Exemple : DataDog, New Relic, etc.
+}
+
+// Exemple d'utilisation
+val startTime = System.currentTimeMillis()
+val processedData = housingData.filter($"2014_Population" > 100000)
+val count = processedData.count()
+val duration = System.currentTimeMillis() - startTime
+
+logMetrics("data_filtering", count, duration)</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- SparkSQL Avancé -->
+                        <section id="sparksql-advanced" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-database me-2"></i>
+                                SparkSQL Avancé - Analytics de haut niveau
+                            </h2>
+                            
+                            <div class="concept-card">
+                                <div class="concept-title">
+                                    <i class="fas fa-database"></i>
+                                    SparkSQL : SQL massively parallel
+                                </div>
+                                <p>
+                                    SparkSQL apporte la puissance du SQL sur des téraoctets de données 
+                                    avec les optimisations Catalyst et des fonctionnalités analytiques avancées.
+                                </p>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-chart-bar me-2"></i>Analytics avancées avec SparkSQL
+                                </div>
+                                <pre><code class="language-sql">-- === FONCTIONS ANALYTIQUES AVANCÉES ===
+
+-- Création d'une vue pour les ventes e-commerce
+CREATE OR REPLACE TEMPORARY VIEW sales_data AS
+SELECT 
+  customer_id,
+  order_date,
+  product_category,
+  revenue,
+  quantity,
+  -- Enrichissements temporels
+  YEAR(order_date) as year,
+  MONTH(order_date) as month,
+  DAYOFWEEK(order_date) as day_of_week,
+  -- Calculs métier
+  revenue / quantity as avg_unit_price
+FROM raw_sales_table
+WHERE order_date >= '2023-01-01';
+
+-- === WINDOW FUNCTIONS COMPLEXES ===
+
+-- Analyse de cohortes avec window functions
+WITH customer_cohorts AS (
+  SELECT 
+    customer_id,
+    DATE_TRUNC('month', MIN(order_date)) as cohort_month,
+    COUNT(*) as total_orders,
+    SUM(revenue) as lifetime_value
+  FROM sales_data
+  GROUP BY customer_id
+),
+cohort_analysis AS (
+  SELECT 
+    cohort_month,
+    COUNT(DISTINCT customer_id) as cohort_size,
+    AVG(total_orders) as avg_orders_per_customer,
+    AVG(lifetime_value) as avg_ltv,
+    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY lifetime_value) as median_ltv,
+    -- Revenue par cohorte par mois
+    SUM(SUM(revenue)) OVER (
+      PARTITION BY cohort_month 
+      ORDER BY cohort_month 
+      ROWS UNBOUNDED PRECEDING
+    ) as cumulative_revenue
+  FROM sales_data s
+  JOIN customer_cohorts c ON s.customer_id = c.customer_id
+  GROUP BY cohort_month
+  ORDER BY cohort_month
+)
+SELECT * FROM cohort_analysis;
+
+-- === ADVANCED AGGREGATIONS ===
+
+-- Analyse RFM (Recency, Frequency, Monetary)
+WITH rfm_scores AS (
+  SELECT 
+    customer_id,
+    -- Recency: jours depuis dernier achat
+    DATEDIFF(CURRENT_DATE(), MAX(order_date)) as recency_days,
+    -- Frequency: nombre de commandes
+    COUNT(DISTINCT order_date) as frequency,
+    -- Monetary: montant total dépensé
+    SUM(revenue) as monetary_value,
+    
+    -- Calcul des quartiles pour scoring
+    NTILE(5) OVER (ORDER BY DATEDIFF(CURRENT_DATE(), MAX(order_date)) DESC) as recency_score,
+    NTILE(5) OVER (ORDER BY COUNT(DISTINCT order_date)) as frequency_score,  
+    NTILE(5) OVER (ORDER BY SUM(revenue)) as monetary_score
+  FROM sales_data
+  GROUP BY customer_id
+),
+customer_segments AS (
+  SELECT 
+    *,
+    CONCAT(recency_score, frequency_score, monetary_score) as rfm_segment,
+    CASE 
+      WHEN recency_score >= 4 AND frequency_score >= 4 AND monetary_score >= 4 THEN 'Champions'
+      WHEN recency_score >= 3 AND frequency_score >= 3 AND monetary_score >= 3 THEN 'Loyal Customers'
+      WHEN recency_score >= 3 AND frequency_score <= 2 AND monetary_score <= 2 THEN 'Potential Loyalists'
+      WHEN recency_score >= 4 AND frequency_score <= 1 AND monetary_score <= 1 THEN 'New Customers'
+      WHEN recency_score <= 2 AND frequency_score >= 4 AND monetary_score >= 4 THEN 'Cannot Lose Them'
+      WHEN recency_score <= 2 AND frequency_score <= 2 AND monetary_score <= 2 THEN 'Hibernating'
+      ELSE 'Others'
+    END as customer_segment
+  FROM rfm_scores
+)
+SELECT 
+  customer_segment,
+  COUNT(*) as customer_count,
+  AVG(monetary_value) as avg_revenue,
+  AVG(frequency) as avg_frequency,
+  AVG(recency_days) as avg_recency
+FROM customer_segments
+GROUP BY customer_segment
+ORDER BY customer_count DESC;
+
+-- === MACHINE LEARNING WITH SQL ===
+
+-- Détection d'anomalies avec fonctions statistiques
+WITH sales_stats AS (
+  SELECT 
+    product_category,
+    order_date,
+    revenue,
+    -- Statistiques mobiles sur 30 jours
+    AVG(revenue) OVER (
+      PARTITION BY product_category 
+      ORDER BY order_date 
+      RANGE BETWEEN INTERVAL 30 DAYS PRECEDING AND CURRENT ROW
+    ) as avg_revenue_30d,
+    STDDEV(revenue) OVER (
+      PARTITION BY product_category 
+      ORDER BY order_date 
+      RANGE BETWEEN INTERVAL 30 DAYS PRECEDING AND CURRENT ROW  
+    ) as stddev_revenue_30d
+  FROM sales_data
+),
+anomaly_detection AS (
+  SELECT 
+    *,
+    -- Z-score pour détection d'anomalies
+    ABS(revenue - avg_revenue_30d) / NULLIF(stddev_revenue_30d, 0) as z_score,
+    CASE 
+      WHEN ABS(revenue - avg_revenue_30d) / NULLIF(stddev_revenue_30d, 0) > 3 THEN 'ANOMALY'
+      WHEN ABS(revenue - avg_revenue_30d) / NULLIF(stddev_revenue_30d, 0) > 2 THEN 'WARNING'  
+      ELSE 'NORMAL'
+    END as anomaly_status
+  FROM sales_stats
+)
+SELECT 
+  product_category,
+  anomaly_status,
+  COUNT(*) as occurrences,
+  AVG(z_score) as avg_z_score,
+  MAX(z_score) as max_z_score
+FROM anomaly_detection
+GROUP BY product_category, anomaly_status
+ORDER BY product_category, anomaly_status;</code></pre>
+                            </div>
+
+                            <div class="success-box">
+                                <h6><i class="fas fa-rocket me-2"></i>Optimisations SparkSQL avancées</h6>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <i class="fas fa-magic me-2"></i>Techniques d'optimisation
+                                    </div>
+                                    <pre><code class="language-sql">-- === PARTITIONING ET BUCKETING ===
+
+-- Création d'une table partitionnée optimale
+CREATE TABLE sales_partitioned (
+  customer_id BIGINT,
+  order_date DATE,
+  product_category STRING,
+  revenue DECIMAL(10,2),
+  quantity INT
+) 
+USING DELTA
+PARTITIONED BY (YEAR(order_date), product_category)
+CLUSTERED BY (customer_id) INTO 50 BUCKETS;
+
+-- === Z-ORDERING POUR DELTA LAKE ===
+
+-- Optimisation physique des données
+OPTIMIZE sales_partitioned 
+ZORDER BY (customer_id, order_date);
+
+-- === CACHING INTELLIGENT ===
+
+-- Cache de tables fréquemment utilisées
+CACHE TABLE frequent_customers AS 
+SELECT customer_id, SUM(revenue) as total_revenue
+FROM sales_data
+GROUP BY customer_id
+HAVING SUM(revenue) > 10000;
+
+-- === HINTS D'OPTIMISATION ===
+
+-- Broadcast join pour petites tables
+SELECT /*+ BROADCAST(categories) */ 
+  s.customer_id,
+  s.revenue,
+  c.category_name,
+  c.margin_percentage
+FROM sales_data s
+JOIN categories c ON s.product_category = c.category_id;
+
+-- === STATISTIQUES POUR L'OPTIMISEUR ===
+
+-- Mise à jour des statistiques pour de meilleures performances
+ANALYZE TABLE sales_partitioned COMPUTE STATISTICS FOR ALL COLUMNS;
+
+-- === MONITORING DES REQUÊTES ===
+
+-- Configuration pour le monitoring
+SET spark.sql.queryExecutionListeners = com.databricks.spark.util.QueryExecutionListener;
+SET spark.sql.streaming.metricsEnabled = true;
+
+-- Exemple de requête avec métriques
+EXPLAIN COST
+SELECT 
+  product_category,
+  YEAR(order_date) as year,
+  SUM(revenue) as total_revenue,
+  COUNT(DISTINCT customer_id) as unique_customers,
+  AVG(revenue) as avg_order_value
+FROM sales_partitioned
+WHERE order_date >= '2023-01-01'
+GROUP BY product_category, YEAR(order_date)
+ORDER BY total_revenue DESC;</code></pre>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Projet Final -->
+                        <section id="final-project" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-trophy me-2"></i>
+                                Projet Final : Data Lakehouse Complet
+                            </h2>
+                            
+                            <div class="final-project-card">
+                                <div class="final-project-header">
+                                    <i class="fas fa-star me-2"></i>
+                                    Projet Capstone : Plateforme Analytics Cloud-Native
+                                </div>
+                                <div class="final-project-body">
+                                    <div class="explanation-section">
+                                        <h5>Mission : Construire une plateforme analytics complète</h5>
+                                        <p><strong>Contexte :</strong> Vous devez créer une plateforme Data Lakehouse moderne combinant toutes les technologies apprises : Scala, Spark, Streaming, ML et Cloud.</p>
+                                        
+                                        <h6>Architecture cible :</h6>
+                                        <ol>
+                                            <li><strong>Ingestion</strong> : Streaming Kafka + Batch files</li>
+                                            <li><strong>Processing</strong> : Spark sur Databricks/Azure/AWS</li>
+                                            <li><strong>Storage</strong> : Delta Lake avec gouvernance</li>
+                                            <li><strong>Analytics</strong> : SparkSQL + ML pipelines</li>
+                                            <li><strong>Serving</strong> : API temps réel + dashboards</li>
+                                        </ol>
+
+                                        <h6>Exigences techniques :</h6>
+                                        <ul>
+                                            <li>Multi-cloud ready (Azure + AWS)</li>
+                                            <li>ACID transactions avec Delta Lake</li>
+                                            <li>ML lifecycle avec MLflow</li>
+                                            <li>Governance avec Unity Catalog</li>
+                                            <li>CI/CD avec Infrastructure as Code</li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="answer-section">
+                                        <h5><i class="fas fa-code me-2"></i>Solution Lakehouse complète</h5>
+                                        <div class="code-block">
+                                            <pre><code class="language-scala">// === ARCHITECTURE DATA LAKEHOUSE ===
+
+object DataLakehousePlatform {
+  
+  // === CONFIGURATION MULTI-CLOUD ===
+  
+  case class CloudConfig(
+    provider: String,
+    region: String,
+    storageAccount: String,
+    keyVaultName: String,
+    databricksWorkspace: String
+  )
+  
+  val azureConfig = CloudConfig(
+    provider = "azure",
+    region = "westeurope", 
+    storageAccount = "datalakestorage",
+    keyVaultName = "analytics-keyvault",
+    databricksWorkspace = "analytics-workspace"
+  )
+  
+  val awsConfig = CloudConfig(
+    provider = "aws",
+    region = "eu-west-1",
+    storageAccount = "s3-analytics-bucket", 
+    keyVaultName = "analytics-secrets",
+    databricksWorkspace = "databricks-aws-workspace"
+  )
+  
+  // === LAKEHOUSE DATA LAYERS ===
+  
+  object DataLayers {
+    val BRONZE = "bronze"    // Raw data ingestion
+    val SILVER = "silver"    // Cleaned and validated data
+    val GOLD = "gold"        // Business-ready aggregated data
+  }
+  
+  // === BRONZE LAYER: INGESTION ===
+  
+  def ingestStreamingData(): Unit = {
+    
+    // Kafka streaming ingestion
+    val kafkaStream = spark.readStream
+      .format("kafka")
+      .option("kafka.bootstrap.servers", "kafka-cluster:9092")
+      .option("subscribe", "customer_events,transaction_events,product_events")
+      .option("startingOffsets", "latest")
+      .option("failOnDataLoss", "false")
+      .load()
+    
+    // Schema registry integration
+    val eventSchema = StructType(Array(
+      StructField("event_id", StringType, false),
+      StructField("event_type", StringType, false),
+      StructField("customer_id", StringType, true),
+      StructField("timestamp", TimestampType, false),
+      StructField("properties", MapType(StringType, StringType), true)
+    ))
+    
+    // Parse and validate events
+    val parsedEvents = kafkaStream
+      .select(
+        $"topic",
+        $"partition",
+        $"offset", 
+        $"timestamp".as("kafka_timestamp"),
+        from_json($"value".cast("string"), eventSchema).as("event")
+      )
+      .select(
+        $"topic",
+        $"partition",
+        $"offset",
+        $"kafka_timestamp",
+        $"event.*"
+      )
+      .filter($"event_id".isNotNull)
+    
+    // Write to Bronze layer (Delta Lake)
+    parsedEvents.writeStream
+      .format("delta")
+      .outputMode("append")
+      .option("path", "/mnt/datalake/bronze/events/")
+      .option("checkpointLocation", "/mnt/datalake/checkpoints/bronze_events/")
+      .partitionBy("event_type", "date(timestamp)")
+      .trigger(Trigger.ProcessingTime("30 seconds"))
+      .start()
+  }
+  
+  // === SILVER LAYER: TRANSFORMATION ===
+  
+  def transformToSilver(): Unit = {
+    
+    // Read from Bronze layer
+    val bronzeEvents = spark.read
+      .format("delta")
+      .load("/mnt/datalake/bronze/events/")
+      .filter($"timestamp" >= current_date().minus(7)) // Last 7 days
+    
+    // Data quality and enrichment
+    val silverEvents = bronzeEvents
+      .filter($"event_id".isNotNull && $"timestamp".isNotNull)
+      .withColumn("year", year($"timestamp"))
+      .withColumn("month", month($"timestamp"))  
+      .withColumn("day", dayofmonth($"timestamp"))
+      .withColumn("hour", hour($"timestamp"))
+      .withColumn("is_weekend", dayofweek($"timestamp").isin(1, 7))
+      .withColumn("session_id", 
+        when($"event_type" === "session_start", $"event_id")
+        .otherwise(lag($"event_id").over(
+          Window.partitionBy("customer_id").orderBy("timestamp")
+        ))
+      )
+      // Data validation
+      .filter($"customer_id".rlike("^[A-Z0-9]{8,12}$")) // Valid customer ID format
+      // PII tokenization (simplified)
+      .withColumn("customer_id_hash", sha2($"customer_id", 256))
+    
+    // Write to Silver layer with optimization
+    silverEvents.write
+      .format("delta")
+      .mode("overwrite")
+      .option("path", "/mnt/datalake/silver/events/")
+      .partitionBy("year", "month", "event_type")
+      .save()
+    
+    // Optimize for query performance
+    sql(s"""
+      OPTIMIZE delta.`/mnt/datalake/silver/events/`
+      ZORDER BY (customer_id_hash, timestamp)
+    """)
+  }
+  
+  // === GOLD LAYER: BUSINESS METRICS ===
+  
+  def aggregateToGold(): Unit = {
+    
+    val silverEvents = spark.read
+      .format("delta")
+      .load("/mnt/datalake/silver/events/")
+    
+    // Customer journey analytics
+    val customerJourney = silverEvents
+      .groupBy("customer_id_hash", "session_id")
+      .agg(
+        min("timestamp").as("session_start"),
+        max("timestamp").as("session_end"),
+        count("*").as("total_events"),
+        countDistinct("event_type").as("unique_event_types"),
+        collect_list("event_type").as("event_sequence")
+      )
+      .withColumn("session_duration_minutes", 
+        (unix_timestamp($"session_end") - unix_timestamp($"session_start")) / 60
+      )
+      .withColumn("conversion_events", 
+        size(filter($"event_sequence", x => x.isin("purchase", "signup")))
+      )
+      .withColumn("is_converting_session", $"conversion_events" > 0)
+    
+    // Daily business metrics
+    val dailyMetrics = silverEvents
+      .groupBy(
+        to_date($"timestamp").as("date"),
+        $"event_type"
+      )
+      .agg(
+        count("*").as("total_events"),
+        countDistinct("customer_id_hash").as("unique_customers"),
+        countDistinct("session_id").as("unique_sessions")
+      )
+      .withColumn("events_per_customer", $"total_events" / $"unique_customers")
+      .withColumn("events_per_session", $"total_events" / $"unique_sessions")
+    
+    // Cohort analysis
+    val cohortAnalysis = spark.sql("""
+      WITH first_activity AS (
+        SELECT 
+          customer_id_hash,
+          DATE_TRUNC('month', MIN(timestamp)) as cohort_month
+        FROM delta.`/mnt/datalake/silver/events/`
+        GROUP BY customer_id_hash
+      ),
+      customer_activity AS (
+        SELECT 
+          e.customer_id_hash,
+          f.cohort_month,
+          DATE_TRUNC('month', e.timestamp) as activity_month,
+          MONTHS_BETWEEN(DATE_TRUNC('month', e.timestamp), f.cohort_month) as period_number
+        FROM delta.`/mnt/datalake/silver/events/` e
+        JOIN first_activity f ON e.customer_id_hash = f.customer_id_hash
+      )
+      SELECT 
+        cohort_month,
+        period_number,
+        COUNT(DISTINCT customer_id_hash) as active_customers,
+        COUNT(DISTINCT customer_id_hash) / 
+          FIRST_VALUE(COUNT(DISTINCT customer_id_hash)) OVER (
+            PARTITION BY cohort_month ORDER BY period_number
+          ) as retention_rate
+      FROM customer_activity
+      GROUP BY cohort_month, period_number
+      ORDER BY cohort_month, period_number
+    """)
+    
+    // Write aggregated data to Gold layer
+    List(
+      ("customer_journey", customerJourney),
+      ("daily_metrics", dailyMetrics),
+      ("cohort_analysis", cohortAnalysis)
+    ).foreach { case (tableName, df) =>
+      df.write
+        .format("delta")
+        .mode("overwrite")
+        .option("path", s"/mnt/datalake/gold/$tableName/")
+        .saveAsTable(s"analytics_gold.$tableName")
+    }
+  }
+  
+  // === ML PIPELINE INTEGRATION ===
+  
+  def runMLPipeline(): Unit = {
+    
+    import org.apache.spark.ml._
+    import org.apache.spark.ml.feature._
+    import org.apache.spark.ml.classification._
+    import org.apache.spark.ml.evaluation._
+    
+    // Load Gold layer data for ML
+    val customerFeatures = spark.sql("""
+      SELECT 
+        customer_id_hash,
+        COUNT(DISTINCT session_id) as total_sessions,
+        AVG(session_duration_minutes) as avg_session_duration,
+        SUM(total_events) as total_events,
+        SUM(CASE WHEN is_converting_session THEN 1 ELSE 0 END) as converting_sessions,
+        DATEDIFF(CURRENT_DATE(), MAX(session_start)) as days_since_last_activity,
+        -- Target: will customer be active next month?
+        CASE WHEN MAX(session_start) >= DATE_SUB(CURRENT_DATE(), 30) THEN 1.0 ELSE 0.0 END as is_active
+      FROM delta.`/mnt/datalake/gold/customer_journey/`
+      GROUP BY customer_id_hash
+      HAVING COUNT(DISTINCT session_id) >= 3  -- Enough data for training
+    """)
+    
+    // Feature engineering pipeline
+    val stringIndexer = new StringIndexer()
+      .setInputCol("customer_id_hash")
+      .setOutputCol("customer_index")
+    
+    val vectorAssembler = new VectorAssembler()
+      .setInputCols(Array(
+        "total_sessions", "avg_session_duration", "total_events", 
+        "converting_sessions", "days_since_last_activity"
+      ))
+      .setOutputCol("features")
+    
+    val scaler = new StandardScaler()
+      .setInputCol("features")
+      .setOutputCol("scaledFeatures")
+    
+    // ML Model
+    val rf = new RandomForestClassifier()
+      .setLabelCol("is_active")
+      .setFeaturesCol("scaledFeatures")
+      .setNumTrees(100)
+      .setMaxDepth(10)
+    
+    // Create ML Pipeline
+    val pipeline = new Pipeline()
+      .setStages(Array(stringIndexer, vectorAssembler, scaler, rf))
+    
+    // Train/Test split
+    val Array(training, test) = customerFeatures.randomSplit(Array(0.8, 0.2), seed = 42)
+    
+    // Train model
+    val model = pipeline.fit(training)
+    
+    // Predictions
+    val predictions = model.transform(test)
+    
+    // Evaluation
+    val evaluator = new BinaryClassificationEvaluator()
+      .setLabelCol("is_active")
+      .setMetricName("areaUnderROC")
+    
+    val auc = evaluator.evaluate(predictions)
+    println(s"Model AUC: $auc")
+    
+    // Save model with MLflow integration
+    model.write.overwrite().save("/mnt/models/customer_activity_prediction/")
+    
+    // Register model in MLflow
+    // mlflow.register_model(model_uri="/mnt/models/customer_activity_prediction/", name="CustomerActivityPredictor")
+  }
+  
+  // === GOVERNANCE AND SECURITY ===
+  
+  def setupGovernance(): Unit = {
+    
+    // Unity Catalog setup
+    spark.sql("""
+      CREATE CATALOG IF NOT EXISTS analytics_catalog
+      COMMENT 'Main analytics catalog for lakehouse platform'
+    """)
+    
+    spark.sql("""
+      CREATE SCHEMA IF NOT EXISTS analytics_catalog.gold
+      COMMENT 'Gold layer - business ready data'
+    """)
+    
+    // Data lineage and quality
+    spark.sql("""
+      CREATE TABLE IF NOT EXISTS analytics_catalog.gold.data_quality_metrics (
+        table_name STRING,
+        check_date DATE,
+        total_records BIGINT,
+        null_records BIGINT,
+        duplicate_records BIGINT,
+        quality_score DOUBLE,
+        status STRING
+      ) USING DELTA
+      PARTITIONED BY (check_date)
+    """)
+    
+    // Access control
+    spark.sql("""
+      GRANT SELECT ON analytics_catalog.gold TO `data-analysts@company.com`
+    """)
+    
+    spark.sql("""
+      GRANT ALL PRIVILEGES ON analytics_catalog.silver TO `data-engineers@company.com` 
+    """)
+  }
+  
+  // === MAIN ORCHESTRATION ===
+  
+  def runLakehousePipeline(): Unit = {
+    println("🚀 Starting Data Lakehouse Pipeline...")
+    
+    // Setup governance first
+    setupGovernance()
+    
+    // Run data pipeline
+    println("📥 Ingesting streaming data to Bronze layer...")
+    ingestStreamingData()
+    
+    println("🔄 Transforming to Silver layer...")
+    transformToSilver()
+    
+    println("⚡ Aggregating to Gold layer...")
+    aggregateToGold()
+    
+    println("🤖 Running ML pipeline...")
+    runMLPipeline()
+    
+    println("✅ Lakehouse pipeline completed successfully!")
+    
+    // Data quality report
+    val qualityReport = spark.sql("""
+      SELECT 
+        'bronze' as layer,
+        COUNT(*) as total_records,
+        COUNT(DISTINCT event_id) / COUNT(*) as uniqueness_ratio
+      FROM delta.`/mnt/datalake/bronze/events/`
+      WHERE date(timestamp) = CURRENT_DATE()
+      
+      UNION ALL
+      
+      SELECT 
+        'silver' as layer,
+        COUNT(*) as total_records, 
+        COUNT(DISTINCT customer_id_hash) / COUNT(*) as uniqueness_ratio
+      FROM delta.`/mnt/datalake/silver/events/`
+      WHERE date(timestamp) = CURRENT_DATE()
+    """)
+    
+    println("📊 Data Quality Report:")
+    qualityReport.show()
+  }
+}
+
+// === DÉMARRAGE DE LA PLATEFORME ===
+DataLakehousePlatform.runLakehousePipeline()</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Completion Banner -->
+                        <div class="completion-banner">
+                            <h2>🏆 FÉLICITATIONS ! Formation Complétée !</h2>
+                            <p class="lead">Vous maîtrisez maintenant Scala, Spark et le Big Data Cloud !</p>
+                            <p><strong>42 heures</strong> • <strong>8 modules</strong> • <strong>100+ exercices</strong> • <strong>Projets industriels</strong></p>
+                        </div>
+
+                        <!-- Navigation finale -->
+                        <div class="navigation-buttons">
+                            <div class="row">
+                                <div class="col-6">
+                                    <a href="Module 7 - Spark Streaming et introduction au Machine Learning.html" class="btn btn-outline-primary">
+                                        <i class="fas fa-arrow-left me-2"></i>
+                                        Module 7 - Streaming & ML
+                                    </a>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <a href="index.html" class="btn btn-success btn-lg">
+                                        <i class="fas fa-home me-2"></i>
+                                        Retour à l'accueil
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bouton de retour en haut -->
+    <button class="scroll-to-top btn" id="scrollToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/scala.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+    
+    <script>
+        hljs.highlightAll();
+        
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.style.display = 'flex';
+            } else {
+                scrollToTopBtn.style.display = 'none';
+            }
+        });
+        
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        document.querySelectorAll('.toc-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    const offsetTop = targetElement.offsetTop - 100;
+                    window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+                }
+            });
+        });
+        
+        function updateActiveLink() {
+            const sections = document.querySelectorAll('section[id]');
+            const tocLinks = document.querySelectorAll('.toc-link');
+            
+            let activeSection = null;
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 150 && rect.bottom >= 150) {
+                    activeSection = section;
+                }
+            });
+            
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (activeSection && link.getAttribute('href') === '#' + activeSection.id) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', updateActiveLink);
+        updateActiveLink();
+        
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.section, .concept-card, .final-project-card').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+
+        // Celebration animation on page load
+        setTimeout(() => {
+            if (typeof confetti !== 'undefined') {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

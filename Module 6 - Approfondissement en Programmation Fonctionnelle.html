@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cours Scala - Fondamentaux et Synthèse</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Highlight.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    
+    <!-- Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #dc143c;
+            --secondary-color: #2563eb;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --info-color: #0284c7;
+            --dark-color: #1f2937;
+            --light-bg: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-muted: #64748b;
+            --question-bg: #f1f5f9;
+            --answer-bg: #dcfce7;
+            --explanation-bg: #fef3c7;
+            --code-bg: #0f172a;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 100px;
+            height: calc(100vh - 120px);
+            overflow-y: auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .toc-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .toc-link {
+            display: block;
+            padding: 0.5rem 0;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-left: 3px solid transparent;
+            padding-left: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .toc-link:hover {
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+            background-color: rgba(220, 20, 60, 0.05);
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .content-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .content-header h1 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .content-header .lead {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .content-body {
+            padding: 2rem;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .concept-list {
+            background: var(--light-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .concept-item {
+            margin-bottom: 0.75rem;
+        }
+
+        .concept-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .concept-title {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-color);
+        }
+
+        .table th {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            font-weight: 500;
+            border: none;
+            padding: 1rem;
+        }
+
+        .table td {
+            padding: 1rem;
+            vertical-align: middle;
+        }
+
+        .table tbody tr:hover {
+            background-color: rgba(220, 20, 60, 0.05);
+        }
+
+        .bigdata-benefits {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(220, 20, 60, 0.1));
+            border-radius: 8px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .conclusion-box {
+            background: linear-gradient(135deg, var(--success-color), var(--info-color));
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+
+        .question-accordion .accordion-item {
+            border: 1px solid var(--border-color);
+            margin-bottom: 1rem;
+            border-radius: 8px !important;
+            overflow: hidden;
+        }
+
+        .question-header {
+            background: var(--question-bg);
+            border: none;
+            color: var(--dark-color);
+            font-weight: 600;
+            padding: 1.25rem 1.5rem;
+        }
+
+        .question-header:not(.collapsed) {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .question-header::after {
+            background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>");
+        }
+
+        .question-header:not(.collapsed)::after {
+            background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>");
+        }
+
+        .answer-section {
+            background: var(--answer-bg);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 6px;
+            border-left: 4px solid var(--success-color);
+        }
+
+        .explanation-section {
+            background: var(--explanation-bg);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 6px;
+            border-left: 4px solid var(--warning-color);
+        }
+
+        .code-block {
+            background: var(--code-bg);
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 1rem 0;
+            border: 1px solid #334155;
+        }
+
+        .code-header {
+            background: #1e293b;
+            padding: 0.75rem 1rem;
+            color: #94a3b8;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-bottom: 1px solid #334155;
+        }
+
+        pre {
+            margin: 0;
+            padding: 1rem;
+            background: var(--code-bg);
+            color: #e2e8f0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(220, 20, 60, 0.1);
+            color: var(--primary-color);
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        .badge-concept {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            font-weight: 500;
+        }
+
+        .progress-bar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            font-weight: 500;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(220, 20, 60, 0.3);
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(220, 20, 60, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(220, 20, 60, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: static;
+                margin-bottom: 2rem;
+                height: auto;
+            }
+            
+            .content-header {
+                padding: 1.5rem;
+            }
+            
+            .content-body {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-code me-2"></i>
+                Cours Scala
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#summary">Synthèse</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#questions">Questions</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid" style="margin-top: 80px;">
+        <div class="row">
+            <!-- Sidebar avec table des matières -->
+            <div class="col-lg-3">
+                <div class="sidebar">
+                    <h5 class="toc-title">
+                        <i class="fas fa-list me-2"></i>
+                        Table des matières
+                    </h5>
+                    <div class="toc-content">
+                        <a href="#summary" class="toc-link">
+                            <i class="fas fa-book-open me-2"></i>
+                            Synthèse des fondamentaux
+                        </a>
+                        <a href="#concepts" class="toc-link">
+                            <i class="fas fa-lightbulb me-2"></i>
+                            Concepts explorés
+                        </a>
+                        <a href="#comparison" class="toc-link">
+                            <i class="fas fa-table me-2"></i>
+                            Tableau comparatif
+                        </a>
+                        <a href="#bigdata" class="toc-link">
+                            <i class="fas fa-database me-2"></i>
+                            Importance en Big Data
+                        </a>
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                            <strong style="color: var(--primary-color); font-size: 0.9rem;">Questions :</strong>
+                        </div>
+                        <a href="#question-1" class="toc-link">Question 1 - Symbole _ en Scala</a>
+                        <a href="#question-2" class="toc-link">Question 2 - Case Objects</a>
+                        <a href="#question-3" class="toc-link">Question 3 - Méthodes génériques</a>
+                        <a href="#question-4" class="toc-link">Question 4 - Traits</a>
+                        <a href="#question-5" class="toc-link">Question 5 - Méthode multiply</a>
+                        <a href="#question-6" class="toc-link">Question 6 - Itération sur listes</a>
+                        <a href="#question-7" class="toc-link">Question 7 - val vs var</a>
+                        <a href="#question-8" class="toc-link">Question 8 - For-comprehensions</a>
+                        <a href="#question-9" class="toc-link">Question 9 - Mot-clé yield</a>
+                        <a href="#question-10" class="toc-link">Question 10 - Pattern matching</a>
+                        <a href="#question-11" class="toc-link">Question 11 - map vs flatMap</a>
+                        <a href="#question-12" class="toc-link">Question 12 - Type Option</a>
+                        <a href="#question-13" class="toc-link">Question 13 - Mot-clé implicit</a>
+                        <a href="#question-14" class="toc-link">Question 14 - lazy val</a>
+                        <a href="#question-15" class="toc-link">Question 15 - Singletons</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenu principal -->
+            <div class="col-lg-9">
+                <div class="main-content">
+                    <!-- En-tête -->
+                    <div class="content-header">
+                        <h1>
+                            <i class="fas fa-graduation-cap me-3"></i>
+                            Conclusion et Synthèse des Fondamentaux de Scala
+                        </h1>
+                        <p class="lead mb-0">
+                            Récapitulatif des 16 concepts essentiels pour maîtriser Apache Spark
+                        </p>
+                        <span class="badge badge-concept mt-2">Récapitulatif</span>
+                    </div>
+
+                    <!-- Corps du contenu -->
+                    <div class="content-body">
+                        <!-- Section de synthèse -->
+                        <section id="summary" class="section">
+                            <p class="lead">
+                                Dans les sections précédentes, nous avons parcouru <strong>16 concepts essentiels de Scala</strong>. 
+                                Ces fondations sont indispensables pour aborder des frameworks comme <strong>Apache Spark</strong>, 
+                                qui repose directement sur Scala. Cette partie récapitule les acquis et met en évidence leur utilité 
+                                dans un contexte Big Data.
+                            </p>
+                        </section>
+
+                        <!-- Concepts explorés -->
+                        <section id="concepts" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-lightbulb me-2"></i>
+                                Résumé des concepts explorés
+                            </h2>
+                            <div class="concept-list">
+                                <div class="concept-item">
+                                    <span class="concept-title">4.1 Déclaration de variables :</span> 
+                                    Différence entre <code>val</code> (immuable) et <code>var</code> (mutable).
+                                </div>
+                                <div class="concept-item">
+                                    <span class="concept-title">4.2 Types de base :</span> 
+                                    Entiers, réels, chaînes, booléens avec inférence de type.
+                                </div>
+                                <div class="concept-item">
+                                    <span class="concept-title">4.3 Contrôle de flux :</span> 
+                                    <code>if/else</code> comme expression renvoyant une valeur.
+                                </div>
+                                <div class="concept-item">
+                                    <span class="concept-title">4.4 Boucles :</span> 
+                                    <code>for</code>, <code>while</code> et leurs variantes.
+                                </div>
+                                <div class="concept-item">
+                                    <span class="concept-title">4.5 Fonctions :</span> 
+                                    Définitions classiques et expressions concises.
+                                </div>
+                                <div class="concept-item">
+                                    <span class="concept-title">4.6 Collections :</span> 
+                                    Listes, opérations <code>map</code>, <code>filter</code>, <code>foreach</code>.
+                                </div>
+                                <div class="concept-item">
+                                    <span class="concept-title">4.7 For-comprehensions :</span> 
+                                    Boucles enrichies produisant de nouvelles collections avec <code>yield</code>.
+                                </div>
+                                <div class="concept-item">
+                                    <span class="concept-title">4.8 Option :</span> 
+                                    Gestion sécurisée des valeurs absentes (<code>Some</code> / <code>None</code>).
+                                </div>
+                                <div class="concept-item">
+                                    <span class="concept-title">4.9 Pattern Matching :</span> 
+                                    Alternative puissante au <code>switch</code>, avec extraction de données.
+                                </div>
+                                <div class="concept-item">
+                                    <span class="concept-title">4.10 Traits :</span> 
+                                    Interfaces enrichies avec méthodes abstraites et concrètes.
+                                </div>
+                                <div class="concept-item">
+                                    <span class="concept-title">4.11 Case Classes :</span> 
+                                    Génération automatique de méthodes utiles + support direct du pattern matching.
+                                </div>
+                                <div class="concept-item">
+                                    <span class="concept-title">4.12 Génériques :</span> 
+                                    Fonctions et classes paramétrées par des types.
+                                </div>
+                                <div class="concept-item">
+                                    <span class="concept-title">4.13 Implicites :</span> 
+                                    Paramètres et conversions automatiques pour réduire la verbosité.
+                                </div>
+                                <div class="concept-item">
+                                    <span class="concept-title">4.14 Lazy val :</span> 
+                                    Initialisation retardée d'une valeur au premier accès.
+                                </div>
+                                <div class="concept-item">
+                                    <span class="concept-title">4.15 Classes et Objets :</span> 
+                                    Définition de structures et instanciation.
+                                </div>
+                                <div class="concept-item">
+                                    <span class="concept-title">4.16 Singletons avec <code>object</code> :</span> 
+                                    Instances uniques pour centraliser configuration et ressources.
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Tableau comparatif -->
+                        <section id="comparison" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-table me-2"></i>
+                                Tableau comparatif des structures clés
+                            </h2>
+                            <div class="table-container">
+                                <table class="table table-striped mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Concept</th>
+                                            <th>Description</th>
+                                            <th>Exemple Scala</th>
+                                            <th>Avantage</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><code>val</code> / <code>var</code></td>
+                                            <td>Déclaration de variables immuables ou mutables.</td>
+                                            <td><code>val x = 5</code></td>
+                                            <td>Sécurité via immuabilité.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Option</td>
+                                            <td>Encapsulation d'une valeur possible ou absente.</td>
+                                            <td><code>Option("Alice")</code></td>
+                                            <td>Évite les NullPointerException.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pattern Matching</td>
+                                            <td>Contrôle de flux par motifs.</td>
+                                            <td><code>x match { case 1 => ... }</code></td>
+                                            <td>Lisibilité, puissance d'extraction.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Trait</td>
+                                            <td>Définition de comportements réutilisables.</td>
+                                            <td><code>trait Animal</code></td>
+                                            <td>Composition flexible.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Case Class</td>
+                                            <td>Classes immuables avec support automatique.</td>
+                                            <td><code>case class Dog(n: String)</code></td>
+                                            <td>Pattern matching et égalité structurelle.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Implicites</td>
+                                            <td>Paramètres et conversions automatiques.</td>
+                                            <td><code>implicit val greeting = "Hi"</code></td>
+                                            <td>Moins de répétition dans le code.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Singleton <code>object</code></td>
+                                            <td>Instance unique globale.</td>
+                                            <td><code>object Config</code></td>
+                                            <td>Centralisation, pas besoin de <code>new</code>.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                        <!-- Importance en Big Data -->
+                        <section id="bigdata" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-database me-2"></i>
+                                Pourquoi ces fondamentaux sont cruciaux en Big Data ?
+                            </h2>
+                            <p class="mb-3">
+                                Apache Spark (et plus largement l'écosystème Big Data) repose directement sur Scala. 
+                                Ces concepts permettent :
+                            </p>
+                            <div class="bigdata-benefits">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <h6><i class="fas fa-cogs me-2"></i>Manipulation des données</h6>
+                                        <p class="mb-0">
+                                            De manipuler les <strong>RDD</strong>, <strong>DataFrames</strong> et 
+                                            <strong>Datasets</strong> avec une syntaxe naturelle.
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <h6><i class="fas fa-project-diagram me-2"></i>Transformations fonctionnelles</h6>
+                                        <p class="mb-0">
+                                            D'écrire des transformations <strong>fonctionnelles</strong> 
+                                            (<code>map</code>, <code>filter</code>, <code>flatMap</code>), 
+                                            essentielles au traitement distribué.
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <h6><i class="fas fa-shield-alt me-2"></i>Structures sûres</h6>
+                                        <p class="mb-0">
+                                            D'utiliser des structures sûres (<code>Option</code>, <code>case class</code>) 
+                                            pour éviter les erreurs fréquentes en environnement distribué.
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <h6><i class="fas fa-sitemap me-2"></i>Configuration centralisée</h6>
+                                        <p class="mb-0">
+                                            De centraliser les configurations Spark dans des <code>object</code> 
+                                            singletons pour simplifier l'architecture.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Conclusion -->
+                        <div class="conclusion-box">
+                            <h5><i class="fas fa-trophy me-2"></i>Conclusion</h5>
+                            <p class="mb-0">
+                                La maîtrise de la syntaxe et des concepts de base de Scala est un prérequis indispensable 
+                                pour progresser dans l'apprentissage de Spark. Ces 16 parties constituent une boîte à outils 
+                                complète pour écrire du code Big Data robuste, concis et performant.
+                            </p>
+                        </div>
+
+                        <!-- Section Questions -->
+                        <section id="questions" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-question-circle me-2"></i>
+                                Questions et Réponses
+                            </h2>
+                            
+                            <div class="accordion question-accordion" id="questionsAccordion">
+                                
+                                <!-- Question 1 -->
+                                <div class="accordion-item" id="question-1">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button question-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                                            <i class="fas fa-question-circle me-2"></i>
+                                            Question 1 - Explication du symbole _ en Scala
+                                        </button>
+                                    </h3>
+                                    <div id="answer1" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="explanation-section">
+                                                <h5><i class="fas fa-lightbulb me-2"></i>Qu'est-ce que le symbole _ ?</h5>
+                                                <p>En Scala, le symbole <code>_</code> est utilisé comme un <strong>paramètre anonyme</strong> dans les fonctions anonymes (ou lambdas). Il représente un ou plusieurs arguments passés à une fonction.</p>
+                                            </div>
+
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <i class="fas fa-code me-2"></i>Exemple - Création et transformation de liste
+                                                </div>
+                                                <pre><code class="language-scala">// 1. Création de la liste
+val list = List(1, 2, 3, 4, 5)
+// Résultat: List(1, 2, 3, 4, 5)
+
+// 2. Application du filtre
+list.filter(_ % 2 == 0)
+// Résultat: List(2, 4)
+
+// 3. Application de la transformation
+.map(_ * 2)
+// Résultat: List(4, 8)</code></pre>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>Explication détaillée :</h6>
+                                                <ul>
+                                                    <li><strong><code>list.filter(_ % 2 == 0)</code></strong> : Ici, <code>_</code> représente chaque élément de la liste. Chaque élément est testé pour voir s'il est divisible par 2.</li>
+                                                    <li><strong><code>.map(_ * 2)</code></strong> : De même, <code>_</code> représente chaque élément de la liste filtrée, et cet élément est multiplié par 2.</li>
+                                                </ul>
+                                                <p>L'utilisation de <code>_</code> simplifie l'écriture de fonctions anonymes en évitant de devoir nommer explicitement les paramètres.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Question 2 -->
+                                <div class="accordion-item" id="question-2">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button question-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                                            <i class="fas fa-question-circle me-2"></i>
+                                            Question 2 - Particularité des case objects en Scala
+                                        </button>
+                                    </h3>
+                                    <div id="answer2" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="answer-section">
+                                                <h5><i class="fas fa-check-circle me-2"></i>Support automatique du pattern matching</h5>
+                                                <p>La particularité principale des objets <code>case</code> en Scala est qu'ils <strong>supportent automatiquement le pattern matching</strong>.</p>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>Qu'est-ce que le pattern matching ?</h6>
+                                                <p>Le pattern matching permet de vérifier une valeur contre un modèle et d'exécuter du code en fonction du modèle qui correspond. C'est une version avancée de <code>switch</code>, mais beaucoup plus puissante.</p>
+                                            </div>
+
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <i class="fas fa-code me-2"></i>Exemple avec case class et pattern matching
+                                                </div>
+                                                <pre><code class="language-scala">sealed trait Animal
+case class Dog(name: String) extends Animal
+case class Cat(name: String) extends Animal
+
+def greet(animal: Animal): String = animal match {
+  case Dog(name) => s"Hello, $name the dog!"
+  case Cat(name) => s"Hello, $name the cat!"
+}
+
+val myDog = Dog("Buddy")
+println(greet(myDog)) // Output: Hello, Buddy the dog!</code></pre>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>Autres fonctionnalités automatiques :</h6>
+                                                <ul>
+                                                    <li><strong>Méthode <code>apply</code> automatique</strong> : Pas besoin d'appeler <code>new</code></li>
+                                                    <li><strong>Méthode <code>copy</code> automatique</strong> : Crée une copie en modifiant certaines valeurs</li>
+                                                    <li><strong>Égalité structurelle</strong> : Deux instances avec les mêmes valeurs sont égales</li>
+                                                    <li><strong>Sérialisation facile</strong> : Les case class sont facilement sérialisables</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Question 3 -->
+                                <div class="accordion-item" id="question-3">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button question-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                                            <i class="fas fa-question-circle me-2"></i>
+                                            Question 3 - Définition d'une méthode générique
+                                        </button>
+                                    </h3>
+                                    <div id="answer3" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="answer-section">
+                                                <h5><i class="fas fa-check-circle me-2"></i>Réponse correcte</h5>
+                                                <p><code>def methodName[T](param: T): T = {...}</code></p>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>Qu'est-ce qu'une méthode générique ?</h6>
+                                                <p>Une méthode <strong>générique</strong> peut fonctionner avec différents types de données, sans être limitée à un type spécifique. Cela permet d'écrire du code plus flexible et réutilisable.</p>
+                                            </div>
+
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <i class="fas fa-code me-2"></i>Exemple - Méthode générique
+                                                </div>
+                                                <pre><code class="language-scala">// Sans génériques (répétitif)
+def getFirstInt(list: List[Int]): Int = list.head
+def getFirstString(list: List[String]): String = list.head
+
+// Avec génériques (flexible)
+def getFirst[T](list: List[T]): T = list.head
+
+// Utilisation
+val intList = List(1, 2, 3)
+val stringList = List("a", "b", "c")
+
+println(getFirst(intList))    // Sortie : 1
+println(getFirst(stringList)) // Sortie : "a"</code></pre>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>Avantages des méthodes génériques :</h6>
+                                                <ul>
+                                                    <li><strong>Réutilisabilité</strong> : Une seule méthode pour tous les types</li>
+                                                    <li><strong>Sécurité de type</strong> : Le compilateur vérifie la cohérence des types</li>
+                                                    <li><strong>Moins de code</strong> : Évite la duplication de code</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Question 4 -->
+                                <div class="accordion-item" id="question-4">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button question-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer4">
+                                            <i class="fas fa-question-circle me-2"></i>
+                                            Question 4 - Qu'est-ce qu'un trait en Scala ?
+                                        </button>
+                                    </h3>
+                                    <div id="answer4" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="answer-section">
+                                                <h5><i class="fas fa-check-circle me-2"></i>Réponse correcte</h5>
+                                                <p>Un trait peut contenir des méthodes concrètes et abstraites.</p>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>C'est quoi un trait en Scala ?</h6>
+                                                <p>Pense à un <strong>trait</strong> comme à une sorte de plan ou de recette que tu peux appliquer à plusieurs objets ou classes. Il te permet de dire : "Voici les choses que cet objet ou cette classe doit pouvoir faire."</p>
+                                            </div>
+
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <i class="fas fa-code me-2"></i>Exemple - Définition et utilisation d'un trait
+                                                </div>
+                                                <pre><code class="language-scala">trait Animal {
+  def manger(): Unit                           // Méthode abstraite
+  def dormir(): Unit = println("Je dors")      // Méthode concrète
+}
+
+class Chien extends Animal {
+  def manger(): Unit = println("Je mange des croquettes")
+}
+
+class Chat extends Animal {
+  def manger(): Unit = println("Je mange du poisson")
+}
+
+val monChien = new Chien()
+monChien.manger()  // Je mange des croquettes
+monChien.dormir()  // Je dors</code></pre>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>Caractéristiques des traits :</h6>
+                                                <ul>
+                                                    <li><strong>Méthodes abstraites</strong> : Doivent être implémentées par les classes qui étendent le trait</li>
+                                                    <li><strong>Méthodes concrètes</strong> : Déjà définies dans le trait, peuvent être utilisées directement</li>
+                                                    <li><strong>Composition flexible</strong> : Une classe peut étendre plusieurs traits</li>
+                                                    <li><strong>Réutilisabilité</strong> : Partage de comportements communs</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Question 5 -->
+                                <div class="accordion-item" id="question-5">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button question-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer5">
+                                            <i class="fas fa-question-circle me-2"></i>
+                                            Question 5 - Que retourne ce code ?
+                                        </button>
+                                    </h3>
+                                    <div id="answer5" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <i class="fas fa-code me-2"></i>Code à analyser
+                                                </div>
+                                                <pre><code class="language-scala">def multiply(x: Int, y: Int): Int = x * y
+println(multiply(2, 3))</code></pre>
+                                            </div>
+
+                                            <div class="answer-section">
+                                                <h5><i class="fas fa-check-circle me-2"></i>Réponse correcte : 6</h5>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>Analyse étape par étape :</h6>
+                                                <ol>
+                                                    <li><strong>Définition de la méthode <code>multiply</code></strong> : Prend deux arguments <code>x</code> et <code>y</code> de type <code>Int</code> et retourne leur produit.</li>
+                                                    <li><strong>Appel de la méthode</strong> : <code>multiply(2, 3)</code> calcule <code>2 * 3 = 6</code></li>
+                                                    <li><strong>Affichage du résultat</strong> : <code>println(6)</code> affiche <code>6</code> dans la console</li>
+                                                </ol>
+
+                                                <h6>Pourquoi pas les autres réponses ?</h6>
+                                                <ul>
+                                                    <li><code>2 * 3</code> : C'est l'opération interne, pas la sortie</li>
+                                                    <li><code>multiply(2,3)</code> : C'est l'appel de fonction, pas le résultat affiché</li>
+                                                    <li>Erreur de compilation : Le code est syntaxiquement correct</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Question 6 -->
+                                <div class="accordion-item" id="question-6">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button question-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer6">
+                                            <i class="fas fa-question-circle me-2"></i>
+                                            Question 6 - Méthode la plus efficace pour itérer sur une liste
+                                        </button>
+                                    </h3>
+                                    <div id="answer6" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="answer-section">
+                                                <h5><i class="fas fa-check-circle me-2"></i>Réponse correcte</h5>
+                                                <p><code>list.foreach(function)</code></p>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>Pourquoi <code>foreach</code> est-il le plus approprié ?</h6>
+                                                <p>En Scala, <code>foreach</code> est la méthode la plus efficace et idiomatique pour itérer sur tous les éléments d'une liste et appliquer une fonction à chaque élément.</p>
+                                            </div>
+
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <i class="fas fa-code me-2"></i>Exemple - Utilisation de foreach
+                                                </div>
+                                                <pre><code class="language-scala">val names = List("Alice", "Bob", "Charlie")
+
+// Méthode idiomatique avec foreach
+names.foreach(name => println(s"Bonjour, $name!"))
+
+// Encore plus concis avec _
+names.foreach(println)</code></pre>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>Comparaison avec les autres options :</h6>
+                                                <ul>
+                                                    <li><strong><code>for (i <- list) function(i)</code></strong> : Fonctionne mais moins idiomatique</li>
+                                                    <li><strong><code>list.map(function)</code></strong> : Retourne une nouvelle liste, pas optimal si on ne l'utilise pas</li>
+                                                    <li><strong>Boucle avec index</strong> : Style impératif, peu utilisé en Scala</li>
+                                                </ul>
+
+                                                <div class="mt-3 p-3 bg-light rounded">
+                                                    <h6>💡 Qu'est-ce que "idiomatique" ?</h6>
+                                                    <p class="mb-0">Le terme <strong>idiomatique</strong> se réfère à la manière la plus naturelle et recommandée d'écrire du code dans un langage donné, suivant ses conventions et meilleures pratiques.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Question 7 -->
+                                <div class="accordion-item" id="question-7">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button question-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer7">
+                                            <i class="fas fa-question-circle me-2"></i>
+                                            Question 7 - Différence entre val et var
+                                        </button>
+                                    </h3>
+                                    <div id="answer7" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="answer-section">
+                                                <h5><i class="fas fa-check-circle me-2"></i>Réponse correcte</h5>
+                                                <p><code>val</code> déclare une variable immuable, tandis que <code>var</code> déclare une variable mutable.</p>
+                                            </div>
+
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <i class="fas fa-code me-2"></i>Exemple - val vs var
+                                                </div>
+                                                <pre><code class="language-scala">// val - IMMUABLE
+val x = 5
+// x = 10 // ❌ Erreur ! x ne peut pas être modifié
+
+// var - MUTABLE  
+var y = 5
+y = 10 // ✅ OK ! y peut être modifié
+println(y) // Affiche: 10</code></pre>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>Pourquoi c'est important ?</h6>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="p-3 bg-success bg-opacity-10 rounded">
+                                                            <h6><i class="fas fa-lock me-2 text-success"></i>Immutabilité (val)</h6>
+                                                            <ul class="mb-0">
+                                                                <li>Code plus sûr</li>
+                                                                <li>Évite les modifications accidentelles</li>
+                                                                <li>Facilite le raisonnement</li>
+                                                                <li>Bonne pratique en programmation fonctionnelle</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="p-3 bg-warning bg-opacity-10 rounded">
+                                                            <h6><i class="fas fa-edit me-2 text-warning"></i>Mutabilité (var)</h6>
+                                                            <ul class="mb-0">
+                                                                <li>Utile dans certains cas</li>
+                                                                <li>À utiliser avec parcimonie</li>
+                                                                <li>Peut causer des effets de bord</li>
+                                                                <li>Préférer val quand possible</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Question 8 -->
+                                <div class="accordion-item" id="question-8">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button question-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer8">
+                                            <i class="fas fa-question-circle me-2"></i>
+                                            Question 8 - Qu'est-ce qu'une for-comprehension ?
+                                        </button>
+                                    </h3>
+                                    <div id="answer8" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="answer-section">
+                                                <h5><i class="fas fa-check-circle me-2"></i>Réponse correcte</h5>
+                                                <p>Une boucle <code>for</code> spéciale qui peut retourner un résultat.</p>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>Qu'est-ce qu'une for-comprehension ?</h6>
+                                                <p>En Scala, une <strong>for-comprehension</strong> est une version plus puissante de la boucle <code>for</code>. Elle permet non seulement d'itérer sur des collections, mais aussi de <strong>retourner un résultat</strong> en construisant de nouvelles collections.</p>
+                                            </div>
+
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <i class="fas fa-code me-2"></i>Exemple - For-comprehension avec yield
+                                                </div>
+                                                <pre><code class="language-scala">val numbers = List(1, 2, 3, 4, 5)
+
+// For-comprehension qui retourne un résultat
+val doubledEvens = for {
+  n <- numbers           // Prendre chaque élément
+  if n % 2 == 0         // Filtrer les nombres pairs
+} yield n * 2           // Doubler et retourner
+
+// Résultat: List(4, 8)
+println(doubledEvens)</code></pre>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>Explication étape par étape :</h6>
+                                                <ol>
+                                                    <li><strong><code>n <- numbers</code></strong> : Itère sur chaque élément de la liste</li>
+                                                    <li><strong><code>if n % 2 == 0</code></strong> : Filtre pour ne garder que les nombres pairs</li>
+                                                    <li><strong><code>yield n * 2</code></strong> : Double chaque nombre pair et l'ajoute à la nouvelle collection</li>
+                                                </ol>
+
+                                                <div class="mt-3 p-3 bg-info bg-opacity-10 rounded">
+                                                    <h6><i class="fas fa-info-circle me-2"></i>Avantages</h6>
+                                                    <ul class="mb-0">
+                                                        <li><strong>Concision</strong> : Une syntaxe élégante pour des opérations complexes</li>
+                                                        <li><strong>Lisibilité</strong> : Plus facile à lire que des chaînes de map/filter</li>
+                                                        <li><strong>Puissance</strong> : Combine filtrage, transformation et création de collections</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Question 9 -->
+                                <div class="accordion-item" id="question-9">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button question-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer9">
+                                            <i class="fas fa-question-circle me-2"></i>
+                                            Question 9 - Rôle du mot-clé yield
+                                        </button>
+                                    </h3>
+                                    <div id="answer9" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="answer-section">
+                                                <h5><i class="fas fa-check-circle me-2"></i>Réponse correcte</h5>
+                                                <p>Retourne une valeur à partir d'une boucle, créant une collection des résultats.</p>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>Ce que fait <code>yield</code> :</h6>
+                                                <p>Le mot-clé <strong><code>yield</code></strong> permet de <strong>retourner une nouvelle collection</strong> qui contient les résultats de chaque itération de la boucle.</p>
+                                            </div>
+
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <i class="fas fa-code me-2"></i>Comparaison avec et sans yield
+                                                </div>
+                                                <pre><code class="language-scala">val numbers = List(1, 2, 3, 4, 5)
+
+// SANS yield - Juste affichage
+for (n <- numbers) println(n * 2)
+// Affiche: 2, 4, 6, 8, 10 (mais ne retourne rien)
+
+// AVEC yield - Crée une nouvelle collection
+val doubled = for (n <- numbers) yield n * 2
+// Résultat: List(2, 4, 6, 8, 10)</code></pre>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>Processus étape par étape :</h6>
+                                                <ol>
+                                                    <li><strong>Parcours des éléments</strong> : Iterate sur chaque élément de la collection</li>
+                                                    <li><strong>Transformation</strong> : Applique une opération à chaque élément</li>
+                                                    <li><strong>Création d'une nouvelle collection</strong> : <code>yield</code> stocke chaque résultat dans une nouvelle collection</li>
+                                                </ol>
+
+                                                <div class="mt-3 p-3 bg-primary bg-opacity-10 rounded">
+                                                    <h6><i class="fas fa-magic me-2"></i>Exemple avec filtre</h6>
+                                                    <pre class="mb-0"><code class="language-scala">val evensDoubled = for {
+  n <- numbers
+  if n % 2 == 0    // Filtre
+} yield n * 2      // Transformation et collection
+
+// Résultat: List(4, 8)</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Question 10 -->
+                                <div class="accordion-item" id="question-10">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button question-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer10">
+                                            <i class="fas fa-question-circle me-2"></i>
+                                            Question 10 - À quoi ressemble le pattern matching ?
+                                        </button>
+                                    </h3>
+                                    <div id="answer10" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="answer-section">
+                                                <h5><i class="fas fa-check-circle me-2"></i>Réponse correcte</h5>
+                                                <p>Les <code>switch</code> statements en C</p>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>Pourquoi cette similitude ?</h6>
+                                                <p>Le <strong>pattern matching</strong> en Scala ressemble aux <strong><code>switch</code> statements</strong> car les deux comparent une valeur à différents motifs et exécutent du code selon la correspondance trouvée.</p>
+                                            </div>
+
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <i class="fas fa-code me-2"></i>Comparaison Switch vs Pattern Matching
+                                                </div>
+                                                <pre><code class="language-c">// Switch en C
+switch(number) {
+  case 1: printf("Un"); break;
+  case 2: printf("Deux"); break;
+  default: printf("Autre");
+}</code></pre>
+                                                <pre><code class="language-scala">// Pattern matching en Scala
+number match {
+  case 1 => println("Un")
+  case 2 => println("Deux")
+  case _ => println("Autre")
+}</code></pre>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>Mais le pattern matching est plus puissant !</h6>
+                                                <div class="code-block">
+                                                    <div class="code-header">
+                                                        <i class="fas fa-star me-2"></i>Décomposition de structures complexes
+                                                    </div>
+                                                    <pre><code class="language-scala">case class Person(name: String, age: Int)
+
+val person = Person("Alice", 25)
+
+person match {
+  case Person(name, age) if age >= 18 => 
+    println(s"$name est majeur(e)")
+  case Person(name, _) => 
+    println(s"$name est mineur(e)")
+}</code></pre>
+                                                </div>
+
+                                                <div class="row mt-3">
+                                                    <div class="col-md-6">
+                                                        <div class="p-3 bg-success bg-opacity-10 rounded">
+                                                            <h6>Avantages du Pattern Matching</h6>
+                                                            <ul class="mb-0">
+                                                                <li>Décomposition de structures</li>
+                                                                <li>Guards (conditions)</li>
+                                                                <li>Extraction de valeurs</li>
+                                                                <li>Vérification d'exhaustivité</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="p-3 bg-info bg-opacity-10 rounded">
+                                                            <h6>Limitations du Switch</h6>
+                                                            <ul class="mb-0">
+                                                                <li>Valeurs simples uniquement</li>
+                                                                <li>Pas de décomposition</li>
+                                                                <li>Risque d'oubli de break</li>
+                                                                <li>Moins expressif</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Question 11 -->
+                                <div class="accordion-item" id="question-11">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button question-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer11">
+                                            <i class="fas fa-question-circle me-2"></i>
+                                            Question 11 - Différence entre map et flatMap
+                                        </button>
+                                    </h3>
+                                    <div id="answer11" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="answer-section">
+                                                <h5><i class="fas fa-check-circle me-2"></i>Réponse correcte</h5>
+                                                <p><code>flatMap</code> utilise une fonction qui retourne une collection, tandis que <code>map</code> utilise une fonction qui retourne un seul élément.</p>
+                                            </div>
+
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <i class="fas fa-code me-2"></i>Exemple - map vs flatMap
+                                                </div>
+                                                <pre><code class="language-scala">val numbers = List(1, 2, 3)
+
+// MAP - retourne un élément pour chaque élément
+val doubled = numbers.map(x => x * 2)
+// Résultat: List(2, 4, 6)
+
+// FLATMAP - retourne une collection pour chaque élément, puis l'aplatit
+val result = numbers.flatMap(x => List(x, x * 2))
+// Résultat: List(1, 2, 2, 4, 3, 6)</code></pre>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>Exemple pratique : Diviser des phrases en mots</h6>
+                                                <div class="code-block">
+                                                    <div class="code-header">
+                                                        <i class="fas fa-comments me-2"></i>Traitement de phrases
+                                                    </div>
+                                                    <pre><code class="language-scala">val phrases = List("Bonjour tout le monde", "Scala est génial")
+
+// Avec MAP - garde les sous-collections séparées
+val wordsWithMap = phrases.map(phrase => phrase.split(" "))
+// Résultat: List(Array("Bonjour", "tout", "le", "monde"), 
+//                Array("Scala", "est", "génial"))
+
+// Avec FLATMAP - aplatit tout en une seule liste
+val wordsWithFlatMap = phrases.flatMap(phrase => phrase.split(" "))
+// Résultat: List("Bonjour", "tout", "le", "monde", "Scala", "est", "génial")</code></pre>
+                                                </div>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>Visualisation de la différence :</h6>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="p-3 bg-primary bg-opacity-10 rounded">
+                                                            <h6><i class="fas fa-map me-2"></i>MAP</h6>
+                                                            <p class="mb-1"><strong>Input:</strong> [1, 2, 3]</p>
+                                                            <p class="mb-1"><strong>Fonction:</strong> x => List(x, x*2)</p>
+                                                            <p class="mb-1"><strong>Résultat:</strong> [List(1,2), List(2,4), List(3,6)]</p>
+                                                            <p class="mb-0"><em>Structure: Liste de listes</em></p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="p-3 bg-success bg-opacity-10 rounded">
+                                                            <h6><i class="fas fa-compress-arrows-alt me-2"></i>FLATMAP</h6>
+                                                            <p class="mb-1"><strong>Input:</strong> [1, 2, 3]</p>
+                                                            <p class="mb-1"><strong>Fonction:</strong> x => List(x, x*2)</p>
+                                                            <p class="mb-1"><strong>Résultat:</strong> [1, 2, 2, 4, 3, 6]</p>
+                                                            <p class="mb-0"><em>Structure: Liste plate</em></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Question 12 -->
+                                <div class="accordion-item" id="question-12">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button question-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer12">
+                                            <i class="fas fa-question-circle me-2"></i>
+                                            Question 12 - Avantage principal du type Option
+                                        </button>
+                                    </h3>
+                                    <div id="answer12" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="answer-section">
+                                                <h5><i class="fas fa-check-circle me-2"></i>Réponse correcte</h5>
+                                                <p>Elle permet une gestion plus sûre des nullités, en forçant l'utilisateur à vérifier explicitement la présence d'une valeur avant de l'utiliser.</p>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>Qu'est-ce que <code>Option</code> ?</h6>
+                                                <p><strong><code>Option</code></strong> est un type conteneur qui peut soit contenir une valeur (<code>Some(valeur)</code>), soit être vide (<code>None</code>). Il remplace avantageusement l'utilisation de <code>null</code>.</p>
+                                            </div>
+
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <i class="fas fa-shield-alt me-2"></i>Comparaison : null vs Option
+                                                </div>
+                                                <pre><code class="language-scala">// ❌ AVEC NULL - Risqué
+val name: String = null
+println(name.length) // 💥 NullPointerException !
+
+// ✅ AVEC OPTION - Sûr
+val name: Option[String] = Some("Alice")
+name match {
+  case Some(n) => println(n.length)  // 5
+  case None => println("Pas de nom disponible")
+}</code></pre>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>Pourquoi Option est plus sûr ?</h6>
+                                                <div class="row">
+                                                    <div class="col-md-6 mb-3">
+                                                        <div class="p-3 bg-danger bg-opacity-10 rounded">
+                                                            <h6><i class="fas fa-exclamation-triangle me-2 text-danger"></i>Problèmes avec null</h6>
+                                                            <ul class="mb-0">
+                                                                <li>NullPointerException imprévisibles</li>
+                                                                <li>Oubli facile de vérifications</li>
+                                                                <li>Code moins lisible</li>
+                                                                <li>Erreurs à l'exécution</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 mb-3">
+                                                        <div class="p-3 bg-success bg-opacity-10 rounded">
+                                                            <h6><i class="fas fa-check-circle me-2 text-success"></i>Avantages d'Option</h6>
+                                                            <ul class="mb-0">
+                                                                <li>Vérification explicite obligatoire</li>
+                                                                <li>Erreurs détectées à la compilation</li>
+                                                                <li>Code plus expressif</li>
+                                                                <li>Intégration avec les méthodes fonctionnelles</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <i class="fas fa-magic me-2"></i>Méthodes utiles d'Option
+                                                </div>
+                                                <pre><code class="language-scala">val maybeAge: Option[Int] = Some(25)
+
+// getOrElse - valeur par défaut
+val age = maybeAge.getOrElse(0)
+
+// map - transformation si présent
+val ageInMonths = maybeAge.map(_ * 12)
+
+// filter - filtrage conditionnel
+val adult = maybeAge.filter(_ >= 18)
+
+// Chaînage sécurisé
+val result = maybeAge
+  .filter(_ >= 18)
+  .map(_ * 12)
+  .getOrElse(0)</code></pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Question 13 -->
+                                <div class="accordion-item" id="question-13">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button question-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer13">
+                                            <i class="fas fa-question-circle me-2"></i>
+                                            Question 13 - Rôle du mot-clé implicit
+                                        </button>
+                                    </h3>
+                                    <div id="answer13" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="answer-section">
+                                                <h5><i class="fas fa-check-circle me-2"></i>Réponse correcte</h5>
+                                                <p>Il indique qu'une variable ou fonction peut être passée automatiquement comme paramètre à une fonction.</p>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>Qu'est-ce que <code>implicit</code> ?</h6>
+                                                <p>Le mot-clé <strong><code>implicit</code></strong> permet au compilateur Scala de passer automatiquement des paramètres ou d'effectuer des conversions sans que vous ayez à les spécifier explicitement.</p>
+                                            </div>
+
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <i class="fas fa-magic me-2"></i>Exemple - Paramètres implicites
+                                                </div>
+                                                <pre><code class="language-scala">// Définition d'une fonction avec paramètre implicite
+def greet(name: String)(implicit greeting: String): String = 
+  s"$greeting, $name!"
+
+// Définition d'une valeur implicite
+implicit val defaultGreeting: String = "Bonjour"
+
+// Utilisation - le greeting est passé automatiquement
+println(greet("Alice"))  // Affiche: "Bonjour, Alice!"</code></pre>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>Analogie : La cuisine automatique</h6>
+                                                <div class="p-3 bg-info bg-opacity-10 rounded">
+                                                    <p class="mb-2">Imagine une cuisine où :</p>
+                                                    <ul class="mb-2">
+                                                        <li><strong>Sans implicit :</strong> "Je veux du pain, du fromage ET du sel"</li>
+                                                        <li><strong>Avec implicit :</strong> "Je veux du pain et du fromage" (le sel est ajouté automatiquement car il est toujours là)</li>
+                                                    </ul>
+                                                    <p class="mb-0"><em>L'implicit évite de répéter les éléments évidents et toujours présents.</em></p>
+                                                </div>
+                                            </div>
+
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <i class="fas fa-exchange-alt me-2"></i>Conversions implicites
+                                                </div>
+                                                <pre><code class="language-scala">// Définition d'une conversion implicite
+implicit def intToString(x: Int): String = x.toString
+
+// Utilisation - conversion automatique
+val myString: String = 42  // 42 devient "42" automatiquement
+println(myString)  // Affiche: "42"</code></pre>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>Avantages d'implicit :</h6>
+                                                <ul>
+                                                    <li><strong>Réduction de la verbosité</strong> : Moins de répétitions</li>
+                                                    <li><strong>Code plus fluide</strong> : Syntaxe plus naturelle</li>
+                                                    <li><strong>Extensibilité</strong> : Ajout de fonctionnalités sans modification</li>
+                                                    <li><strong>Gestion automatique</strong> : Le compilateur gère les détails</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Question 14 -->
+                                <div class="accordion-item" id="question-14">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button question-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer14">
+                                            <i class="fas fa-question-circle me-2"></i>
+                                            Question 14 - Qu'est-ce qu'un lazy val ?
+                                        </button>
+                                    </h3>
+                                    <div id="answer14" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="answer-section">
+                                                <h5><i class="fas fa-check-circle me-2"></i>Réponse correcte</h5>
+                                                <p>Une valeur qui est calculée et assignée lors de sa première utilisation.</p>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>Principe du <code>lazy val</code></h6>
+                                                <p>Un <strong><code>lazy val</code></strong> retarde le calcul d'une valeur jusqu'à ce qu'elle soit réellement nécessaire. C'est une optimisation intelligente !</p>
+                                            </div>
+
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <i class="fas fa-clock me-2"></i>Exemple - Calcul retardé
+                                                </div>
+                                                <pre><code class="language-scala">// Déclaration lazy - PAS de calcul immédiat
+lazy val expensiveCalculation: Int = {
+  println("Calcul en cours...") // Ne s'exécute que si nécessaire
+  Thread.sleep(1000) // Simulation d'un calcul coûteux
+  42
+}
+
+println("Avant d'utiliser lazy val")
+// Aucun calcul n'a encore eu lieu
+
+println(expensiveCalculation) // 🔥 ICI le calcul se fait
+// Affiche: "Calcul en cours..." puis "42"
+
+println(expensiveCalculation) // Réutilise la valeur déjà calculée
+// Affiche directement: "42" (pas de recalcul)</code></pre>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>Cycle de vie d'un lazy val :</h6>
+                                                <div class="row">
+                                                    <div class="col-md-4 mb-3">
+                                                        <div class="p-3 bg-secondary bg-opacity-10 rounded text-center">
+                                                            <h6><i class="fas fa-play me-2"></i>1. Déclaration</h6>
+                                                            <p class="mb-0">Variable créée mais valeur pas encore calculée</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 mb-3">
+                                                        <div class="p-3 bg-warning bg-opacity-10 rounded text-center">
+                                                            <h6><i class="fas fa-cog me-2"></i>2. Premier accès</h6>
+                                                            <p class="mb-0">Calcul effectué et valeur mémorisée</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 mb-3">
+                                                        <div class="p-3 bg-success bg-opacity-10 rounded text-center">
+                                                            <h6><i class="fas fa-rocket me-2"></i>3. Accès suivants</h6>
+                                                            <p class="mb-0">Valeur réutilisée directement</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>Cas d'usage typiques :</h6>
+                                                <ul>
+                                                    <li><strong>Calculs coûteux</strong> : Opérations qui prennent du temps</li>
+                                                    <li><strong>Chargement de ressources</strong> : Fichiers, connexions base de données</li>
+                                                    <li><strong>Optimisation mémoire</strong> : Éviter de charger des données inutiles</li>
+                                                    <li><strong>Initialisation conditionnelle</strong> : Calcul seulement si utilisé</li>
+                                                </ul>
+
+                                                <div class="mt-3 p-3 bg-primary bg-opacity-10 rounded">
+                                                    <h6><i class="fas fa-lightbulb me-2"></i>Avantage clé</h6>
+                                                    <p class="mb-0">Si vous n'utilisez jamais la <code>lazy val</code>, le calcul ne sera jamais effectué, économisant ainsi des ressources précieuses !</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Question 15 -->
+                                <div class="accordion-item" id="question-15">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button question-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer15">
+                                            <i class="fas fa-question-circle me-2"></i>
+                                            Question 15 - Comment créer un singleton en Scala ?
+                                        </button>
+                                    </h3>
+                                    <div id="answer15" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="answer-section">
+                                                <h5><i class="fas fa-check-circle me-2"></i>Réponse correcte</h5>
+                                                <p>En déclarant une classe avec le mot-clé <code>object</code>.</p>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>Qu'est-ce qu'un singleton avec <code>object</code> ?</h6>
+                                                <p>Un <strong><code>object</code></strong> en Scala crée automatiquement un singleton - une instance unique accessible globalement dans votre programme.</p>
+                                            </div>
+
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <i class="fas fa-gem me-2"></i>Exemple - Singleton simple
+                                                </div>
+                                                <pre><code class="language-scala">// Définition d'un singleton
+object DatabaseConfig {
+  val host = "localhost"
+  val port = 5432
+  val database = "myapp"
+  
+  def getConnectionString(): String = 
+    s"jdbc:postgresql://$host:$port/$database"
+}
+
+// Utilisation - pas besoin de 'new'
+println(DatabaseConfig.host)
+println(DatabaseConfig.getConnectionString())</code></pre>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>Avantages du singleton avec <code>object</code> :</h6>
+                                                <div class="row">
+                                                    <div class="col-md-6 mb-3">
+                                                        <div class="p-3 bg-success bg-opacity-10 rounded">
+                                                            <h6><i class="fas fa-check me-2"></i>Simplicité</h6>
+                                                            <ul class="mb-0">
+                                                                <li>Pas de constructeur privé complexe</li>
+                                                                <li>Pas de gestion d'instance</li>
+                                                                <li>Accès direct aux méthodes</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 mb-3">
+                                                        <div class="p-3 bg-info bg-opacity-10 rounded">
+                                                            <h6><i class="fas fa-shield-alt me-2"></i>Sécurité</h6>
+                                                            <ul class="mb-0">
+                                                                <li>Une seule instance garantie</li>
+                                                                <li>Thread-safe par défaut</li>
+                                                                <li>Initialisation paresseuse automatique</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <i class="fas fa-database me-2"></i>Cas d'usage : Gestionnaire de connexions BD
+                                                </div>
+                                                <pre><code class="language-scala">object DatabaseConnection {
+  private lazy val connection = createConnection()
+  
+  def getConnection(): Connection = connection
+  
+  private def createConnection(): Connection = {
+    // Logique de création de connexion
+    DriverManager.getConnection(
+      "jdbc:postgresql://localhost:5432/mydb",
+      "user", "password"
+    )
+  }
+}
+
+// Dans votre application
+val conn = DatabaseConnection.getConnection()
+// Toutes les parties de l'app utilisent la même connexion</code></pre>
+                                            </div>
+
+                                            <div class="explanation-section">
+                                                <h6>Importance en programmation distribuée (Spark) :</h6>
+                                                <div class="p-3 bg-warning bg-opacity-10 rounded">
+                                                    <h6><i class="fas fa-rocket me-2"></i>Optimisation des ressources</h6>
+                                                    <p>En Apache Spark, utiliser des singletons pour gérer les connexions évite :</p>
+                                                    <ul class="mb-0">
+                                                        <li><strong>Surcharge de la BD</strong> : Milliers de connexions simultanées</li>
+                                                        <li><strong>Ralentissements</strong> : Temps d'ouverture/fermeture des connexions</li>
+                                                        <li><strong>Épuisement des ressources</strong> : Limitation du nombre de connexions</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bouton de retour en haut -->
+    <button class="scroll-to-top btn" id="scrollToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts JavaScript -->
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Highlight.js JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/scala.min.js"></script>
+    
+    <script>
+        // Initialisation de Highlight.js
+        hljs.highlightAll();
+        
+        // Gestion du bouton de retour en haut
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.style.display = 'flex';
+            } else {
+                scrollToTopBtn.style.display = 'none';
+            }
+        });
+        
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Smooth scroll pour les liens de la table des matières
+        document.querySelectorAll('.toc-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    const offsetTop = targetElement.offsetTop - 100;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Mettre en évidence le lien actif dans la table des matières
+        function updateActiveLink() {
+            const sections = document.querySelectorAll('section[id], .accordion-item[id]');
+            const tocLinks = document.querySelectorAll('.toc-link');
+            
+            let activeSection = null;
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 150 && rect.bottom >= 150) {
+                    activeSection = section;
+                }
+            });
+            
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (activeSection && link.getAttribute('href') === '#' + activeSection.id) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', updateActiveLink);
+        updateActiveLink(); // Appel initial
+        
+        // Animation d'entrée pour les éléments
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observer les sections pour l'animation
+        document.querySelectorAll('.section, .accordion-item').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+    </script>
+
+</body>
+</html>

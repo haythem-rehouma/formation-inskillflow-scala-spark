@@ -1,0 +1,1972 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 3 - Introduction à Scala - Cours Scala & Apache Spark</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Highlight.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    
+    <!-- Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #dc143c;
+            --secondary-color: #2563eb;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --info-color: #0284c7;
+            --dark-color: #1f2937;
+            --light-bg: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-muted: #64748b;
+            --question-bg: #f1f5f9;
+            --answer-bg: #dcfce7;
+            --explanation-bg: #fef3c7;
+            --code-bg: #0f172a;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 100px;
+            height: calc(100vh - 120px);
+            overflow-y: auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .toc-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .toc-link {
+            display: block;
+            padding: 0.5rem 0;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-left: 3px solid transparent;
+            padding-left: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .toc-link:hover, .toc-link.active {
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+            background-color: rgba(220, 20, 60, 0.05);
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .content-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .content-header h1 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .content-header .lead {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .content-body {
+            padding: 2rem;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .concept-card {
+            background: var(--light-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--info-color);
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .concept-card.syntax { border-left-color: #8b5cf6; }
+        .concept-card.types { border-left-color: #f59e0b; }
+        .concept-card.variables { border-left-color: #10b981; }
+        .concept-card.functions { border-left-color: #ef4444; }
+        .concept-card.collections { border-left-color: #3b82f6; }
+        .concept-card.control { border-left-color: #f97316; }
+
+        .concept-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .scala-feature {
+            background: rgba(220, 20, 60, 0.05);
+            border: 1px solid rgba(220, 20, 60, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .scala-feature h6 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .comparison-item {
+            padding: 1rem;
+            border-radius: 6px;
+        }
+
+        .java-way {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid #ef4444;
+        }
+
+        .scala-way {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid #10b981;
+        }
+
+        .type-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .type-item {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .type-item:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .type-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--info-color);
+        }
+
+        .code-block {
+            background: var(--code-bg);
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 1rem 0;
+            border: 1px solid #334155;
+        }
+
+        .code-header {
+            background: #1e293b;
+            padding: 0.75rem 1rem;
+            color: #94a3b8;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-bottom: 1px solid #334155;
+        }
+
+        pre {
+            margin: 0;
+            padding: 1rem;
+            background: var(--code-bg);
+            color: #e2e8f0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(220, 20, 60, 0.1);
+            color: var(--primary-color);
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        .question-accordion .accordion-item {
+            border: 1px solid var(--border-color);
+            margin-bottom: 1rem;
+            border-radius: 8px !important;
+            overflow: hidden;
+        }
+
+        .question-header {
+            background: var(--question-bg);
+            border: none;
+            color: var(--dark-color);
+            font-weight: 600;
+            padding: 1.25rem 1.5rem;
+        }
+
+        .question-header:not(.collapsed) {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .question-header::after {
+            background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>");
+        }
+
+        .question-header:not(.collapsed)::after {
+            background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>");
+        }
+
+        .answer-section {
+            background: var(--answer-bg);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 6px;
+            border-left: 4px solid var(--success-color);
+        }
+
+        .explanation-section {
+            background: var(--explanation-bg);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 6px;
+            border-left: 4px solid var(--warning-color);
+        }
+
+        .info-box {
+            background: rgba(2, 132, 199, 0.1);
+            border-left: 4px solid var(--info-color);
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+
+        .success-box {
+            background: rgba(5, 150, 105, 0.1);
+            border-left: 4px solid var(--success-color);
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+
+        .warning-box {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid var(--warning-color);
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+
+        .badge-concept {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            font-weight: 500;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(220, 20, 60, 0.3);
+        }
+
+        .navigation-buttons {
+            background: var(--light-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(220, 20, 60, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(220, 20, 60, 0.4);
+        }
+
+        .repl-simulator {
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            color: #e2e8f0;
+        }
+
+        .repl-line {
+            margin-bottom: 0.5rem;
+        }
+
+        .repl-prompt {
+            color: #22d3ee;
+        }
+
+        .repl-input {
+            color: #fbbf24;
+        }
+
+        .repl-output {
+            color: #34d399;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: static;
+                margin-bottom: 2rem;
+                height: auto;
+            }
+            
+            .content-header {
+                padding: 1.5rem;
+            }
+            
+            .content-body {
+                padding: 1.5rem;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .type-showcase {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-code me-2"></i>
+                Cours Scala & Spark
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="fas fa-home me-1"></i>Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-book me-1"></i>Modules
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="Module 1 - Introduction aux Paradigmes de Programmation.html">Module 1 - Paradigmes</a></li>
+                            <li><a class="dropdown-item" href="Module 2 - Mettre en place l'environnement pour Scala.html">Module 2 - Environnement</a></li>
+                            <li><a class="dropdown-item" href="Module 3 - Introduction à Scala.html">Module 3 - Introduction Scala</a></li>
+                            <li><a class="dropdown-item" href="Module 4 - Fondements théoriques de Spark - RDD, DataFrame, Dataset.html">Module 4 - Fondements Spark</a></li>
+                            <li><a class="dropdown-item" href="Module 5 - Pratique Spark - RDD, DataFrame & Dataset.html">Module 5 - Pratique Spark</a></li>
+                            <li><a class="dropdown-item" href="Module 6 - Approfondissement en Programmation Fonctionnelle.html">Module 6 - Prog. Fonctionnelle</a></li>
+                            <li><a class="dropdown-item" href="Module 7 - Spark Streaming et introduction au Machine Learning.html">Module 7 - Streaming & ML</a></li>
+                            <li><a class="dropdown-item" href="module8.html">Module 8 - Cloud</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid" style="margin-top: 80px;">
+        <div class="row">
+            <!-- Sidebar avec table des matières -->
+            <div class="col-lg-3">
+                <div class="sidebar">
+                    <h5 class="toc-title">
+                        <i class="fas fa-list me-2"></i>
+                        Module 3 - Introduction Scala
+                    </h5>
+                    <div class="toc-content">
+                        <a href="#introduction" class="toc-link">
+                            <i class="fas fa-play-circle me-2"></i>
+                            Pourquoi Scala ?
+                        </a>
+                        <a href="#premiers-pas" class="toc-link">
+                            <i class="fas fa-rocket me-2"></i>
+                            Premiers pas
+                        </a>
+                        <a href="#syntaxe-base" class="toc-link">
+                            <i class="fas fa-code me-2"></i>
+                            Syntaxe de base
+                        </a>
+                        <a href="#types-donnees" class="toc-link">
+                            <i class="fas fa-database me-2"></i>
+                            Types de données
+                        </a>
+                        <a href="#variables" class="toc-link">
+                            <i class="fas fa-box me-2"></i>
+                            Variables (val/var)
+                        </a>
+                        <a href="#fonctions" class="toc-link">
+                            <i class="fas fa-function me-2"></i>
+                            Fonctions
+                        </a>
+                        <a href="#collections" class="toc-link">
+                            <i class="fas fa-layer-group me-2"></i>
+                            Collections de base
+                        </a>
+                        <a href="#controle-flux" class="toc-link">
+                            <i class="fas fa-route me-2"></i>
+                            Contrôle de flux
+                        </a>
+                        <a href="#classes-objets" class="toc-link">
+                            <i class="fas fa-cube me-2"></i>
+                            Classes et objets
+                        </a>
+                        <a href="#pattern-matching" class="toc-link">
+                            <i class="fas fa-puzzle-piece me-2"></i>
+                            Pattern matching
+                        </a>
+                        <a href="#exercices" class="toc-link">
+                            <i class="fas fa-dumbbell me-2"></i>
+                            Exercices pratiques
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenu principal -->
+            <div class="col-lg-9">
+                <div class="main-content">
+                    <!-- En-tête -->
+                    <div class="content-header">
+                        <h1>
+                            <i class="fas fa-graduation-cap me-3"></i>
+                            Module 3 - Introduction à Scala
+                        </h1>
+                        <p class="lead mb-0">
+                            Maîtrisez les fondamentaux du langage Scala pour le développement moderne
+                        </p>
+                        <span class="badge badge-concept mt-2">Module 3</span>
+                    </div>
+
+                    <!-- Corps du contenu -->
+                    <div class="content-body">
+                        
+                        <!-- Introduction -->
+                        <section id="introduction" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-play-circle me-2"></i>
+                                Pourquoi Scala ?
+                            </h2>
+                            <p class="lead">
+                                Scala combine la puissance de la programmation orientée objet avec l'élégance de la programmation fonctionnelle. 
+                                C'est le langage de choix pour Apache Spark et de nombreuses applications Big Data modernes.
+                            </p>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="scala-feature">
+                                        <h6><i class="fas fa-lightbulb me-2"></i>Expressivité</h6>
+                                        <p class="mb-0">
+                                            Scala permet d'écrire du code plus concis et expressif qu'en Java, 
+                                            réduisant le boilerplate de 2 à 3 fois.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="scala-feature">
+                                        <h6><i class="fas fa-cogs me-2"></i>Interopérabilité</h6>
+                                        <p class="mb-0">
+                                            Scala s'exécute sur la JVM et peut utiliser directement 
+                                            toutes les bibliothèques Java existantes.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="scala-feature">
+                                        <h6><i class="fas fa-magic me-2"></i>Multi-paradigme</h6>
+                                        <p class="mb-0">
+                                            Combine orienté objet et fonctionnel, vous donnant 
+                                            la flexibilité de choisir l'approche appropriée.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="scala-feature">
+                                        <h6><i class="fas fa-rocket me-2"></i>Performance</h6>
+                                        <p class="mb-0">
+                                            Performance comparable à Java avec des abstractions 
+                                            de haut niveau qui ne sacrifient pas la vitesse.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="info-box">
+                                <h6><i class="fas fa-star me-2"></i>Entreprises utilisant Scala</h6>
+                                <p class="mb-0">
+                                    <strong>Twitter</strong>, <strong>Netflix</strong>, <strong>Uber</strong>, 
+                                    <strong>Airbnb</strong>, <strong>LinkedIn</strong>, et de nombreuses autres 
+                                    entreprises technologiques utilisent Scala pour leurs systèmes critiques 
+                                    et leurs applications Big Data.
+                                </p>
+                            </div>
+                        </section>
+
+                        <!-- Premiers pas -->
+                        <section id="premiers-pas" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-rocket me-2"></i>
+                                Premiers pas avec Scala
+                            </h2>
+                            
+                            <p>Avant de plonger dans le code, familiarisons-nous avec l'environnement Scala.</p>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-terminal me-2"></i>Lancer le REPL Scala
+                                </div>
+                                <pre><code class="language-bash"># Ouvrir le terminal et taper :
+scala
+
+# Vous devriez voir :
+# Welcome to Scala 2.13.12
+# Type in expressions for evaluation. Or try :help.
+# 
+# scala></code></pre>
+                            </div>
+
+                            <div class="repl-simulator">
+                                <div class="repl-line">
+                                    <span class="repl-prompt">scala></span> 
+                                    <span class="repl-input">println("Hello, Scala!")</span>
+                                </div>
+                                <div class="repl-line">
+                                    <span class="repl-output">Hello, Scala!</span>
+                                </div>
+                                <div class="repl-line">
+                                    <span class="repl-prompt">scala></span> 
+                                    <span class="repl-input">2 + 3</span>
+                                </div>
+                                <div class="repl-line">
+                                    <span class="repl-output">val res0: Int = 5</span>
+                                </div>
+                                <div class="repl-line">
+                                    <span class="repl-prompt">scala></span> 
+                                    <span class="repl-input">val name = "Scala"</span>
+                                </div>
+                                <div class="repl-line">
+                                    <span class="repl-output">val name: String = Scala</span>
+                                </div>
+                            </div>
+
+                            <div class="success-box">
+                                <h6><i class="fas fa-lightbulb me-2"></i>Le REPL - Votre meilleur ami</h6>
+                                <p class="mb-0">
+                                    Le REPL (Read-Eval-Print-Loop) est parfait pour tester rapidement du code Scala. 
+                                    Utilisez <code>:help</code> pour voir les commandes disponibles et <code>:quit</code> pour sortir.
+                                </p>
+                            </div>
+                        </section>
+
+                        <!-- Syntaxe de base -->
+                        <section id="syntaxe-base" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-code me-2"></i>
+                                Syntaxe de base
+                            </h2>
+                            
+                            <div class="concept-card syntax">
+                                <div class="concept-title">
+                                    <i class="fas fa-file-code"></i>
+                                    Principes de la syntaxe Scala
+                                </div>
+                                <p>
+                                    Scala emprunte des éléments syntaxiques à Java mais les simplifie considérablement. 
+                                    Voici les règles de base à retenir.
+                                </p>
+                            </div>
+
+                            <div class="comparison-grid">
+                                <div class="comparison-item java-way">
+                                    <h6><i class="fab fa-java me-2"></i>Style Java</h6>
+                                    <div class="code-block">
+                                        <pre><code class="language-java">// Java verbeux
+public class Hello {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+        
+        String message = "Scala rocks!";
+        int number = 42;
+        boolean isTrue = true;
+    }
+}</code></pre>
+                                    </div>
+                                </div>
+                                <div class="comparison-item scala-way">
+                                    <h6><i class="fas fa-code me-2"></i>Style Scala</h6>
+                                    <div class="code-block">
+                                        <pre><code class="language-scala">// Scala concis
+object Hello extends App {
+  println("Hello, World!")
+  
+  val message = "Scala rocks!"  // Type inféré : String
+  val number = 42               // Type inféré : Int
+  val isTrue = true            // Type inféré : Boolean
+}</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="explanation-section">
+                                <h6>Règles syntaxiques importantes :</h6>
+                                <ul>
+                                    <li><strong>Points-virgules optionnels</strong> : Scala n'exige pas de ; à la fin des lignes</li>
+                                    <li><strong>Inférence de type</strong> : Le compilateur devine souvent le type automatiquement</li>
+                                    <li><strong>Parenthèses optionnelles</strong> : Pour les méthodes sans paramètres</li>
+                                    <li><strong>Return implicite</strong> : La dernière expression est automatiquement retournée</li>
+                                </ul>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-magic me-2"></i>Exemple de flexibilité syntaxique
+                                </div>
+                                <pre><code class="language-scala">// Différentes façons d'écrire la même chose
+val numbers = List(1, 2, 3, 4, 5)
+
+// Style verbeux (comme Java)
+val result1 = numbers.filter(x => x % 2 == 0).map(x => x * 2)
+
+// Style concis Scala
+val result2 = numbers.filter(_ % 2 == 0).map(_ * 2)
+
+// Style fonctionnel avec méthodes
+val result3 = numbers filter (_ % 2 == 0) map (_ * 2)
+
+println(result1) // List(4, 8)
+println(result2) // List(4, 8) - même résultat
+println(result3) // List(4, 8) - même résultat</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Types de données -->
+                        <section id="types-donnees" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-database me-2"></i>
+                                Types de données
+                            </h2>
+                            
+                            <p>
+                                Scala est un langage à typage statique, mais avec une inférence de type puissante 
+                                qui réduit le besoin de spécifier explicitement les types.
+                            </p>
+
+                            <div class="type-showcase">
+                                <div class="type-item">
+                                    <div class="type-icon">🔢</div>
+                                    <h6>Int</h6>
+                                    <code>val age = 25</code>
+                                </div>
+                                <div class="type-item">
+                                    <div class="type-icon">📏</div>
+                                    <h6>Long</h6>
+                                    <code>val bigNum = 123L</code>
+                                </div>
+                                <div class="type-item">
+                                    <div class="type-icon">🧮</div>
+                                    <h6>Double</h6>
+                                    <code>val pi = 3.14159</code>
+                                </div>
+                                <div class="type-item">
+                                    <div class="type-icon">✅</div>
+                                    <h6>Boolean</h6>
+                                    <code>val isActive = true</code>
+                                </div>
+                                <div class="type-item">
+                                    <div class="type-icon">💬</div>
+                                    <h6>String</h6>
+                                    <code>val name = "Alice"</code>
+                                </div>
+                                <div class="type-item">
+                                    <div class="type-icon">🔤</div>
+                                    <h6>Char</h6>
+                                    <code>val grade = 'A'</code>
+                                </div>
+                            </div>
+
+                            <div class="concept-card types">
+                                <div class="concept-title">
+                                    <i class="fas fa-brain"></i>
+                                    Inférence de type vs. Annotation explicite
+                                </div>
+                                <div class="code-block">
+                                    <pre><code class="language-scala">// ✅ Inférence de type (recommandé)
+val name = "Alice"           // Le compilateur sait que c'est String
+val age = 25                 // Le compilateur sait que c'est Int
+val height = 1.75           // Le compilateur sait que c'est Double
+
+// ✅ Annotation explicite (parfois utile)
+val name: String = "Alice"
+val age: Int = 25
+val height: Double = 1.75
+
+// ✅ Nécessaire quand l'inférence n'est pas possible
+val numbers: List[Int] = List()  // Liste vide, type requis
+val result: Double = computeAverage(numbers)</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-exchange-alt me-2"></i>Conversions de types
+                                </div>
+                                <pre><code class="language-scala">// Conversions explicites en Scala
+val intValue = 42
+val longValue = intValue.toLong      // Int -> Long
+val doubleValue = intValue.toDouble  // Int -> Double
+val stringValue = intValue.toString  // Int -> String
+
+// Parsing depuis String
+val numberFromString = "123".toInt        // String -> Int
+val doubleFromString = "3.14".toDouble   // String -> Double
+
+// Attention aux erreurs de conversion
+// val invalid = "abc".toInt  // ⚠️ NumberFormatException !
+
+// Conversion sécurisée avec Try
+import scala.util.Try
+val safeConversion = Try("123".toInt)  // Success(123) ou Failure(exception)</code></pre>
+                            </div>
+
+                            <div class="warning-box">
+                                <h6><i class="fas fa-exclamation-triangle me-2"></i>Types numériques et précision</h6>
+                                <p class="mb-0">
+                                    Contrairement à Java, Scala n'effectue pas de conversions implicites entre types numériques. 
+                                    <code>val result = 5 / 2</code> donnera <code>2</code> (division entière), pas <code>2.5</code>. 
+                                    Utilisez <code>5.0 / 2</code> ou <code>5.toDouble / 2</code> pour une division décimale.
+                                </p>
+                            </div>
+                        </section>
+
+                        <!-- Variables -->
+                        <section id="variables" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-box me-2"></i>
+                                Variables : val vs var
+                            </h2>
+                            
+                            <div class="concept-card variables">
+                                <div class="concept-title">
+                                    <i class="fas fa-lock"></i>
+                                    La différence fondamentale
+                                </div>
+                                <p>
+                                    Scala distingue clairement entre les valeurs immutables (<code>val</code>) 
+                                    et les variables mutables (<code>var</code>). Cette distinction encourage 
+                                    un style de programmation plus sûr et plus fonctionnel.
+                                </p>
+                            </div>
+
+                            <div class="comparison-grid">
+                                <div class="comparison-item scala-way">
+                                    <h6><i class="fas fa-lock me-2"></i>val (Immutable)</h6>
+                                    <div class="code-block">
+                                        <pre><code class="language-scala">// val = valeur immutable
+val name = "Alice"
+val age = 25
+val isStudent = true
+
+// ❌ Erreur de compilation
+// name = "Bob"  // Cannot reassign
+
+// ✅ Créer une nouvelle valeur
+val newName = name.toUpperCase()
+
+// ✅ val peut être calculé
+val fullName = name + " Dupont"
+val nextYear = age + 1</code></pre>
+                                    </div>
+                                    <small class="text-success">✅ Recommandé par défaut</small>
+                                </div>
+                                <div class="comparison-item java-way">
+                                    <h6><i class="fas fa-edit me-2"></i>var (Mutable)</h6>
+                                    <div class="code-block">
+                                        <pre><code class="language-scala">// var = variable mutable
+var score = 100
+var isActive = true
+var attempts = 0
+
+// ✅ Peut être modifié
+score = 150
+isActive = false
+attempts += 1
+
+// ⚠️ À utiliser avec parcimonie
+var total = 0
+for (i <- 1 to 10) {
+  total += i  // Modifie la variable
+}</code></pre>
+                                    </div>
+                                    <small class="text-warning">⚠️ Utiliser quand nécessaire</small>
+                                </div>
+                            </div>
+
+                            <div class="explanation-section">
+                                <h6>Quand utiliser val vs var ?</h6>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6 class="text-success">Utilisez val quand :</h6>
+                                        <ul>
+                                            <li>La valeur ne change jamais</li>
+                                            <li>Vous voulez un code plus sûr</li>
+                                            <li>Dans 90% des cas (règle générale)</li>
+                                            <li>Programmation fonctionnelle</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6 class="text-warning">Utilisez var quand :</h6>
+                                        <ul>
+                                            <li>Vous devez modifier la valeur</li>
+                                            <li>Algorithmes avec état (compteurs, accumulateurs)</li>
+                                            <li>Interfaçage avec code Java legacy</li>
+                                            <li>Performance critique (rare)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-lightbulb me-2"></i>Exemple pratique : Calculer une moyenne
+                                </div>
+                                <pre><code class="language-scala">// ❌ Style impératif avec var
+def moyenneImperative(numbers: List[Int]): Double = {
+  var sum = 0
+  var count = 0
+  for (num <- numbers) {
+    sum += num
+    count += 1
+  }
+  sum.toDouble / count
+}
+
+// ✅ Style fonctionnel avec val
+def moyenneFonctionnelle(numbers: List[Int]): Double = {
+  val sum = numbers.sum
+  val count = numbers.length
+  sum.toDouble / count
+}
+
+// ✅ Encore plus concis
+def moyenneConcise(numbers: List[Int]): Double = 
+  numbers.sum.toDouble / numbers.length
+
+val notes = List(85, 92, 78, 96, 88)
+println(moyenneFonctionnelle(notes))  // 87.8</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Fonctions -->
+                        <section id="fonctions" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-function me-2"></i>
+                                Fonctions et méthodes
+                            </h2>
+                            
+                            <div class="concept-card functions">
+                                <div class="concept-title">
+                                    <i class="fas fa-cogs"></i>
+                                    Fonctions : Les citoyens de première classe
+                                </div>
+                                <p>
+                                    En Scala, les fonctions sont des valeurs de première classe. 
+                                    Vous pouvez les assigner à des variables, les passer en paramètres 
+                                    et les retourner depuis d'autres fonctions.
+                                </p>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-function me-2"></i>Syntaxe de base des fonctions
+                                </div>
+                                <pre><code class="language-scala">// Fonction simple avec type de retour explicite
+def saluer(nom: String): String = {
+  s"Bonjour, $nom!"
+}
+
+// Fonction sans accolades (une seule expression)
+def doubler(x: Int): Int = x * 2
+
+// Fonction avec plusieurs paramètres
+def additionner(a: Int, b: Int): Int = a + b
+
+// Fonction avec inférence du type de retour
+def multiplier(x: Int, y: Int) = x * y  // Type inféré : Int
+
+// Fonction sans paramètre
+def obtenirTimestamp(): Long = System.currentTimeMillis()
+
+// Fonction sans paramètre (parenthèses optionnelles)
+def obtenirMessage: String = "Hello, Scala!"</code></pre>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-star me-2"></i>Fonctions avec paramètres par défaut
+                                </div>
+                                <pre><code class="language-scala">// Paramètres par défaut
+def creerPersonne(nom: String, age: Int = 25, ville: String = "Paris"): String = {
+  s"$nom, $age ans, habite à $ville"
+}
+
+// Appels avec différents paramètres
+println(creerPersonne("Alice"))                    // Alice, 25 ans, habite à Paris
+println(creerPersonne("Bob", 30))                  // Bob, 30 ans, habite à Paris
+println(creerPersonne("Charlie", ville = "Lyon"))  // Charlie, 25 ans, habite à Lyon
+
+// Paramètres nommés
+println(creerPersonne(nom = "David", ville = "Nice", age = 35))</code></pre>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-magic me-2"></i>Fonctions comme valeurs
+                                </div>
+                                <pre><code class="language-scala">// Assigner une fonction à une valeur
+val calculer = (x: Int, y: Int) => x + y
+println(calculer(3, 4))  // 7
+
+// Fonction anonyme (lambda)
+val nombres = List(1, 2, 3, 4, 5)
+val doubles = nombres.map(x => x * 2)        // List(2, 4, 6, 8, 10)
+val pairs = nombres.filter(x => x % 2 == 0)  // List(2, 4)
+
+// Syntaxe ultra-concise avec underscore
+val doublesV2 = nombres.map(_ * 2)
+val pairsV2 = nombres.filter(_ % 2 == 0)
+
+// Passer une fonction comme paramètre
+def appliquerOperation(x: Int, y: Int, op: (Int, Int) => Int): Int = {
+  op(x, y)
+}
+
+val addition = (a: Int, b: Int) => a + b
+val multiplication = (a: Int, b: Int) => a * b
+
+println(appliquerOperation(3, 4, addition))       // 7
+println(appliquerOperation(3, 4, multiplication)) // 12
+println(appliquerOperation(3, 4, _ + _))           // 7 (lambda direct)</code></pre>
+                            </div>
+
+                            <div class="success-box">
+                                <h6><i class="fas fa-lightbulb me-2"></i>Fonctions partielles et currying</h6>
+                                <div class="code-block">
+                                    <pre><code class="language-scala">// Application partielle
+def multiplierPar(facteur: Int)(nombre: Int): Int = facteur * nombre
+
+val multiplierPar2 = multiplierPar(2) _  // Fonction partielle
+val multiplierPar10 = multiplierPar(10) _
+
+println(multiplierPar2(5))   // 10
+println(multiplierPar10(3))  // 30
+
+// Currying automatique
+val nombres = List(1, 2, 3, 4, 5)
+val doubles = nombres.map(multiplierPar(2))    // List(2, 4, 6, 8, 10)
+val dizaines = nombres.map(multiplierPar(10))  // List(10, 20, 30, 40, 50)</code></pre>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Collections -->
+                        <section id="collections" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-layer-group me-2"></i>
+                                Collections de base
+                            </h2>
+                            
+                            <div class="concept-card collections">
+                                <div class="concept-title">
+                                    <i class="fas fa-boxes"></i>
+                                    Collections immutables par défaut
+                                </div>
+                                <p>
+                                    Scala privilégie les collections immutables, ce qui rend votre code plus sûr 
+                                    et plus adapté à la programmation parallèle et distribuée (comme avec Spark).
+                                </p>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-list me-2"></i>List - Collection linéaire immutable
+                                </div>
+                                <pre><code class="language-scala">// Création de listes
+val nombres = List(1, 2, 3, 4, 5)
+val fruits = List("pomme", "banane", "orange")
+val vide = List[String]()  // Liste vide avec type
+
+// Accès aux éléments
+println(nombres.head)     // 1 (premier élément)
+println(nombres.tail)     // List(2, 3, 4, 5) (tous sauf le premier)
+println(nombres(2))       // 3 (élément à l'index 2)
+println(nombres.last)     // 5 (dernier élément)
+
+// Propriétés
+println(nombres.length)   // 5
+println(nombres.isEmpty)  // false
+println(vide.isEmpty)     // true
+
+// Ajout d'éléments (retourne une nouvelle liste)
+val nouveauxNombres = 0 :: nombres        // List(0, 1, 2, 3, 4, 5)
+val encorePlus = nombres :+ 6              // List(1, 2, 3, 4, 5, 6)
+val concatenation = nombres ++ List(6, 7)  // List(1, 2, 3, 4, 5, 6, 7)</code></pre>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-table me-2"></i>Array - Collection mutable indexée
+                                </div>
+                                <pre><code class="language-scala">// Création d'arrays
+val tableau = Array(1, 2, 3, 4, 5)
+val tableauVide = Array.ofDim[Int](5)  // Array de 5 éléments (0 par défaut)
+
+// Accès et modification
+println(tableau(0))  // 1
+tableau(0) = 10      // ✅ Modifiable (mutable)
+println(tableau(0))  // 10
+
+// Méthodes utiles
+println(tableau.length)     // 5
+println(tableau.mkString(", ")) // "10, 2, 3, 4, 5"
+
+// Conversion List <-> Array
+val listeDepuisArray = tableau.toList
+val arrayDepuisListe = List(1, 2, 3).toArray</code></pre>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-key me-2"></i>Map - Collection clé-valeur
+                                </div>
+                                <pre><code class="language-scala">// Création de maps
+val ages = Map("Alice" -> 25, "Bob" -> 30, "Charlie" -> 35)
+val villes = Map(
+  "Alice" -> "Paris",
+  "Bob" -> "Lyon",
+  "Charlie" -> "Marseille"
+)
+
+// Accès aux valeurs
+println(ages("Alice"))        // 25
+println(ages.get("Alice"))    // Some(25)
+println(ages.get("David"))    // None (clé inexistante)
+
+// Accès sécurisé
+println(ages.getOrElse("David", 0))  // 0 (valeur par défaut)
+
+// Propriétés
+println(ages.keys)      // Set(Alice, Bob, Charlie)
+println(ages.values)    // Iterable(25, 30, 35)
+println(ages.size)      // 3
+
+// Ajout/modification (retourne une nouvelle map)
+val nouvellemap = ages + ("David" -> 28)
+val sansAlice = ages - "Alice"</code></pre>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-magic me-2"></i>Méthodes de transformation des collections
+                                </div>
+                                <pre><code class="language-scala">val nombres = List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+
+// map : transformer chaque élément
+val doubles = nombres.map(_ * 2)
+println(doubles)  // List(2, 4, 6, 8, 10, 12, 14, 16, 18, 20)
+
+// filter : garder les éléments qui satisfont une condition
+val pairs = nombres.filter(_ % 2 == 0)
+println(pairs)    // List(2, 4, 6, 8, 10)
+
+// find : trouver le premier élément qui satisfait une condition
+val premierGrand = nombres.find(_ > 5)
+println(premierGrand)  // Some(6)
+
+// reduce : combiner tous les éléments
+val somme = nombres.reduce(_ + _)
+println(somme)    // 55
+
+// fold : comme reduce mais avec une valeur initiale
+val produit = nombres.fold(1)(_ * _)
+println(produit)  // 3628800 (10!)
+
+// groupBy : grouper par critère
+val parParite = nombres.groupBy(_ % 2)
+println(parParite)
+// Map(1 -> List(1, 3, 5, 7, 9), 0 -> List(2, 4, 6, 8, 10))
+
+// Chaînage d'opérations
+val resultat = nombres
+  .filter(_ % 2 == 0)    // Garder les pairs
+  .map(Math.pow(_, 2))   // Élever au carré
+  .sum                   // Additionner
+println(resultat)        // 220.0</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Contrôle de flux -->
+                        <section id="controle-flux" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-route me-2"></i>
+                                Structures de contrôle de flux
+                            </h2>
+                            
+                            <div class="concept-card control">
+                                <div class="concept-title">
+                                    <i class="fas fa-code-branch"></i>
+                                    Tout est expression en Scala
+                                </div>
+                                <p>
+                                    Contrairement à Java, les structures de contrôle en Scala sont des expressions 
+                                    qui retournent des valeurs. Cela rend le code plus fonctionnel et expressif.
+                                </p>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-question me-2"></i>if/else comme expression
+                                </div>
+                                <pre><code class="language-scala">// if/else retourne une valeur
+val age = 20
+val statut = if (age >= 18) "majeur" else "mineur"
+println(statut)  // "majeur"
+
+// if/else avec plusieurs conditions
+val note = 85
+val mention = if (note >= 90) {
+  "Excellent"
+} else if (note >= 80) {
+  "Bien" 
+} else if (note >= 70) {
+  "Assez bien"
+} else {
+  "À améliorer"
+}
+println(mention)  // "Bien"
+
+// if/else dans les expressions
+val nombres = List(1, 2, 3, 4, 5)
+val resultats = nombres.map(n => if (n % 2 == 0) n * 2 else n * 3)
+println(resultats)  // List(3, 4, 9, 8, 15)</code></pre>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-repeat me-2"></i>Boucles for et for-comprehensions
+                                </div>
+                                <pre><code class="language-scala">// Boucle for basique
+for (i <- 1 to 5) {
+  println(s"Itération $i")
+}
+
+// Boucle for avec filtre
+for (i <- 1 to 10 if i % 2 == 0) {
+  println(s"Nombre pair: $i")
+}
+
+// For-comprehension avec yield (génère une collection)
+val carres = for (i <- 1 to 5) yield i * i
+println(carres)  // Vector(1, 4, 9, 16, 25)
+
+// For-comprehension avec multiple générateurs
+val combinaisons = for {
+  x <- 1 to 3
+  y <- 1 to 2
+} yield (x, y)
+println(combinaisons)  // Vector((1,1), (1,2), (2,1), (2,2), (3,1), (3,2))
+
+// For-comprehension avec filtre et transformation
+val mots = List("scala", "java", "python", "go")
+val motsLongs = for {
+  mot <- mots
+  if mot.length > 4
+  motMaj = mot.toUpperCase
+} yield motMaj
+println(motsLongs)  // List(SCALA, PYTHON)</code></pre>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-sync-alt me-2"></i>while et do-while
+                                </div>
+                                <pre><code class="language-scala">// while classique
+var i = 1
+while (i <= 5) {
+  println(s"while: $i")
+  i += 1
+}
+
+// do-while
+var j = 1
+do {
+  println(s"do-while: $j")
+  j += 1
+} while (j <= 3)
+
+// ⚠️ Note: while et do-while utilisent var et sont moins "fonctionnels"
+// Préférez les méthodes de collection quand possible:
+
+// ❌ Style impératif avec while
+def sommeImperative(n: Int): Int = {
+  var sum = 0
+  var i = 1
+  while (i <= n) {
+    sum += i
+    i += 1
+  }
+  sum
+}
+
+// ✅ Style fonctionnel sans boucle
+def sommeFonctionnelle(n: Int): Int = (1 to n).sum
+
+println(sommeImperative(100))    // 5050
+println(sommeFonctionnelle(100)) // 5050 (même résultat, plus sûr)</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Pattern matching -->
+                        <section id="pattern-matching" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-puzzle-piece me-2"></i>
+                                Pattern matching - Introduction
+                            </h2>
+                            
+                            <div class="concept-card">
+                                <div class="concept-title">
+                                    <i class="fas fa-magic"></i>
+                                    Le super-pouvoir de Scala
+                                </div>
+                                <p>
+                                    Le pattern matching est l'une des fonctionnalités les plus puissantes de Scala. 
+                                    C'est comme un <code>switch</code> sous stéroïdes qui peut décomposer et 
+                                    analyser la structure des données.
+                                </p>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-check me-2"></i>Pattern matching basique
+                                </div>
+                                <pre><code class="language-scala">// Pattern matching simple
+val jour = "lundi"
+val typeJour = jour match {
+  case "lundi" | "mardi" | "mercredi" | "jeudi" | "vendredi" => "jour ouvrable"
+  case "samedi" | "dimanche" => "week-end"
+  case _ => "jour inconnu"  // case par défaut
+}
+println(typeJour)  // "jour ouvrable"
+
+// Pattern matching avec nombres
+val nombre = 42
+val description = nombre match {
+  case 0 => "zéro"
+  case 1 => "un"
+  case 2 => "deux"
+  case n if n > 0 && n < 10 => s"petit nombre: $n"
+  case n if n >= 10 && n < 100 => s"nombre moyen: $n"
+  case _ => "grand nombre"
+}
+println(description)  // "nombre moyen: 42"</code></pre>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-layer-group me-2"></i>Pattern matching avec collections
+                                </div>
+                                <pre><code class="language-scala">// Pattern matching avec listes
+def analyserListe(liste: List[Int]): String = liste match {
+  case Nil => "Liste vide"
+  case head :: Nil => s"Un seul élément: $head"
+  case head :: tail => s"Premier: $head, reste: $tail"
+}
+
+println(analyserListe(List()))           // "Liste vide"
+println(analyserListe(List(42)))         // "Un seul élément: 42"
+println(analyserListe(List(1, 2, 3)))    // "Premier: 1, reste: List(2, 3)"
+
+// Pattern matching avec tuples
+val personne = ("Alice", 25, "Développeur")
+val presentation = personne match {
+  case (nom, age, profession) => s"$nom, $age ans, $profession"
+  case _ => "Format incorrect"
+}
+println(presentation)  // "Alice, 25 ans, Développeur"
+
+// Pattern matching avec extraction partielle
+val coordonnees = (10, 20, 30)
+val resultat = coordonnees match {
+  case (x, y, _) => s"Position 2D: ($x, $y)"  // Ignore la 3e valeur
+}</code></pre>
+                            </div>
+
+                            <div class="success-box">
+                                <h6><i class="fas fa-lightbulb me-2"></i>Pattern matching vs if/else</h6>
+                                <div class="comparison-grid">
+                                    <div class="comparison-item java-way">
+                                        <h6>Avec if/else (verbeux)</h6>
+                                        <div class="code-block">
+                                            <pre><code class="language-scala">def categoriserAge(age: Int): String = {
+  if (age < 0) {
+    "Âge invalide"
+  } else if (age >= 0 && age <= 12) {
+    "Enfant"
+  } else if (age >= 13 && age <= 17) {
+    "Adolescent"
+  } else if (age >= 18 && age <= 64) {
+    "Adulte"
+  } else {
+    "Senior"
+  }
+}</code></pre>
+                                        </div>
+                                    </div>
+                                    <div class="comparison-item scala-way">
+                                        <h6>Avec pattern matching (élégant)</h6>
+                                        <div class="code-block">
+                                            <pre><code class="language-scala">def categoriserAge(age: Int): String = age match {
+  case n if n < 0 => "Âge invalide"
+  case n if n <= 12 => "Enfant"
+  case n if n <= 17 => "Adolescent"  
+  case n if n <= 64 => "Adulte"
+  case _ => "Senior"
+}</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Classes et objets -->
+                        <section id="classes-objets" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-cube me-2"></i>
+                                Classes et objets
+                            </h2>
+                            
+                            <div class="concept-card">
+                                <div class="concept-title">
+                                    <i class="fas fa-building"></i>
+                                    POO simplifiée en Scala
+                                </div>
+                                <p>
+                                    Scala simplifie grandement la syntaxe des classes par rapport à Java, 
+                                    tout en offrant plus de fonctionnalités et de flexibilité.
+                                </p>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-user me-2"></i>Classes basiques
+                                </div>
+                                <pre><code class="language-scala">// Classe simple avec constructeur primaire
+class Personne(val nom: String, val age: Int) {
+  // Méthode
+  def saluer(): String = s"Bonjour, je suis $nom et j'ai $age ans"
+  
+  // Méthode avec paramètre
+  def estPlusAgeeQue(autre: Personne): Boolean = this.age > autre.age
+  
+  // Override de toString
+  override def toString: String = s"Personne($nom, $age)"
+}
+
+// Utilisation
+val alice = new Personne("Alice", 25)
+val bob = new Personne("Bob", 30)
+
+println(alice.saluer())  // "Bonjour, je suis Alice et j'ai 25 ans"
+println(alice.nom)       // "Alice" (val = accessible)
+println(alice.estPlusAgeeQue(bob))  // false
+println(alice)           // Personne(Alice, 25)</code></pre>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-crown me-2"></i>Case classes - Les superstars de Scala
+                                </div>
+                                <pre><code class="language-scala">// Case class = classe avec super-pouvoirs automatiques
+case class Produit(nom: String, prix: Double, categorie: String)
+
+// ✅ Avantages automatiques des case classes:
+// 1. Pas besoin de 'new' pour créer une instance
+val laptop = Produit("MacBook", 1999.99, "Informatique")
+val souris = Produit("Magic Mouse", 79.99, "Informatique")
+
+// 2. toString, equals, hashCode générés automatiquement
+println(laptop)  // Produit(MacBook,1999.99,Informatique)
+
+// 3. Comparaison structurelle (pas par référence)
+val laptop2 = Produit("MacBook", 1999.99, "Informatique")
+println(laptop == laptop2)  // true (même contenu)
+
+// 4. Méthode copy pour créer des versions modifiées
+val laptopEnPromo = laptop.copy(prix = 1699.99)
+println(laptopEnPromo)  // Produit(MacBook,1699.99,Informatique)
+
+// 5. Pattern matching naturel
+def calculerTaxe(produit: Produit): Double = produit match {
+  case Produit(_, prix, "Informatique") => prix * 0.20
+  case Produit(_, prix, "Livre") => prix * 0.055
+  case Produit(_, prix, _) => prix * 0.15
+}
+
+println(calculerTaxe(laptop))  // 399.998</code></pre>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-gem me-2"></i>Objects - Singletons et utilitaires
+                                </div>
+                                <pre><code class="language-scala">// Object = singleton automatique
+object MathUtils {
+  val PI = 3.14159
+  
+  def aire(rayon: Double): Double = PI * rayon * rayon
+  def perimetre(rayon: Double): Double = 2 * PI * rayon
+  
+  // Méthode apply (permet d'appeler comme une fonction)
+  def apply(operation: String, x: Double, y: Double): Double = operation match {
+    case "+" => x + y
+    case "-" => x - y
+    case "*" => x * y
+    case "/" => if (y != 0) x / y else 0
+    case _ => 0
+  }
+}
+
+// Utilisation (pas besoin de 'new')
+println(MathUtils.aire(5))        // 78.53975
+println(MathUtils("*", 6, 7))     // 42.0 (utilise apply)
+
+// Companion object (même nom qu'une classe)
+case class Compte(numero: String, solde: Double)
+
+object Compte {
+  // Factory methods
+  def creerCompteVide(numero: String): Compte = Compte(numero, 0.0)
+  def creerCompteAvecBonus(numero: String): Compte = Compte(numero, 50.0)
+}
+
+val monCompte = Compte.creerCompteVide("123456")
+println(monCompte)  // Compte(123456,0.0)</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Exercices -->
+                        <section id="exercices" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-dumbbell me-2"></i>
+                                Exercices pratiques
+                            </h2>
+                            
+                            <div class="accordion question-accordion" id="exercicesAccordion">
+                                
+                                <!-- Exercice 1 -->
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button question-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ex1">
+                                            <i class="fas fa-code me-2"></i>
+                                            Exercice 1 - Types et Variables
+                                        </button>
+                                    </h3>
+                                    <div id="ex1" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="explanation-section">
+                                                <h5>Déclarer et manipuler des variables</h5>
+                                                <p>Créez un programme qui déclare différents types de variables et effectue des opérations dessus.</p>
+                                                
+                                                <h6>À faire :</h6>
+                                                <ol>
+                                                    <li>Déclarez une <code>val</code> pour votre nom</li>
+                                                    <li>Déclarez une <code>var</code> pour votre âge</li>
+                                                    <li>Calculez votre âge dans 10 ans</li>
+                                                    <li>Créez une chaîne de présentation avec interpolation</li>
+                                                </ol>
+                                            </div>
+
+                                            <div class="answer-section">
+                                                <h5><i class="fas fa-check-circle me-2"></i>Solution</h5>
+                                                <div class="code-block">
+                                                    <pre><code class="language-scala">// Solution de l'exercice 1
+val nom = "Alice"           // Immutable
+var age = 25               // Mutable (peut changer)
+
+// Calcul de l'âge futur
+val ageFutur = age + 10
+
+// Interpolation de chaîne
+val presentation = s"Je m'appelle $nom, j'ai $age ans, et dans 10 ans j'aurai $ageFutur ans."
+
+println(presentation)
+
+// Bonus: modification de la variable
+age = 26  // OK car c'est var
+println(s"Nouvel âge: $age")</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Exercice 2 -->
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button question-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ex2">
+                                            <i class="fas fa-function me-2"></i>
+                                            Exercice 2 - Fonctions
+                                        </button>
+                                    </h3>
+                                    <div id="ex2" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="explanation-section">
+                                                <h5>Créer et utiliser des fonctions</h5>
+                                                <p>Implémentez différentes fonctions avec divers paramètres et types de retour.</p>
+                                                
+                                                <h6>À faire :</h6>
+                                                <ol>
+                                                    <li>Fonction qui calcule l'aire d'un rectangle</li>
+                                                    <li>Fonction avec paramètre par défaut pour calculer l'aire d'un carré</li>
+                                                    <li>Fonction qui détermine si un nombre est pair</li>
+                                                    <li>Utiliser ces fonctions avec différentes valeurs</li>
+                                                </ol>
+                                            </div>
+
+                                            <div class="answer-section">
+                                                <h5><i class="fas fa-check-circle me-2"></i>Solution</h5>
+                                                <div class="code-block">
+                                                    <pre><code class="language-scala">// Solution de l'exercice 2
+
+// 1. Fonction aire rectangle
+def aireRectangle(longueur: Double, largeur: Double): Double = {
+  longueur * largeur
+}
+
+// 2. Fonction aire carré avec paramètre par défaut
+def aireCarre(cote: Double, facteur: Double = 1.0): Double = {
+  cote * cote * facteur
+}
+
+// 3. Fonction pour tester si un nombre est pair
+def estPair(nombre: Int): Boolean = nombre % 2 == 0
+
+// 4. Utilisation des fonctions
+val aireRect = aireRectangle(5.0, 3.0)
+val aireCar = aireCarre(4.0)
+val aireCarDouble = aireCarre(4.0, 2.0)
+
+println(s"Aire rectangle (5x3): $aireRect")        // 15.0
+println(s"Aire carré (4x4): $aireCar")             // 16.0
+println(s"Aire carré doublée: $aireCarDouble")     // 32.0
+
+// Test de parité
+val nombres = List(1, 2, 3, 4, 5, 6)
+nombres.foreach { n =>
+  println(s"$n est ${if (estPair(n)) "pair" else "impair"}")
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Exercice 3 -->
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button question-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ex3">
+                                            <i class="fas fa-layer-group me-2"></i>
+                                            Exercice 3 - Collections et transformations
+                                        </button>
+                                    </h3>
+                                    <div id="ex3" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="explanation-section">
+                                                <h5>Manipuler les collections</h5>
+                                                <p>Travaillez avec les listes et appliquez des transformations fonctionnelles.</p>
+                                                
+                                                <h6>À faire :</h6>
+                                                <ol>
+                                                    <li>Créez une liste de nombres de 1 à 20</li>
+                                                    <li>Filtrez pour garder seulement les multiples de 3</li>
+                                                    <li>Doublez chaque nombre résultant</li>
+                                                    <li>Calculez la somme finale</li>
+                                                </ol>
+                                            </div>
+
+                                            <div class="answer-section">
+                                                <h5><i class="fas fa-check-circle me-2"></i>Solution</h5>
+                                                <div class="code-block">
+                                                    <pre><code class="language-scala">// Solution de l'exercice 3
+
+// 1. Créer la liste de 1 à 20
+val nombres = (1 to 20).toList
+println(s"Nombres originaux: $nombres")
+
+// 2. Filtrer les multiples de 3
+val multiplesDe3 = nombres.filter(_ % 3 == 0)
+println(s"Multiples de 3: $multiplesDe3")  // List(3, 6, 9, 12, 15, 18)
+
+// 3. Doubler chaque nombre
+val doubles = multiplesDe3.map(_ * 2)
+println(s"Nombres doublés: $doubles")  // List(6, 12, 18, 24, 30, 36)
+
+// 4. Calculer la somme
+val sommeFinale = doubles.sum
+println(s"Somme finale: $sommeFinale")  // 126
+
+// Version concise en une seule chaîne
+val resultatConcis = (1 to 20)
+  .filter(_ % 3 == 0)
+  .map(_ * 2)
+  .sum
+
+println(s"Résultat concis: $resultatConcis")  // 126
+
+// Bonus: version avec for-comprehension
+val avecFor = (for {
+  n <- 1 to 20
+  if n % 3 == 0
+} yield n * 2).sum
+
+println(s"Avec for-comprehension: $avecFor")  // 126</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Exercice 4 -->
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button question-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ex4">
+                                            <i class="fas fa-cube me-2"></i>
+                                            Exercice 4 - Case classes et pattern matching
+                                        </button>
+                                    </h3>
+                                    <div id="ex4" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="explanation-section">
+                                                <h5>Créer un système de gestion simple</h5>
+                                                <p>Utilisez case classes et pattern matching pour créer un petit système.</p>
+                                                
+                                                <h6>À faire :</h6>
+                                                <ol>
+                                                    <li>Créez une case class <code>Etudiant(nom, age, notes)</code></li>
+                                                    <li>Créez une fonction qui calcule la moyenne d'un étudiant</li>
+                                                    <li>Créez une fonction avec pattern matching pour attribuer une mention</li>
+                                                    <li>Testez avec plusieurs étudiants</li>
+                                                </ol>
+                                            </div>
+
+                                            <div class="answer-section">
+                                                <h5><i class="fas fa-check-circle me-2"></i>Solution</h5>
+                                                <div class="code-block">
+                                                    <pre><code class="language-scala">// Solution de l'exercice 4
+
+// 1. Case class Etudiant
+case class Etudiant(nom: String, age: Int, notes: List[Double])
+
+// 2. Fonction pour calculer la moyenne
+def calculerMoyenne(etudiant: Etudiant): Double = {
+  if (etudiant.notes.nonEmpty) {
+    etudiant.notes.sum / etudiant.notes.length
+  } else {
+    0.0
+  }
+}
+
+// 3. Fonction avec pattern matching pour les mentions
+def attribuerMention(moyenne: Double): String = moyenne match {
+  case m if m >= 16 => "Très Bien"
+  case m if m >= 14 => "Bien"
+  case m if m >= 12 => "Assez Bien"
+  case m if m >= 10 => "Passable"
+  case _ => "Insuffisant"
+}
+
+// Version combinée avec pattern matching sur l'étudiant
+def evaluerEtudiant(etudiant: Etudiant): String = {
+  val moyenne = calculerMoyenne(etudiant)
+  val mention = attribuerMention(moyenne)
+  
+  etudiant match {
+    case Etudiant(nom, age, notes) if notes.isEmpty =>
+      s"$nom ($age ans): Aucune note disponible"
+    case Etudiant(nom, age, _) =>
+      f"$nom ($age ans): Moyenne $moyenne%.2f - $mention"
+  }
+}
+
+// 4. Tests avec plusieurs étudiants
+val etudiants = List(
+  Etudiant("Alice", 20, List(15.5, 16.0, 14.5, 17.0)),
+  Etudiant("Bob", 19, List(12.0, 11.5, 13.0, 12.5)),
+  Etudiant("Charlie", 21, List(18.0, 17.5, 19.0, 16.5)),
+  Etudiant("Diana", 18, List()) // Aucune note
+)
+
+etudiants.foreach { etudiant =>
+  println(evaluerEtudiant(etudiant))
+}
+
+// Résultats attendus:
+// Alice (20 ans): Moyenne 15.75 - Bien
+// Bob (19 ans): Moyenne 12.25 - Assez Bien
+// Charlie (21 ans): Moyenne 17.75 - Très Bien
+// Diana (18 ans): Aucune note disponible</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </section>
+                        
+                        <!-- Navigation entre modules -->
+                        <div class="navigation-buttons">
+                            <div class="row">
+                                <div class="col-6">
+                                    <a href="Module 2 - Mettre en place l'environnement pour Scala.html" class="btn btn-outline-primary">
+                                        <i class="fas fa-arrow-left me-2"></i>
+                                        Module 2 - Environnement
+                                    </a>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <a href="Module 4 - Fondements théoriques de Spark - RDD, DataFrame, Dataset.html" class="btn btn-primary">
+                                        Module 4 - Fondements Spark
+                                        <i class="fas fa-arrow-right ms-2"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bouton de retour en haut -->
+    <button class="scroll-to-top btn" id="scrollToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts JavaScript -->
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Highlight.js JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/scala.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+    
+    <script>
+        // Initialisation de Highlight.js
+        hljs.highlightAll();
+        
+        // Gestion du bouton de retour en haut
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.style.display = 'flex';
+            } else {
+                scrollToTopBtn.style.display = 'none';
+            }
+        });
+        
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Smooth scroll pour les liens de la table des matières
+        document.querySelectorAll('.toc-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    const offsetTop = targetElement.offsetTop - 100;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Mettre en évidence le lien actif dans la table des matières
+        function updateActiveLink() {
+            const sections = document.querySelectorAll('section[id]');
+            const tocLinks = document.querySelectorAll('.toc-link');
+            
+            let activeSection = null;
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 150 && rect.bottom >= 150) {
+                    activeSection = section;
+                }
+            });
+            
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (activeSection && link.getAttribute('href') === '#' + activeSection.id) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', updateActiveLink);
+        updateActiveLink(); // Appel initial
+        
+        // Animation d'entrée pour les éléments
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observer les sections pour l'animation
+        document.querySelectorAll('.section, .concept-card, .type-item').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+        
+        // Simulateur REPL interactif (bonus)
+        let replHistory = [];
+        function executeReplCommand(command) {
+            // Simule l'évaluation de base (pour la demo)
+            try {
+                const result = eval(command.replace('val ', 'const '));
+                return { success: true, result };
+            } catch (e) {
+                return { success: false, error: e.message };
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,1888 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 4 - Fondements théoriques de Spark - RDD, DataFrame, Dataset</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Highlight.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #dc143c;
+            --secondary-color: #2563eb;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --info-color: #0284c7;
+            --dark-color: #1f2937;
+            --light-bg: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-muted: #64748b;
+            --question-bg: #f1f5f9;
+            --answer-bg: #dcfce7;
+            --explanation-bg: #fef3c7;
+            --code-bg: #0f172a;
+            --spark-orange: #f97316;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 100px;
+            height: calc(100vh - 120px);
+            overflow-y: auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .toc-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .toc-link {
+            display: block;
+            padding: 0.5rem 0;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-left: 3px solid transparent;
+            padding-left: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .toc-link:hover, .toc-link.active {
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+            background-color: rgba(220, 20, 60, 0.05);
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .content-header {
+            background: linear-gradient(135deg, var(--spark-orange), var(--primary-color));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .content-header h1 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .content-header .lead {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .content-body {
+            padding: 2rem;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .concept-card {
+            background: var(--light-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--info-color);
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .concept-card.spark { border-left-color: var(--spark-orange); }
+        .concept-card.rdd { border-left-color: #ef4444; }
+        .concept-card.dataframe { border-left-color: #10b981; }
+        .concept-card.dataset { border-left-color: #3b82f6; }
+        .concept-card.architecture { border-left-color: #8b5cf6; }
+
+        .concept-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .spark-feature {
+            background: rgba(249, 115, 22, 0.05);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .spark-feature h6 {
+            color: var(--spark-orange);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .architecture-diagram {
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .architecture-component {
+            display: inline-block;
+            background: var(--light-bg);
+            border: 2px solid var(--info-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 0.5rem;
+            min-width: 120px;
+        }
+
+        .architecture-component.driver {
+            border-color: var(--spark-orange);
+            background: rgba(249, 115, 22, 0.1);
+        }
+
+        .architecture-component.executor {
+            border-color: var(--success-color);
+            background: rgba(5, 150, 105, 0.1);
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-color);
+            margin: 1.5rem 0;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            font-weight: 500;
+            border: none;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .comparison-table td {
+            padding: 1rem;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .comparison-table tbody tr:hover {
+            background-color: rgba(220, 20, 60, 0.05);
+        }
+
+        .code-block {
+            background: var(--code-bg);
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 1rem 0;
+            border: 1px solid #334155;
+        }
+
+        .code-header {
+            background: #1e293b;
+            padding: 0.75rem 1rem;
+            color: #94a3b8;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-bottom: 1px solid #334155;
+        }
+
+        pre {
+            margin: 0;
+            padding: 1rem;
+            background: var(--code-bg);
+            color: #e2e8f0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(220, 20, 60, 0.1);
+            color: var(--primary-color);
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        .question-accordion .accordion-item {
+            border: 1px solid var(--border-color);
+            margin-bottom: 1rem;
+            border-radius: 8px !important;
+            overflow: hidden;
+        }
+
+        .question-header {
+            background: var(--question-bg);
+            border: none;
+            color: var(--dark-color);
+            font-weight: 600;
+            padding: 1.25rem 1.5rem;
+        }
+
+        .question-header:not(.collapsed) {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .question-header::after {
+            background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>");
+        }
+
+        .question-header:not(.collapsed)::after {
+            background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>");
+        }
+
+        .answer-section {
+            background: var(--answer-bg);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 6px;
+            border-left: 4px solid var(--success-color);
+        }
+
+        .explanation-section {
+            background: var(--explanation-bg);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 6px;
+            border-left: 4px solid var(--warning-color);
+        }
+
+        .info-box {
+            background: rgba(2, 132, 199, 0.1);
+            border-left: 4px solid var(--info-color);
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+
+        .success-box {
+            background: rgba(5, 150, 105, 0.1);
+            border-left: 4px solid var(--success-color);
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+
+        .warning-box {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid var(--warning-color);
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+
+        .badge-concept {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            font-weight: 500;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(220, 20, 60, 0.3);
+        }
+
+        .navigation-buttons {
+            background: var(--light-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(220, 20, 60, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(220, 20, 60, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: static;
+                margin-bottom: 2rem;
+                height: auto;
+            }
+            
+            .content-header {
+                padding: 1.5rem;
+            }
+            
+            .content-body {
+                padding: 1.5rem;
+            }
+
+            .architecture-component {
+                display: block;
+                margin: 1rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-code me-2"></i>
+                Cours Scala & Spark
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="fas fa-home me-1"></i>Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-book me-1"></i>Modules
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="Module 1 - Introduction aux Paradigmes de Programmation.html">Module 1 - Paradigmes</a></li>
+                            <li><a class="dropdown-item" href="Module 2 - Mettre en place l'environnement pour Scala.html">Module 2 - Environnement</a></li>
+                            <li><a class="dropdown-item" href="Module 3 - Introduction à Scala.html">Module 3 - Introduction Scala</a></li>
+                            <li><a class="dropdown-item" href="Module 4 - Fondements théoriques de Spark - RDD, DataFrame, Dataset.html">Module 4 - Fondements Spark</a></li>
+                            <li><a class="dropdown-item" href="Module 5 - Pratique Spark - RDD, DataFrame & Dataset.html">Module 5 - Pratique Spark</a></li>
+                            <li><a class="dropdown-item" href="Module 6 - Approfondissement en Programmation Fonctionnelle.html">Module 6 - Prog. Fonctionnelle</a></li>
+                            <li><a class="dropdown-item" href="Module 7 - Spark Streaming et introduction au Machine Learning.html">Module 7 - Streaming & ML</a></li>
+                            <li><a class="dropdown-item" href="module8.html">Module 8 - Cloud</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid" style="margin-top: 80px;">
+        <div class="row">
+            <!-- Sidebar avec table des matières -->
+            <div class="col-lg-3">
+                <div class="sidebar">
+                    <h5 class="toc-title">
+                        <i class="fas fa-list me-2"></i>
+                        Module 4 - Fondements Spark
+                    </h5>
+                    <div class="toc-content">
+                        <a href="#introduction" class="toc-link">
+                            <i class="fas fa-rocket me-2"></i>
+                            Qu'est-ce qu'Apache Spark ?
+                        </a>
+                        <a href="#architecture" class="toc-link">
+                            <i class="fas fa-sitemap me-2"></i>
+                            Architecture Spark
+                        </a>
+                        <a href="#rdd" class="toc-link">
+                            <i class="fas fa-layer-group me-2"></i>
+                            RDD - Concepts fondamentaux
+                        </a>
+                        <a href="#dataframe" class="toc-link">
+                            <i class="fas fa-table me-2"></i>
+                            DataFrame - Abstraction SQL
+                        </a>
+                        <a href="#dataset" class="toc-link">
+                            <i class="fas fa-shield-alt me-2"></i>
+                            Dataset - Type Safety
+                        </a>
+                        <a href="#comparaison" class="toc-link">
+                            <i class="fas fa-balance-scale me-2"></i>
+                            RDD vs DataFrame vs Dataset
+                        </a>
+                        <a href="#transformations-actions" class="toc-link">
+                            <i class="fas fa-cogs me-2"></i>
+                            Transformations vs Actions
+                        </a>
+                        <a href="#lazy-evaluation" class="toc-link">
+                            <i class="fas fa-clock me-2"></i>
+                            Lazy Evaluation
+                        </a>
+                        <a href="#partitioning" class="toc-link">
+                            <i class="fas fa-puzzle-piece me-2"></i>
+                            Partitioning
+                        </a>
+                        <a href="#cache-persistence" class="toc-link">
+                            <i class="fas fa-save me-2"></i>
+                            Cache & Persistence
+                        </a>
+                        <a href="#exercices" class="toc-link">
+                            <i class="fas fa-dumbbell me-2"></i>
+                            Exercices pratiques
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenu principal -->
+            <div class="col-lg-9">
+                <div class="main-content">
+                    <!-- En-tête -->
+                    <div class="content-header">
+                        <h1>
+                            <i class="fas fa-fire me-3"></i>
+                            Module 4 - Fondements théoriques de Spark
+                        </h1>
+                        <p class="lead mb-0">
+                            RDD, DataFrame, Dataset - Maîtrisez les abstractions Big Data d'Apache Spark
+                        </p>
+                        <span class="badge badge-concept mt-2">Module 4</span>
+                    </div>
+
+                    <!-- Corps du contenu -->
+                    <div class="content-body">
+                        
+                        <!-- Introduction -->
+                        <section id="introduction" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-rocket me-2"></i>
+                                Qu'est-ce qu'Apache Spark ?
+                            </h2>
+                            
+                            <div class="concept-card spark">
+                                <div class="concept-title">
+                                    <i class="fas fa-fire"></i>
+                                    Apache Spark - Le moteur Big Data unifié
+                                </div>
+                                <p>
+                                    Apache Spark est un moteur de calcul distribué open-source conçu pour traiter 
+                                    de grandes quantités de données avec une vitesse et une facilité d'utilisation exceptionnelles.
+                                </p>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="spark-feature">
+                                        <h6><i class="fas fa-lightning me-2"></i>Vitesse</h6>
+                                        <p class="mb-0">
+                                            Jusqu'à 100x plus rapide que Hadoop MapReduce en mémoire, 
+                                            10x plus rapide sur disque grâce au calcul en mémoire.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="spark-feature">
+                                        <h6><i class="fas fa-code me-2"></i>Simplicité</h6>
+                                        <p class="mb-0">
+                                            APIs riches en Scala, Java, Python et R. 
+                                            Plus de 80 opérateurs haut niveau pour transformer les données.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="spark-feature">
+                                        <h6><i class="fas fa-layer-group me-2"></i>Généralité</h6>
+                                        <p class="mb-0">
+                                            Combine SQL, streaming, machine learning et traitement par graphes 
+                                            dans une seule pile technologique.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="spark-feature">
+                                        <h6><i class="fas fa-play me-2"></i>Partout</h6>
+                                        <p class="mb-0">
+                                            Fonctionne sur Hadoop, Apache Mesos, Kubernetes, 
+                                            en standalone, ou dans le cloud.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="info-box">
+                                <h6><i class="fas fa-history me-2"></i>Un peu d'histoire</h6>
+                                <p class="mb-0">
+                                    Spark a été développé en 2009 à UC Berkeley, open-sourcé en 2010, 
+                                    et est devenu un projet Apache de haut niveau en 2014. 
+                                    Il est maintenant le framework Big Data le plus actif au monde.
+                                </p>
+                            </div>
+                        </section>
+
+                        <!-- Architecture -->
+                        <section id="architecture" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-sitemap me-2"></i>
+                                Architecture Apache Spark
+                            </h2>
+                            
+                            <div class="concept-card architecture">
+                                <div class="concept-title">
+                                    <i class="fas fa-building"></i>
+                                    Architecture maître-esclave
+                                </div>
+                                <p>
+                                    Spark suit une architecture maître-esclave avec un Driver Program 
+                                    qui coordonne le travail distribué à travers plusieurs Executors.
+                                </p>
+                            </div>
+
+                            <div class="architecture-diagram">
+                                <h5 class="mb-3">Architecture Spark</h5>
+                                
+                                <div class="architecture-component driver">
+                                    <h6><i class="fas fa-user-tie"></i> Driver</h6>
+                                    <small>SparkContext<br>DAG Scheduler<br>Task Scheduler</small>
+                                </div>
+                                
+                                <div style="margin: 1rem 0;">
+                                    <i class="fas fa-arrow-down fa-2x text-muted"></i>
+                                </div>
+                                
+                                <div class="architecture-component">
+                                    <h6><i class="fas fa-cogs"></i> Cluster Manager</h6>
+                                    <small>YARN / Mesos / K8s</small>
+                                </div>
+                                
+                                <div style="margin: 1rem 0;">
+                                    <i class="fas fa-arrow-down fa-2x text-muted"></i>
+                                </div>
+                                
+                                <div>
+                                    <div class="architecture-component executor">
+                                        <h6><i class="fas fa-microchip"></i> Executor 1</h6>
+                                        <small>Cache<br>Tasks</small>
+                                    </div>
+                                    <div class="architecture-component executor">
+                                        <h6><i class="fas fa-microchip"></i> Executor 2</h6>
+                                        <small>Cache<br>Tasks</small>
+                                    </div>
+                                    <div class="architecture-component executor">
+                                        <h6><i class="fas fa-microchip"></i> Executor N</h6>
+                                        <small>Cache<br>Tasks</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="explanation-section">
+                                <h6>Composants de l'architecture :</h6>
+                                <ul>
+                                    <li><strong>Driver Program</strong> : Contient votre fonction main et définit les RDD/DataFrames</li>
+                                    <li><strong>SparkContext</strong> : Point d'entrée vers les fonctionnalités Spark</li>
+                                    <li><strong>Cluster Manager</strong> : Alloue les ressources (YARN, Mesos, K8s)</li>
+                                    <li><strong>Executors</strong> : Processus qui exécutent les tâches et stockent les données</li>
+                                </ul>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-code me-2"></i>Initialisation de Spark
+                                </div>
+                                <pre><code class="language-scala">import org.apache.spark.sql.SparkSession
+
+// Créer une SparkSession (point d'entrée principal)
+val spark = SparkSession.builder()
+  .appName("Mon Application Spark")
+  .master("local[*]")  // Utilise tous les cœurs disponibles
+  .config("spark.sql.adaptive.enabled", "true")
+  .getOrCreate()
+
+// Accéder au SparkContext (plus bas niveau)
+val sc = spark.sparkContext
+
+// Configurer le niveau de log
+sc.setLogLevel("WARN")
+
+println(s"Spark version: ${spark.version}")
+println(s"Nombre de cœurs: ${sc.defaultParallelism}")
+
+// Nettoyer à la fin
+// spark.stop()</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- RDD -->
+                        <section id="rdd" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-layer-group me-2"></i>
+                                RDD - Resilient Distributed Datasets
+                            </h2>
+                            
+                            <div class="concept-card rdd">
+                                <div class="concept-title">
+                                    <i class="fas fa-database"></i>
+                                    Le concept fondamental de Spark
+                                </div>
+                                <p>
+                                    Les RDD sont la structure de données fondamentale de Spark : 
+                                    des collections distribuées et fault-tolerant d'objets 
+                                    répartis sur un cluster.
+                                </p>
+                            </div>
+
+                            <div class="spark-feature">
+                                <h6><i class="fas fa-shield-alt me-2"></i>Les 5 propriétés des RDD</h6>
+                                <ol>
+                                    <li><strong>Resilient</strong> : Fault-tolerant grâce au lineage</li>
+                                    <li><strong>Distributed</strong> : Données réparties sur le cluster</li>
+                                    <li><strong>Dataset</strong> : Collection d'enregistrements</li>
+                                    <li><strong>Immutable</strong> : Une fois créé, ne peut être modifié</li>
+                                    <li><strong>Lazy</strong> : Évaluation paresseuse</li>
+                                </ol>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-plus me-2"></i>Création de RDD
+                                </div>
+                                <pre><code class="language-scala">import org.apache.spark.SparkContext
+
+val sc = spark.sparkContext
+
+// 1. Créer RDD à partir d'une collection
+val numbers = sc.parallelize(List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
+
+// 2. Créer RDD à partir d'un fichier
+val textFile = sc.textFile("data/sample.txt")
+
+// 3. Créer RDD à partir de plusieurs fichiers
+val multipleFiles = sc.textFile("data/*.txt")
+
+// 4. Créer RDD avec nombre de partitions spécifique
+val numbersPartitioned = sc.parallelize(1 to 1000, 4) // 4 partitions
+
+println(s"Nombre de partitions: ${numbers.getNumPartitions}")
+println(s"Premier élément: ${numbers.first()}")
+println(s"Tous les éléments: ${numbers.collect().mkString(", ")}")</code></pre>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-sync-alt me-2"></i>Transformations RDD (lazy)
+                                </div>
+                                <pre><code class="language-scala">val numbers = sc.parallelize(1 to 10)
+
+// map : Transformer chaque élément
+val doubled = numbers.map(_ * 2)
+
+// filter : Filtrer les éléments
+val evenNumbers = numbers.filter(_ % 2 == 0)
+
+// flatMap : Transformer et aplatir
+val words = sc.parallelize(List("hello world", "scala spark"))
+val allWords = words.flatMap(_.split(" "))
+
+// distinct : Éléments uniques
+val uniqueNumbers = sc.parallelize(List(1, 2, 2, 3, 3, 3)).distinct()
+
+// union : Combiner deux RDD
+val moreNumbers = sc.parallelize(11 to 15)
+val combined = numbers.union(moreNumbers)
+
+// Chaînage de transformations
+val result = numbers
+  .filter(_ % 2 == 0)    // Garder les pairs
+  .map(_ * 3)            // Multiplier par 3
+  .filter(_ > 10)        // Garder > 10
+
+// ⚠️ Aucune exécution à ce point (lazy) !</code></pre>
+                            </div>
+
+                            <div class="warning-box">
+                                <h6><i class="fas fa-exclamation-triangle me-2"></i>RDD - Avantages et inconvénients</h6>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6 class="text-success">✅ Avantages</h6>
+                                        <ul class="mb-0">
+                                            <li>Contrôle de bas niveau</li>
+                                            <li>Flexibilité maximale</li>
+                                            <li>Fault-tolerance automatique</li>
+                                            <li>Support de tous types de données</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6 class="text-warning">⚠️ Inconvénients</h6>
+                                        <ul class="mb-0">
+                                            <li>Pas d'optimisations automatiques</li>
+                                            <li>Pas de schéma structuré</li>
+                                            <li>Sérialisation/désérialisation coûteuse</li>
+                                            <li>Debugging plus difficile</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- DataFrame -->
+                        <section id="dataframe" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-table me-2"></i>
+                                DataFrame - L'abstraction SQL
+                            </h2>
+                            
+                            <div class="concept-card dataframe">
+                                <div class="concept-title">
+                                    <i class="fas fa-table"></i>
+                                    Données structurées avec optimisations
+                                </div>
+                                <p>
+                                    Les DataFrames sont des RDD avec un schéma structuré, 
+                                    offrant des optimisations automatiques via le moteur Catalyst 
+                                    et une API similaire à SQL.
+                                </p>
+                            </div>
+
+                            <div class="spark-feature">
+                                <h6><i class="fas fa-magic me-2"></i>Avantages des DataFrames</h6>
+                                <ul class="mb-0">
+                                    <li><strong>Optimisation Catalyst</strong> : Optimisation automatique des requêtes</li>
+                                    <li><strong>Code Generation</strong> : Génération de code Java optimisé</li>
+                                    <li><strong>API riche</strong> : Opérations SQL et fonctionnelles</li>
+                                    <li><strong>Intégration</strong> : Compatible avec de nombreux formats (JSON, Parquet, etc.)</li>
+                                </ul>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-plus me-2"></i>Création de DataFrames
+                                </div>
+                                <pre><code class="language-scala">import org.apache.spark.sql.{SparkSession, DataFrame}
+import org.apache.spark.sql.functions._
+
+val spark = SparkSession.builder()
+  .appName("DataFrame Example")
+  .master("local[*]")
+  .getOrCreate()
+
+import spark.implicits._
+
+// 1. À partir d'une séquence de case classes
+case class Person(name: String, age: Int, city: String)
+val people = Seq(
+  Person("Alice", 25, "Paris"),
+  Person("Bob", 30, "Lyon"), 
+  Person("Charlie", 35, "Marseille")
+)
+val df = people.toDF()
+
+// 2. À partir d'un fichier JSON
+val jsonDF = spark.read.json("data/people.json")
+
+// 3. À partir d'un fichier CSV
+val csvDF = spark.read
+  .option("header", "true")
+  .option("inferSchema", "true")
+  .csv("data/people.csv")
+
+// 4. À partir d'une base de données
+val jdbcDF = spark.read
+  .format("jdbc")
+  .option("url", "jdbc:postgresql://localhost:5432/mydb")
+  .option("dbtable", "people")
+  .option("user", "username")
+  .option("password", "password")
+  .load()
+
+// Afficher le schéma
+df.printSchema()
+// Afficher les données
+df.show()</code></pre>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-search me-2"></i>Opérations DataFrame
+                                </div>
+                                <pre><code class="language-scala">// Sélection de colonnes
+val names = df.select("name")
+val nameAndAge = df.select($"name", $"age")
+
+// Filtrage
+val adults = df.filter($"age" >= 18)
+val parisians = df.filter($"city" === "Paris")
+
+// Ajout de colonnes
+val withStatus = df.withColumn("status", 
+  when($"age" >= 18, "adult").otherwise("minor"))
+
+// Renommage
+val renamed = df.withColumnRenamed("name", "full_name")
+
+// Groupement et agrégation
+val ageStats = df.groupBy("city").agg(
+  count("*").as("population"),
+  avg("age").as("average_age"),
+  max("age").as("max_age")
+)
+
+// Tri
+val sorted = df.orderBy($"age".desc)
+
+// Opérations sur chaînes
+val upperNames = df.withColumn("name_upper", upper($"name"))
+
+// Jointures
+val cities = Seq(("Paris", "France"), ("Lyon", "France")).toDF("city", "country")
+val joined = df.join(cities, "city")
+
+ageStats.show()</code></pre>
+                            </div>
+
+                            <div class="success-box">
+                                <h6><i class="fas fa-database me-2"></i>SQL avec DataFrames</h6>
+                                <div class="code-block">
+                                    <pre><code class="language-scala">// Enregistrer comme vue temporaire
+df.createOrReplaceTempView("people")
+
+// Utiliser SQL standard
+val sqlResult = spark.sql("""
+  SELECT city, 
+         COUNT(*) as population,
+         AVG(age) as average_age
+  FROM people 
+  WHERE age >= 18
+  GROUP BY city
+  ORDER BY population DESC
+""")
+
+sqlResult.show()
+
+// Mélanger SQL et API DataFrame
+val complexQuery = spark.sql("SELECT * FROM people WHERE age > 25")
+  .withColumn("generation", 
+    when($"age" < 30, "Gen Z")
+    .when($"age" < 40, "Millennial")
+    .otherwise("Gen X+"))
+
+complexQuery.show()</code></pre>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Dataset -->
+                        <section id="dataset" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-shield-alt me-2"></i>
+                                Dataset - Type Safety
+                            </h2>
+                            
+                            <div class="concept-card dataset">
+                                <div class="concept-title">
+                                    <i class="fas fa-shield-alt"></i>
+                                    Le meilleur des deux mondes
+                                </div>
+                                <p>
+                                    Les Datasets combinent les avantages des RDD (type safety) 
+                                    avec les optimisations des DataFrames (Catalyst). 
+                                    Ils sont fortement typés et vérifiés à la compilation.
+                                </p>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-code me-2"></i>Dataset - Type Safety en action
+                                </div>
+                                <pre><code class="language-scala">import org.apache.spark.sql.Dataset
+import spark.implicits._
+
+// Case class pour le typage
+case class Employee(id: Int, name: String, age: Int, salary: Double, department: String)
+
+// Créer un Dataset typé
+val employees: Dataset[Employee] = Seq(
+  Employee(1, "Alice", 25, 50000.0, "Engineering"),
+  Employee(2, "Bob", 30, 45000.0, "Marketing"),
+  Employee(3, "Charlie", 35, 60000.0, "Engineering"),
+  Employee(4, "Diana", 28, 52000.0, "HR")
+).toDS()
+
+// ✅ Opérations type-safe
+val engineeringEmps: Dataset[Employee] = employees.filter(_.department == "Engineering")
+val names: Dataset[String] = employees.map(_.name)
+val salaries: Dataset[Double] = employees.map(_.salary)
+
+// ✅ Vérification à la compilation
+val avgSalary: Double = employees.map(_.salary).reduce(_ + _) / employees.count()
+
+// ✅ Opérations complexes avec type safety
+case class EmployeeSummary(name: String, salaryLevel: String)
+
+val summaries: Dataset[EmployeeSummary] = employees.map { emp =>
+  val level = emp.salary match {
+    case s if s < 47000 => "Junior"
+    case s if s < 55000 => "Mid"
+    case _ => "Senior"
+  }
+  EmployeeSummary(emp.name, level)
+}
+
+summaries.show()
+
+// ❌ Ceci ne compilerait pas :
+// val invalid = employees.map(_.nonExistentField) // Erreur de compilation !</code></pre>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-exchange-alt me-2"></i>Conversions entre abstractions
+                                </div>
+                                <pre><code class="language-scala">// RDD ↔ DataFrame ↔ Dataset
+
+// RDD vers DataFrame
+val numbersRDD = spark.sparkContext.parallelize(1 to 100)
+val numbersDF = numbersRDD.toDF("number")
+
+// DataFrame vers Dataset
+case class NumberWrapper(number: Int)
+val numbersDS: Dataset[NumberWrapper] = numbersDF.as[NumberWrapper]
+
+// Dataset vers DataFrame
+val backToDF = numbersDS.toDF()
+
+// Dataset vers RDD
+val backToRDD = numbersDS.rdd
+
+// DataFrame vers RDD (Row)
+val dfToRDD = numbersDF.rdd  // RDD[Row]
+
+// Exemple pratique : chaîner les transformations
+val result = employees
+  .filter(_.age > 25)           // Dataset operations (type-safe)
+  .toDF()                       // Convert to DataFrame  
+  .groupBy("department")        // DataFrame operations (optimized)
+  .agg(avg("salary"))           // SQL-like aggregation
+  .as[(String, Double)]         // Back to Dataset
+  .collect()                    // Action: collect to driver
+
+result.foreach { case (dept, avgSal) =>
+  println(f"$dept: $avgSal%.2f")
+}</code></pre>
+                            </div>
+
+                            <div class="info-box">
+                                <h6><i class="fas fa-lightbulb me-2"></i>Quand utiliser Dataset ?</h6>
+                                <ul class="mb-0">
+                                    <li><strong>Structures complexes</strong> : Quand vous avez des objets métier complexes</li>
+                                    <li><strong>Type safety</strong> : Quand vous voulez détecter les erreurs à la compilation</li>
+                                    <li><strong>API fonctionnelle</strong> : Quand vous préférez map/filter/reduce à SQL</li>
+                                    <li><strong>Réutilisabilité</strong> : Quand vous voulez partager des transformations type-safe</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <!-- Comparaison -->
+                        <section id="comparaison" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-balance-scale me-2"></i>
+                                RDD vs DataFrame vs Dataset
+                            </h2>
+                            
+                            <div class="comparison-table">
+                                <table class="table table-striped mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Aspect</th>
+                                            <th>RDD</th>
+                                            <th>DataFrame</th>
+                                            <th>Dataset</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Type Safety</strong></td>
+                                            <td>✅ Compile-time</td>
+                                            <td>❌ Runtime</td>
+                                            <td>✅ Compile-time</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Performance</strong></td>
+                                            <td>⚠️ Pas d'optimisation</td>
+                                            <td>✅ Catalyst optimizer</td>
+                                            <td>✅ Catalyst optimizer</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>API</strong></td>
+                                            <td>Fonctionnelle</td>
+                                            <td>SQL + Fonctionnelle</td>
+                                            <td>Fonctionnelle typée</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Schema</strong></td>
+                                            <td>❌ Pas de schéma</td>
+                                            <td>✅ Schéma structuré</td>
+                                            <td>✅ Schéma + typage</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Facilité d'usage</strong></td>
+                                            <td>Bas niveau</td>
+                                            <td>Haut niveau</td>
+                                            <td>Haut niveau typé</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Memory efficiency</strong></td>
+                                            <td>❌ Java objects</td>
+                                            <td>✅ Tungsten</td>
+                                            <td>✅ Tungsten</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Sérialisation</strong></td>
+                                            <td>Java/Kryo</td>
+                                            <td>Format colonnaire</td>
+                                            <td>Format colonnaire</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Intégration**</strong></td>
+                                            <td>Limitée</td>
+                                            <td>Excellente (ML, SQL)</td>
+                                            <td>Excellente</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="explanation-section">
+                                <h6>Recommandations d'usage :</h6>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <h6 class="text-danger">🔧 Utilisez RDD quand :</h6>
+                                        <ul>
+                                            <li>Manipulation de données non-structurées</li>
+                                            <li>Contrôle de bas niveau requis</li>
+                                            <li>Formats de données spécialisés</li>
+                                            <li>Logique métier très spécifique</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h6 class="text-success">📊 Utilisez DataFrame quand :</h6>
+                                        <ul>
+                                            <li>Données structurées ou semi-structurées</li>
+                                            <li>Requêtes de type SQL</li>
+                                            <li>Performance critique</li>
+                                            <li>Intégration avec ML/SQL</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h6 class="text-primary">🛡️ Utilisez Dataset quand :</h6>
+                                        <ul>
+                                            <li>Type safety importante</li>
+                                            <li>Objets métier complexes</li>
+                                            <li>API fonctionnelle préférée</li>
+                                            <li>Code réutilisable entre équipes</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Transformations vs Actions -->
+                        <section id="transformations-actions" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-cogs me-2"></i>
+                                Transformations vs Actions
+                            </h2>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="concept-card">
+                                        <div class="concept-title">
+                                            <i class="fas fa-sync-alt"></i>
+                                            Transformations (Lazy)
+                                        </div>
+                                        <p>
+                                            Créent un nouveau RDD/DataFrame/Dataset à partir d'un existant. 
+                                            <strong>Lazy</strong> : ne sont pas exécutées immédiatement.
+                                        </p>
+                                        <div class="code-block">
+                                            <pre><code class="language-scala">// Transformations communes
+rdd.map()
+rdd.filter()
+rdd.flatMap()
+rdd.distinct()
+rdd.groupBy()
+rdd.union()
+df.select()
+df.where()
+df.join()
+df.groupBy()
+ds.map()
+ds.filter()</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="concept-card">
+                                        <div class="concept-title">
+                                            <i class="fas fa-play"></i>
+                                            Actions (Eager)
+                                        </div>
+                                        <p>
+                                            Déclenchent l'exécution et retournent une valeur au Driver. 
+                                            <strong>Eager</strong> : exécutées immédiatement.
+                                        </p>
+                                        <div class="code-block">
+                                            <pre><code class="language-scala">// Actions communes
+rdd.collect()
+rdd.count()
+rdd.first()
+rdd.take(n)
+rdd.reduce()
+rdd.foreach()
+rdd.saveAsTextFile()
+df.show()
+df.count()
+df.collect()
+ds.collect()</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-clock me-2"></i>Exemple : Transformations lazy vs Actions eager
+                                </div>
+                                <pre><code class="language-scala">val numbers = spark.sparkContext.parallelize(1 to 1000000)
+
+println("=== TRANSFORMATIONS (pas d'exécution) ===")
+val startTime = System.currentTimeMillis()
+
+val evens = numbers.filter(_ % 2 == 0)        // Lazy - pas exécuté
+val doubled = evens.map(_ * 2)                // Lazy - pas exécuté
+val filtered = doubled.filter(_ > 100)       // Lazy - pas exécuté
+
+val transformTime = System.currentTimeMillis()
+println(s"Temps pour les transformations: ${transformTime - startTime} ms") // ~0 ms
+
+println("=== ACTIONS (déclenchent l'exécution) ===")
+
+// Première action - déclenche TOUT le pipeline
+val count = filtered.count()  // Action - exécute tout le pipeline
+val actionTime1 = System.currentTimeMillis()
+println(s"Nombre d'éléments: $count")
+println(s"Temps pour la 1ère action: ${actionTime1 - transformTime} ms")
+
+// Deuxième action - re-exécute tout le pipeline !
+val firstFew = filtered.take(5)  // Action - re-exécute le pipeline
+val actionTime2 = System.currentTimeMillis()
+println(s"Premiers éléments: ${firstFew.mkString(", ")}")
+println(s"Temps pour la 2ème action: ${actionTime2 - actionTime1} ms")
+
+// Solution : cache pour éviter la re-exécution
+val cachedFiltered = filtered.cache()  // Marque pour le cache
+cachedFiltered.count()  // Déclenche et met en cache
+val cachedCount = cachedFiltered.count()  // Utilise le cache !</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Lazy Evaluation -->
+                        <section id="lazy-evaluation" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-clock me-2"></i>
+                                Lazy Evaluation
+                            </h2>
+                            
+                            <div class="concept-card">
+                                <div class="concept-title">
+                                    <i class="fas fa-hourglass-half"></i>
+                                    Évaluation paresseuse - L'optimisation intelligente
+                                </div>
+                                <p>
+                                    Spark ne calcule les résultats que lorsque c'est absolument nécessaire (action). 
+                                    Cela permet d'optimiser l'ensemble du pipeline de traitement.
+                                </p>
+                            </div>
+
+                            <div class="spark-feature">
+                                <h6><i class="fas fa-brain me-2"></i>Avantages de Lazy Evaluation</h6>
+                                <ul class="mb-0">
+                                    <li><strong>Optimisation globale</strong> : Spark peut optimiser le pipeline complet</li>
+                                    <li><strong>Pas de calculs inutiles</strong> : Si vous ne demandez pas le résultat, il n'est pas calculé</li>
+                                    <li><strong>Pipeline efficace</strong> : Combine plusieurs transformations en une seule passe</li>
+                                    <li><strong>Gestion mémoire</strong> : Évite de stocker des résultats intermédiaires inutiles</li>
+                                </ul>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-route me-2"></i>DAG (Directed Acyclic Graph)
+                                </div>
+                                <pre><code class="language-scala">val textFile = spark.sparkContext.textFile("largefile.txt")
+
+// Transformation 1 : diviser en mots
+val words = textFile.flatMap(_.split(" "))
+
+// Transformation 2 : filtrer les mots longs
+val longWords = words.filter(_.length > 5)
+
+// Transformation 3 : convertir en majuscules
+val upperWords = longWords.map(_.toUpperCase)
+
+// Transformation 4 : compter les occurrences
+val wordCounts = upperWords.map(word => (word, 1)).reduceByKey(_ + _)
+
+// ⚠️ Jusqu'ici, RIEN n'a été exécuté !
+// Spark a juste construit un DAG des transformations
+
+println("Pipeline créé, mais pas encore exécuté...")
+
+// 🔥 ACTION : déclenche l'exécution de TOUT le pipeline
+val topWords = wordCounts.top(10)  
+
+// Spark optimise et exécute :
+// 1. Lit le fichier
+// 2. Split + filter + map + reduceByKey en une seule passe
+// 3. Retourne seulement le top 10
+
+topWords.foreach(println)</code></pre>
+                            </div>
+
+                            <div class="info-box">
+                                <h6><i class="fas fa-lightbulb me-2"></i>Lineage (lignage) - Fault tolerance</h6>
+                                <p class="mb-0">
+                                    Grâce à l'évaluation lazy, Spark maintient le <strong>lineage</strong> : 
+                                    l'historique des transformations. Si un nœud tombe en panne, 
+                                    Spark peut recalculer seulement les partitions perdues en rejouant 
+                                    les transformations depuis les données sources.
+                                </p>
+                            </div>
+                        </section>
+
+                        <!-- Cache et Persistence -->
+                        <section id="cache-persistence" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-save me-2"></i>
+                                Cache et Persistence
+                            </h2>
+                            
+                            <div class="concept-card">
+                                <div class="concept-title">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    Optimisation des performances
+                                </div>
+                                <p>
+                                    Le cache permet de stocker les RDD/DataFrames en mémoire (ou disque) 
+                                    pour éviter de recalculer les mêmes données lors d'actions multiples.
+                                </p>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-memory me-2"></i>Utilisation du cache
+                                </div>
+                                <pre><code class="language-scala">import org.apache.spark.storage.StorageLevel
+
+val largeDataset = spark.read.parquet("large_dataset.parquet")
+
+// ❌ Sans cache - recalcule à chaque action
+val filtered = largeDataset.filter($"amount" > 1000)
+
+val count1 = filtered.count()     // Calcule le filtre
+val count2 = filtered.count()     // RE-calcule le filtre !
+val sample = filtered.sample(0.1) // RE-calcule encore le filtre !
+
+// ✅ Avec cache - calcule une fois, réutilise
+val cachedFiltered = largeDataset
+  .filter($"amount" > 1000)
+  .cache()  // Marque pour mise en cache
+
+val count1_cached = cachedFiltered.count()     // Calcule ET met en cache
+val count2_cached = cachedFiltered.count()     // Utilise le cache
+val sample_cached = cachedFiltered.sample(0.1) // Utilise le cache
+
+// Différents niveaux de persistance
+import org.apache.spark.storage.StorageLevel
+
+// En mémoire uniquement
+largeDataset.persist(StorageLevel.MEMORY_ONLY)
+
+// En mémoire avec fallback disque
+largeDataset.persist(StorageLevel.MEMORY_AND_DISK)
+
+// Sérialisé en mémoire (économie de place)
+largeDataset.persist(StorageLevel.MEMORY_ONLY_SER)
+
+// Avec réplication pour la fault tolerance
+largeDataset.persist(StorageLevel.MEMORY_AND_DISK_2)
+
+// Libérer le cache quand ce n'est plus nécessaire
+cachedFiltered.unpersist()</code></pre>
+                            </div>
+
+                            <div class="warning-box">
+                                <h6><i class="fas fa-exclamation-triangle me-2"></i>Bonnes pratiques du cache</h6>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6 class="text-success">✅ Quand cacher :</h6>
+                                        <ul>
+                                            <li>RDD/DataFrame utilisé plusieurs fois</li>
+                                            <li>Calculs coûteux (jointures, agrégations)</li>
+                                            <li>Données accédées de façon itérative</li>
+                                            <li>Machine Learning (entraînement itératif)</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6 class="text-warning">⚠️ Quand ne pas cacher :</h6>
+                                        <ul>
+                                            <li>RDD utilisé une seule fois</li>
+                                            <li>Données trop volumineuses pour la mémoire</li>
+                                            <li>Transformations très rapides</li>
+                                            <li>Quand la mémoire est limitée</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <i class="fas fa-chart-line me-2"></i>Exemple : Performance avec et sans cache
+                                </div>
+                                <pre><code class="language-scala">import org.apache.spark.sql.functions._
+
+// Simulation de données volumineuses
+val sales = spark.range(10000000)
+  .withColumn("amount", rand() * 1000)
+  .withColumn("category", (rand() * 10).cast("int"))
+  .withColumn("date", date_add(current_date(), (rand() * 365).cast("int")))
+
+// Transformation coûteuse
+val expensiveSales = sales
+  .filter($"amount" > 500)
+  .join(broadcast(spark.range(10).toDF("category")), "category")
+  .withColumn("tax", $"amount" * 0.2)
+
+println("=== Sans cache ===")
+val start1 = System.currentTimeMillis()
+val count1 = expensiveSales.count()
+val avg1 = expensiveSales.agg(avg("amount")).collect()(0)(0)
+val max1 = expensiveSales.agg(max("amount")).collect()(0)(0)
+val time1 = System.currentTimeMillis() - start1
+println(s"Temps sans cache: ${time1} ms")
+
+println("=== Avec cache ===")
+val cachedExpensiveSales = expensiveSales.cache()
+val start2 = System.currentTimeMillis()
+val count2 = cachedExpensiveSales.count()  // Met en cache
+val avg2 = cachedExpensiveSales.agg(avg("amount")).collect()(0)(0)  // Utilise le cache
+val max2 = cachedExpensiveSales.agg(max("amount")).collect()(0)(0)   // Utilise le cache
+val time2 = System.currentTimeMillis() - start2
+println(s"Temps avec cache: ${time2} ms")
+println(s"Accélération: ${time1.toDouble / time2}x")
+
+// Nettoyer
+cachedExpensiveSales.unpersist()</code></pre>
+                            </div>
+                        </section>
+
+                        <!-- Exercices -->
+                        <section id="exercices" class="section">
+                            <h2 class="section-title">
+                                <i class="fas fa-dumbbell me-2"></i>
+                                Exercices pratiques
+                            </h2>
+                            
+                            <div class="accordion question-accordion" id="exercicesAccordion">
+                                
+                                <!-- Exercice 1 -->
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button question-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ex1">
+                                            <i class="fas fa-layer-group me-2"></i>
+                                            Exercice 1 - Manipulation de RDD
+                                        </button>
+                                    </h3>
+                                    <div id="ex1" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="explanation-section">
+                                                <h5>Créer et transformer des RDD</h5>
+                                                <p>Créez un programme qui manipule des RDD avec différentes transformations.</p>
+                                                
+                                                <h6>À faire :</h6>
+                                                <ol>
+                                                    <li>Créez un RDD avec les nombres de 1 à 100</li>
+                                                    <li>Filtrez pour garder seulement les multiples de 5</li>
+                                                    <li>Multipliez chaque nombre par lui-même (carré)</li>
+                                                    <li>Calculez la somme totale</li>
+                                                </ol>
+                                            </div>
+
+                                            <div class="answer-section">
+                                                <h5><i class="fas fa-check-circle me-2"></i>Solution</h5>
+                                                <div class="code-block">
+                                                    <pre><code class="language-scala">import org.apache.spark.sql.SparkSession
+
+val spark = SparkSession.builder()
+  .appName("RDD Exercise")
+  .master("local[*]")
+  .getOrCreate()
+
+val sc = spark.sparkContext
+
+// 1. Créer RDD avec nombres 1 à 100
+val numbers = sc.parallelize(1 to 100)
+println(s"RDD créé avec ${numbers.count()} éléments")
+
+// 2. Filtrer les multiples de 5
+val multiplesOf5 = numbers.filter(_ % 5 == 0)
+println(s"Multiples de 5: ${multiplesOf5.collect().mkString(", ")}")
+
+// 3. Calculer le carré de chaque nombre
+val squares = multiplesOf5.map(x => x * x)
+println(s"Carrés: ${squares.collect().mkString(", ")}")
+
+// 4. Calculer la somme totale
+val totalSum = squares.reduce(_ + _)
+println(s"Somme totale: $totalSum")
+
+// Version concise
+val result = sc.parallelize(1 to 100)
+  .filter(_ % 5 == 0)
+  .map(x => x * x)
+  .reduce(_ + _)
+
+println(s"Résultat concis: $result")
+
+spark.stop()</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Exercice 2 -->
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button question-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ex2">
+                                            <i class="fas fa-table me-2"></i>
+                                            Exercice 2 - Analyse avec DataFrames
+                                        </button>
+                                    </h3>
+                                    <div id="ex2" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="explanation-section">
+                                                <h5>Analyser des données de ventes</h5>
+                                                <p>Utilisez les DataFrames pour analyser des données de ventes.</p>
+                                                
+                                                <h6>À faire :</h6>
+                                                <ol>
+                                                    <li>Créez un DataFrame de ventes avec (produit, quantité, prix, région)</li>
+                                                    <li>Calculez le chiffre d'affaires par région</li>
+                                                    <li>Trouvez le produit le plus vendu</li>
+                                                    <li>Calculez le prix moyen par région</li>
+                                                </ol>
+                                            </div>
+
+                                            <div class="answer-section">
+                                                <h5><i class="fas fa-check-circle me-2"></i>Solution</h5>
+                                                <div class="code-block">
+                                                    <pre><code class="language-scala">import org.apache.spark.sql.{SparkSession, DataFrame}
+import org.apache.spark.sql.functions._
+
+val spark = SparkSession.builder()
+  .appName("DataFrame Sales Analysis")
+  .master("local[*]")
+  .getOrCreate()
+
+import spark.implicits._
+
+// 1. Créer le DataFrame de ventes
+case class Sale(produit: String, quantite: Int, prix: Double, region: String)
+
+val ventes = Seq(
+  Sale("Laptop", 2, 1200.0, "Nord"),
+  Sale("Souris", 10, 25.0, "Nord"),
+  Sale("Clavier", 5, 75.0, "Sud"),
+  Sale("Laptop", 1, 1200.0, "Est"),
+  Sale("Souris", 8, 25.0, "Sud"),
+  Sale("Écran", 3, 300.0, "Nord"),
+  Sale("Laptop", 4, 1200.0, "Sud"),
+  Sale("Clavier", 2, 75.0, "Est")
+).toDF()
+
+ventes.show()
+
+// 2. Chiffre d'affaires par région
+val caParRegion = ventes
+  .withColumn("chiffre_affaires", $"quantite" * $"prix")
+  .groupBy("region")
+  .agg(sum("chiffre_affaires").as("total_ca"))
+  .orderBy($"total_ca".desc)
+
+println("=== Chiffre d'affaires par région ===")
+caParRegion.show()
+
+// 3. Produit le plus vendu (par quantité)
+val produitPlusVendu = ventes
+  .groupBy("produit")
+  .agg(sum("quantite").as("quantite_totale"))
+  .orderBy($"quantite_totale".desc)
+
+println("=== Produits les plus vendus ===")
+produitPlusVendu.show()
+
+// 4. Prix moyen par région
+val prixMoyenRegion = ventes
+  .groupBy("region")
+  .agg(
+    avg("prix").as("prix_moyen"),
+    count("*").as("nombre_ventes")
+  )
+  .orderBy("region")
+
+println("=== Prix moyen par région ===")
+prixMoyenRegion.show()
+
+// Analyse combinée avec SQL
+ventes.createOrReplaceTempView("ventes")
+val analyseSQL = spark.sql("""
+  SELECT 
+    region,
+    COUNT(*) as nb_ventes,
+    SUM(quantite * prix) as ca_total,
+    AVG(prix) as prix_moyen,
+    SUM(quantite) as quantite_totale
+  FROM ventes
+  GROUP BY region
+  ORDER BY ca_total DESC
+""")
+
+println("=== Analyse complète par région ===")
+analyseSQL.show()
+
+spark.stop()</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Exercice 3 -->
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button question-header collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ex3">
+                                            <i class="fas fa-shield-alt me-2"></i>
+                                            Exercice 3 - Type Safety avec Dataset
+                                        </button>
+                                    </h3>
+                                    <div id="ex3" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="explanation-section">
+                                                <h5>Analyse type-safe avec Dataset</h5>
+                                                <p>Créez une analyse robuste avec la sécurité de type des Dataset.</p>
+                                                
+                                                <h6>À faire :</h6>
+                                                <ol>
+                                                    <li>Définissez des case classes pour Commande et Produit</li>
+                                                    <li>Créez des Datasets typés</li>
+                                                    <li>Implémentez des transformations type-safe</li>
+                                                    <li>Calculez des statistiques avec type safety</li>
+                                                </ol>
+                                            </div>
+
+                                            <div class="answer-section">
+                                                <h5><i class="fas fa-check-circle me-2"></i>Solution</h5>
+                                                <div class="code-block">
+                                                    <pre><code class="language-scala">import org.apache.spark.sql.{SparkSession, Dataset}
+import org.apache.spark.sql.functions._
+
+val spark = SparkSession.builder()
+  .appName("Dataset Type Safety")
+  .master("local[*]")
+  .getOrCreate()
+
+import spark.implicits._
+
+// 1. Définir les case classes (modèle de données)
+case class Produit(id: Int, nom: String, categorie: String, prix: Double)
+case class Commande(id: Int, produitId: Int, quantite: Int, clientId: Int, date: String)
+
+// Données typées pour les analyses
+case class CommandeEnrichie(
+  commandeId: Int,
+  produit: String,
+  categorie: String,
+  quantite: Int,
+  prixUnitaire: Double,
+  montantTotal: Double,
+  clientId: Int
+)
+
+case class StatistiquesClient(
+  clientId: Int,
+  nombreCommandes: Long,
+  montantTotal: Double,
+  panierMoyen: Double
+)
+
+// 2. Créer des Datasets typés
+val produits: Dataset[Produit] = Seq(
+  Produit(1, "MacBook Pro", "Informatique", 2500.0),
+  Produit(2, "iPhone", "Téléphone", 1200.0),
+  Produit(3, "AirPods", "Audio", 180.0),
+  Produit(4, "iPad", "Tablette", 800.0),
+  Produit(5, "Magic Mouse", "Accessoire", 99.0)
+).toDS()
+
+val commandes: Dataset[Commande] = Seq(
+  Commande(1, 1, 1, 101, "2024-01-15"),
+  Commande(2, 2, 2, 102, "2024-01-16"),
+  Commande(3, 3, 1, 101, "2024-01-17"),
+  Commande(4, 1, 1, 103, "2024-01-18"),
+  Commande(5, 5, 3, 102, "2024-01-19"),
+  Commande(6, 4, 1, 101, "2024-01-20")
+).toDS()
+
+// 3. Transformations type-safe
+val commandesEnrichies: Dataset[CommandeEnrichie] = commandes
+  .joinWith(produits, commandes("produitId") === produits("id"))
+  .map { case (commande, produit) =>
+    CommandeEnrichie(
+      commandeId = commande.id,
+      produit = produit.nom,
+      categorie = produit.categorie,
+      quantite = commande.quantite,
+      prixUnitaire = produit.prix,
+      montantTotal = commande.quantite * produit.prix,
+      clientId = commande.clientId
+    )
+  }
+
+println("=== Commandes enrichies ===")
+commandesEnrichies.show()
+
+// 4. Statistiques avec type safety
+val statsClients: Dataset[StatistiquesClient] = commandesEnrichies
+  .groupByKey(_.clientId)  // Type-safe grouping
+  .mapGroups { (clientId, commandes) =>
+    val commandesList = commandes.toList
+    val nombreCommandes = commandesList.length.toLong
+    val montantTotal = commandesList.map(_.montantTotal).sum
+    val panierMoyen = montantTotal / nombreCommandes
+    
+    StatistiquesClient(clientId, nombreCommandes, montantTotal, panierMoyen)
+  }
+
+println("=== Statistiques par client ===")
+statsClients.show()
+
+// Transformation complexe type-safe
+val produitsPopulaires = commandesEnrichies
+  .filter(_.quantite > 1)  // Type-safe filtering
+  .map(c => (c.produit, c.quantite))  // Type-safe mapping
+  .groupByKey(_._1)  // Group by product name
+  .mapGroups { (produit, quantites) =>
+    val total = quantites.map(_._2).sum
+    (produit, total)
+  }
+  .toDF("produit", "quantite_totale")
+  .orderBy($"quantite_totale".desc)
+
+println("=== Produits les plus populaires (quantité > 1) ===")
+produitsPopulaires.show()
+
+// Vérification type safety à la compilation
+// val erreur = commandesEnrichies.map(_.champInexistant)  // ❌ Ne compile pas !
+
+spark.stop()</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </section>
+                        
+                        <!-- Navigation entre modules -->
+                        <div class="navigation-buttons">
+                            <div class="row">
+                                <div class="col-6">
+                                    <a href="Module 3 - Introduction à Scala.html" class="btn btn-outline-primary">
+                                        <i class="fas fa-arrow-left me-2"></i>
+                                        Module 3 - Introduction Scala
+                                    </a>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <a href="Module 5 - Pratique Spark - RDD, DataFrame & Dataset.html" class="btn btn-primary">
+                                        Module 5 - Pratique Spark
+                                        <i class="fas fa-arrow-right ms-2"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bouton de retour en haut -->
+    <button class="scroll-to-top btn" id="scrollToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/scala.min.js"></script>
+    
+    <script>
+        hljs.highlightAll();
+        
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.style.display = 'flex';
+            } else {
+                scrollToTopBtn.style.display = 'none';
+            }
+        });
+        
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        document.querySelectorAll('.toc-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    const offsetTop = targetElement.offsetTop - 100;
+                    window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+                }
+            });
+        });
+        
+        function updateActiveLink() {
+            const sections = document.querySelectorAll('section[id]');
+            const tocLinks = document.querySelectorAll('.toc-link');
+            
+            let activeSection = null;
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 150 && rect.bottom >= 150) {
+                    activeSection = section;
+                }
+            });
+            
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (activeSection && link.getAttribute('href') === '#' + activeSection.id) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', updateActiveLink);
+        updateActiveLink();
+        
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.section, .concept-card, .architecture-component').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
