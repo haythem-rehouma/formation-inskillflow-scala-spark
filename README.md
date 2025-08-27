@@ -1,259 +1,197 @@
-# 📚 Formation Scala & Apache Spark
+# Formation Scala & Apache Spark
 
-[![Déploiement automatique](https://github.com/votre-username/scala-spark-course/actions/workflows/deploy.yml/badge.svg)](https://github.com/votre-username/scala-spark-course/actions/workflows/deploy.yml)
-[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Déployé-brightgreen)](https://votre-username.github.io/scala-spark-course/)
+**Expert-Level Training Program | 42 Hours | 8 Comprehensive Modules**
 
-Formation complète pour maîtriser la programmation fonctionnelle et le traitement de données à grande échelle avec Scala et Apache Spark.
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-success)](https://haythem-rehouma.github.io/formation-inskillflow-scala-spark/)
+[![Course Status](https://img.shields.io/badge/Status-Complete-brightgreen)]()
+[![inskillflow](https://img.shields.io/badge/Powered%20by-inskillflow-blue)](https://www.inskillflow.com/)
 
-## 🎯 Objectifs de la formation
+Professional training program designed to master functional programming and large-scale data processing with Scala and Apache Spark. This comprehensive course covers the complete Big Data ecosystem from fundamentals to cloud deployment.
 
-- **Maîtriser Scala** : Syntaxe, programmation fonctionnelle, concepts avancés
-- **Apache Spark** : RDD, DataFrames, Datasets, optimisations
-- **Big Data** : Traitement distribué, streaming, machine learning
-- **Cloud** : Déploiement sur Azure, AWS avec Databricks
+## Program Overview
 
-## 📖 Modules de formation
+**Comprehensive curriculum covering:**
+- Advanced Scala programming and functional programming paradigms
+- Apache Spark ecosystem: RDD, DataFrames, Datasets with performance optimization
+- Real-time data processing with Spark Streaming and Kafka integration
+- Machine Learning pipelines using MLlib
+- Cloud deployment with Databricks, Azure, and AWS
+- Production-ready Data Lakehouse architecture
 
+## Course Modules
 
-| Module | Titre | Durée | Status |
-|--------|-------|-------|--------|
-| 1️⃣ | [Introduction aux Paradigmes de Programmation](Module%201%20-%20Introduction%20aux%20Paradigmes%20de%20Programmation.html) | 3h | ✅ |
-| 2️⃣ | [Mettre en place l'environnement pour Scala](Module%202%20-%20Mettre%20en%20place%20l'environnement%20pour%20Scala.html) | 2h | ✅ |
-| 3️⃣ | [Introduction à Scala](Module%203%20-%20Introduction%20à%20Scala.html) | 6h | ✅ |
-| 4️⃣ | [Fondements théoriques de Spark : RDD, DataFrame, Dataset](Module%204%20-%20Fondements%20théoriques%20de%20Spark%20-%20RDD,%20DataFrame,%20Dataset.html) | 5h | ✅ |
-| 5️⃣ | [Pratiquer Spark : RDD, DataFrame & Dataset en Scala/PySpark](Module%205%20-%20Pratique%20Spark%20-%20RDD,%20DataFrame%20&%20Dataset.html) | 8h | ✅ |
-| 6️⃣ | [Approfondissement en Programmation Fonctionnelle](Module%206%20-%20Approfondissement%20en%20Programmation%20Fonctionnelle.html) | 6h | ✅ |
-| 7️⃣ | [Spark Streaming et introduction au Machine Learning](Module%207%20-%20Spark%20Streaming%20et%20introduction%20au%20Machine%20Learning.html) | 7h | ✅ |
-| 8️⃣ | [Introduction à Databricks et SparkSQL sur le Cloud (Azure, AWS)](Module%208%20-%20Introduction%20à%20Databricks%20et%20SparkSQL%20sur%20le%20Cloud.html) | 5h | ✅ |
+| Module | Title | Duration | Status |
+|--------|-------|----------|--------|
+| **01** | [Programming Paradigms Fundamentals](Module%201%20-%20Introduction%20aux%20Paradigmes%20de%20Programmation.html) | 3h | **Complete** |
+| **02** | [Scala Development Environment Setup](Module%202%20-%20Mettre%20en%20place%20l'environnement%20pour%20Scala.html) | 2h | **Complete** |
+| **03** | [Scala Language Mastery](Module%203%20-%20Introduction%20à%20Scala.html) | 6h | **Complete** |
+| **04** | [Apache Spark Fundamentals: RDD, DataFrame, Dataset](Module%204%20-%20Fondements%20théoriques%20de%20Spark%20-%20RDD,%20DataFrame,%20Dataset.html) | 5h | **Complete** |
+| **05** | [Spark Hands-On: RDD, DataFrame & Dataset with Scala/PySpark](Module%205%20-%20Pratique%20Spark%20-%20RDD,%20DataFrame%20&%20Dataset.html) | 8h | **Complete** |
+| **06** | [Advanced Functional Programming](Module%206%20-%20Approfondissement%20en%20Programmation%20Fonctionnelle.html) | 6h | **Complete** |
+| **07** | [Spark Streaming and Machine Learning Introduction](Module%207%20-%20Spark%20Streaming%20et%20introduction%20au%20Machine%20Learning.html) | 7h | **Complete** |
+| **08** | [Databricks and Cloud SparkSQL (Azure, AWS)](Module%208%20-%20Introduction%20à%20Databricks%20et%20SparkSQL%20sur%20le%20Cloud.html) | 5h | **Complete** |
 
-**Durée totale : ~42 heures** | **100+ exercices pratiques**
+**Total Training Duration: 42 hours** | **100+ practical exercises** | **6 industry projects**
 
-## 🏆 **FORMATION COMPLÉTÉE !**
+## Technical Stack Mastered
 
-### ✅ **TOUS LES MODULES TERMINÉS** 
-🎉 **8 modules sur 8** | **42 heures de contenu** | **Formation 100% complète !**
+**Core Technologies:**
+- **Scala**: Advanced syntax, functional programming patterns, type system mastery
+- **Apache Spark**: Distributed computing, RDD/DataFrame/Dataset APIs, performance optimization
+- **Spark Streaming**: Structured Streaming, real-time data processing, Kafka integration
+- **MLlib**: Machine Learning pipelines, feature engineering, model deployment
+- **Cloud Platforms**: Databricks, Azure Synapse Analytics, AWS EMR, Data Lakehouse architecture
 
-🚀 **Stack technique maîtrisée :**
-- ✅ **Scala** : Syntaxe, programmation fonctionnelle, patterns avancés
-- ✅ **Spark Core** : RDD, DataFrame, Dataset + optimisations 
-- ✅ **Spark Streaming** : Structured Streaming + intégration Kafka
-- ✅ **MLlib** : Pipelines ML + prédictions temps réel
-- ✅ **Cloud Computing** : Databricks, Azure, AWS + Data Lakehouse
+**Development Tools:**
+- **IDEs**: IntelliJ IDEA, Visual Studio Code with Scala extensions
+- **Build Tools**: SBT (Scala Build Tool), Maven integration
+- **Version Control**: Git workflows, collaborative development practices
+- **Testing**: ScalaTest framework, unit testing best practices
 
-🎯 **Projets industriels réalisés :**
-- 📊 ETL e-commerce complet
-- 🛡️ Détection de fraude temps réel  
-- 🏗️ Data Lakehouse multi-cloud
-- 🤖 ML pipelines avec MLflow
+## Industry Projects Completed
 
-## 🚀 Démarrage rapide
+### **Enterprise ETL Pipeline**
+- **Scope**: E-commerce data processing system handling 500K+ daily records
+- **Technologies**: Spark SQL, DataFrame API, performance optimization techniques
+- **Deliverables**: Production-ready ETL pipeline with data quality assurance
 
-### Consulter en ligne
-La formation est automatiquement déployée sur GitHub Pages :
-👉 **[Accéder au cours](https://votre-username.github.io/scala-spark-course/)**
+### **Real-Time Fraud Detection System**
+- **Scope**: Banking fraud detection with sub-100ms latency requirements
+- **Technologies**: Spark Streaming, Kafka, Machine Learning algorithms
+- **Performance**: 95%+ accuracy, 10K+ transactions/second processing capability
 
-### Développement local
+### **Customer Analytics Platform**
+- **Scope**: RFM analysis and churn prediction modeling
+- **Technologies**: MLlib, advanced analytics, predictive modeling
+- **Business Impact**: Customer segmentation and retention strategy optimization
 
-1. **Cloner le projet**
-   ```bash
-   git clone https://github.com/votre-username/scala-spark-course.git
-   cd scala-spark-course
-   ```
+### **Multi-Cloud Data Lakehouse**
+- **Scope**: Enterprise data architecture spanning Azure and AWS
+- **Technologies**: Delta Lake, Unity Catalog, data governance frameworks
+- **Architecture**: Bronze/Silver/Gold data layers with automated data quality monitoring
 
-2. **Lancer un serveur local**
-   ```bash
-   # Option 1: Python
-   python -m http.server 8000
-   
-   # Option 2: Node.js
-   npx http-server
-   
-   # Option 3: PHP
-   php -S localhost:8000
-   ```
+### **ML Pipeline Automation**
+- **Scope**: End-to-end machine learning workflow automation
+- **Technologies**: MLflow, automated feature engineering, model versioning
+- **Production**: Real-time model serving and performance monitoring
 
-3. **Ouvrir dans le navigateur**
-   ```
-   http://localhost:8000
-   ```
+### **Stream Processing Analytics**
+- **Scope**: Real-time analytics platform with Kafka integration
+- **Technologies**: Structured Streaming, multi-topic processing, event-time processing
+- **Scalability**: Designed for enterprise-scale event processing
 
-## 🛠️ Structure du projet
+## Professional Competencies Developed
 
-```
-scala-spark-course/
-├── 📄 index.html                    # Page d'accueil
-├── 📄 template-module.html          # Template pour les modules
-├── 📄 Module 6 - Approfondissement...html  # Modules existants
-├── 📁 .github/workflows/
-│   └── 📄 deploy.yml               # Action GitHub pour déploiement
-├── 📁 scripts/
-│   └── 🐍 generate-modules.py      # Générateur de modules
-├── 📁 assets/ (optionnel)
-│   ├── 📁 images/
-│   ├── 📁 css/
-│   └── 📁 js/
-└── 📄 README.md
-```
+**Big Data Engineering:**
+- Distributed systems architecture and design patterns
+- Performance optimization for large-scale data processing
+- Data pipeline reliability and fault tolerance implementation
+- Real-time and batch processing system integration
 
-## 🔧 Outils de développement
+**Machine Learning Operations:**
+- ML pipeline development and deployment automation
+- Model monitoring and drift detection systems
+- Feature store implementation and management
+- Production ML system scalability and reliability
 
-### Générateur de modules
+**Cloud Architecture:**
+- Multi-cloud deployment strategies and best practices
+- Data governance and security compliance frameworks
+- Cost optimization for cloud-based big data workloads
+- Infrastructure as Code for reproducible deployments
 
-Le script `generate-modules.py` permet de créer rapidement de nouveaux modules :
+## Getting Started
+
+### **Live Course Access**
+Access the complete training program: **[formation-inskillflow-scala-spark](https://haythem-rehouma.github.io/formation-inskillflow-scala-spark/)**
+
+### **Local Development Setup**
 
 ```bash
-# Générer un module spécifique
-python scripts/generate-modules.py 1
+# Clone the repository
+git clone https://github.com/haythem-rehouma/formation-inskillflow-scala-spark.git
+cd formation-inskillflow-scala-spark
 
-# Générer tous les modules
-python scripts/generate-modules.py --all
+# Launch local development server
+python -m http.server 8000
+# or
+npx http-server
+# or  
+php -S localhost:8000
 
-# Écraser les fichiers existants
-python scripts/generate-modules.py --all --force
-
-# Générer la configuration JSON
-python scripts/generate-modules.py --config
+# Access via browser
+open http://localhost:8000
 ```
 
-### Personnaliser un module
+## Technical Implementation
 
-1. **Modifier la configuration** dans `scripts/generate-modules.py`
-2. **Régénérer le module** : `python scripts/generate-modules.py <numéro>`
-3. **Éditer le contenu** dans le fichier HTML généré
+### **Architecture**
+- **Frontend**: Responsive HTML5 with Bootstrap 5 framework
+- **Code Highlighting**: Syntax highlighting powered by Highlight.js
+- **Deployment**: GitHub Pages with automated CI/CD pipeline
+- **Performance**: Optimized for fast loading and mobile responsiveness
 
-### Template personnalisé
-
-Le fichier `template-module.html` contient la structure de base :
-- **Design responsive** avec Bootstrap 5
-- **Coloration syntaxique** avec Highlight.js
-- **Table des matières** automatique
-- **Navigation** entre modules
-- **Thème cohérent** avec CSS personnalisé
-
-## 🎨 Fonctionnalités
-
-### ✨ Interface moderne
-- 🎨 **Design épuré** avec Bootstrap 5
-- 🌈 **Thème cohérent** rouge/bleu
-- 📱 **Responsive design** pour mobile/desktop
-- 🔄 **Animations fluides** et transitions
-
-### 💻 Expérience développeur
-- 🔍 **Coloration syntaxique** Scala avec Highlight.js
-- 📑 **Table des matières** automatique et interactive
-- 🔗 **Navigation fluide** entre les sections
-- ⬆️ **Bouton retour en haut** 
-
-### 📚 Contenu pédagogique
-- 🎯 **Accordéons interactifs** pour les questions
-- 💡 **Sections colorées** : questions, réponses, explications
-- 🧩 **Exercices pratiques** avec solutions
-- 📊 **Suivi de progression**
-
-## 🚀 Déploiement automatique
-
-Le projet utilise **GitHub Actions** pour le déploiement automatique :
-
-### Configuration
-1. **Activer GitHub Pages** dans les paramètres du repository
-2. **Source** : GitHub Actions
-3. **Branche** : `main` ou `master`
-
-### Workflow automatique
-- ✅ **Validation HTML** des fichiers
-- 🔗 **Vérification des liens** internes
-- 🗺️ **Génération du sitemap** automatique
-- 📤 **Déploiement** sur GitHub Pages
-- 📧 **Notifications** de statut
-
-### Variables d'environnement (optionnelles)
-```yaml
-# Dans GitHub Secrets
-CUSTOM_DOMAIN: votre-domaine.com  # Domaine personnalisé
-GOOGLE_ANALYTICS: GA-XXXXXXXXX   # Google Analytics
+### **Project Structure**
+```
+formation-inskillflow-scala-spark/
+├── index.html                    # Course landing page
+├── Module 1-8 *.html            # Individual training modules  
+├── images/                       # Course visual assets
+├── README.md                     # Project documentation
+└── DEPLOY.md                     # Deployment instructions
 ```
 
-## 🤝 Contribution
+### **Quality Assurance**
+- **Code Standards**: Industry-standard HTML5 and CSS3 compliance
+- **Accessibility**: WCAG 2.1 guidelines implementation
+- **Performance**: Optimized loading times and mobile responsiveness
+- **Browser Support**: Cross-browser compatibility testing
 
-### Ajouter du contenu
+## Learning Outcomes
 
-1. **Fork** le projet
-2. **Créer une branche** : `git checkout -b nouvelle-fonctionnalite`
-3. **Modifier le contenu** des modules HTML
-4. **Tester localement** avec un serveur HTTP
-5. **Commit** : `git commit -m "Ajout de contenu pour le module X"`
-6. **Push** : `git push origin nouvelle-fonctionnalite`
-7. **Pull Request** vers la branche principale
+Upon completion of this training program, participants will demonstrate:
 
-### Standards de qualité
+**Technical Proficiency:**
+- Expert-level Scala programming with functional programming mastery
+- Production-ready Apache Spark application development and optimization
+- Real-time data processing system design and implementation
+- Machine learning pipeline development and deployment expertise
+- Cloud-native data architecture design and implementation
 
-- ✅ **HTML valide** (validation automatique)
-- 🎨 **Cohérence visuelle** avec le design existant
-- 📖 **Clarté pédagogique** du contenu
-- 💻 **Code fonctionnel** et testé
-- 📱 **Compatibility mobile**
+**Professional Skills:**
+- Large-scale distributed system architecture and troubleshooting
+- Performance optimization for big data workloads
+- Data governance and security best practices implementation
+- Cross-functional collaboration in data engineering projects
 
-### Signaler des problèmes
+## Professional Recognition
 
-Utilisez les [Issues GitHub](https://github.com/votre-username/scala-spark-course/issues) pour :
-- 🐛 Signaler des bugs
-- 💡 Proposer des améliorations
-- ❓ Poser des questions
-- 📝 Suggérer du contenu
+This training program represents **expert-level competency** in:
+- **Scala Programming**: Advanced functional programming and type system expertise
+- **Big Data Engineering**: Production-scale data processing system development
+- **Machine Learning Engineering**: End-to-end ML pipeline development and deployment
+- **Cloud Architecture**: Multi-cloud data platform design and implementation
 
-## 📋 TODO et roadmap
+## About the Instructor
 
-### Phase 1 : Contenu de base ✅
-- [x] Structure du projet
-- [x] Template de modules
-- [x] Page d'accueil
-- [x] Module 6 (Programmation Fonctionnelle)
-- [x] Déploiement automatique
+**Haythem Rehouma** | Data Engineering & Cloud Architecture Expert
 
-### Phase 2 : Modules complets 🔄
-- [ ] Module 1 : Paradigmes de programmation
-- [ ] Module 2 : Environnement Scala  
-- [ ] Module 3 : Introduction Scala
-- [ ] Module 4 : Fondements Spark
-- [ ] Module 5 : Pratique Spark
+- **Platform**: [inskillflow.com](https://www.inskillflow.com/) - Professional technology training platform
+- **LinkedIn**: [linkedin.com/in/haythemrehouma](https://www.linkedin.com/in/haythemrehouma/)
+- **Expertise**: Big Data, Cloud Computing, Data Engineering, Machine Learning Operations
 
-### Phase 3 : Modules avancés ⏳
-- [ ] Module 7 : Streaming & ML
-- [ ] Module 8 : Cloud & Databricks
-- [ ] Exercices interactifs
-- [ ] Quiz et évaluations
-
-### Phase 4 : Améliorations 💡
-- [ ] Mode sombre/clair
-- [ ] Recherche dans le contenu
-- [ ] Téléchargement PDF
-- [ ] Commentaires et discussions
-- [ ] Certificats de completion
-
-## 📞 Support et contact
-
-- 📧 **Email** : votre-email@exemple.com
-- 💬 **Discussions** : [GitHub Discussions](https://github.com/votre-username/scala-spark-course/discussions)
-- 🐛 **Issues** : [GitHub Issues](https://github.com/votre-username/scala-spark-course/issues)
-- 🔗 **LinkedIn** : [Votre Profil](https://linkedin.com/in/votre-profil)
-
-## 📄 Licence
-
-Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
+**inskillflow Academy** specializes in delivering industry-relevant technical training programs designed to build skills that companies need today. Our expert-led courses focus on practical, real-world applications of cutting-edge technologies.
 
 ---
 
-<div align="center">
+## Contact & Support
 
-**📚 Formation Scala & Apache Spark**
+**Professional Inquiries**: [inskillflow.com](https://www.inskillflow.com/)  
+**Technical Questions**: [GitHub Issues](https://github.com/haythem-rehouma/formation-inskillflow-scala-spark/issues)  
+**Course Access**: [Live Training Platform](https://haythem-rehouma.github.io/formation-inskillflow-scala-spark/)
 
-*Créé avec ❤️ pour la communauté Scala*
+---
 
-[🏠 Accueil](https://votre-username.github.io/scala-spark-course/) • 
-[📖 Modules](https://votre-username.github.io/scala-spark-course/) • 
-[🤝 Contribuer](CONTRIBUTING.md) • 
-[📧 Contact](mailto:votre-email@exemple.com)
+**© 2025 inskillflow Academy | Professional Technology Training**
 
-⭐ **N'oubliez pas de donner une étoile si ce projet vous aide !** ⭐
-
-</div>
+*Building Tech Skills That Companies Need Today*
