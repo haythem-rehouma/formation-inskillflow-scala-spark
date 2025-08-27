@@ -1232,6 +1232,183 @@
                 color: #f97316 !important;
             }
         }
+
+        /* Contact Section Styles */
+        .contact-section {
+            background: linear-gradient(135deg, 
+                rgba(15, 23, 42, 0.02) 0%, 
+                rgba(30, 64, 175, 0.05) 50%, 
+                rgba(219, 39, 119, 0.02) 100%);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            margin: 2rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-card {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid rgba(14, 165, 233, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(14, 165, 233, 0.05), transparent);
+            transition: left 0.5s;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(14, 165, 233, 0.15);
+            border-color: rgba(14, 165, 233, 0.3);
+        }
+
+        .contact-card:hover::before {
+            left: 100%;
+        }
+
+        .contact-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .contact-icon.email {
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+            color: white;
+        }
+
+        .contact-icon.linkedin {
+            background: linear-gradient(135deg, #0077b5, #0a66c2);
+            color: white;
+        }
+
+        .contact-icon.website {
+            background: linear-gradient(135deg, #059669, #10b981);
+            color: white;
+        }
+
+        .contact-info h5 {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-info p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .btn-contact-primary {
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-contact-primary:hover {
+            background: linear-gradient(135deg, #b91c1c, #dc2626);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .btn-contact-secondary {
+            background: linear-gradient(135deg, #0077b5, #0a66c2);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-contact-secondary:hover {
+            background: linear-gradient(135deg, #005885, #0077b5);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .btn-contact-accent {
+            background: linear-gradient(135deg, #059669, #10b981);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-contact-accent:hover {
+            background: linear-gradient(135deg, #047857, #059669);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .success-note {
+            background: linear-gradient(135deg, 
+                rgba(34, 197, 94, 0.1), 
+                rgba(16, 185, 129, 0.1));
+            border: 2px solid rgba(34, 197, 94, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            color: var(--success-color);
+            font-size: 1.1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .contact-section {
+                padding: 2rem 1rem;
+            }
+            
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .contact-card {
+                padding: 1.5rem;
+            }
+            
+            .contact-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1259,8 +1436,8 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#progress">
-                            <i class="fas fa-chart-line me-1"></i>
-                            <span class="nav-text">Progression</span>
+                            <i class="fas fa-envelope me-1"></i>
+                            <span class="nav-text">Contact</span>
                         </a>
                     </li>
                     <li class="nav-item dropdown">
@@ -1599,32 +1776,74 @@
             </div>
         </div>
 
-        <!-- Progress Section -->
-        <div class="progress-section" id="progress">
-            <h3 class="mb-4">
-                <i class="fas fa-chart-line me-2 text-success"></i>
-                Progression Complète
-            </h3>
-            <div class="position-relative d-inline-block">
-                <div class="progress-ring">
-                    <svg width="200" height="200">
-                        <circle class="progress-ring-circle"></circle>
-                        <circle class="progress-ring-progress" id="progressCircle"></circle>
-                    </svg>
-                </div>
-                <div class="progress-text">
-                    <div style="display: flex; flex-direction: column; align-items: center;">
-                        <div style="font-size: 2.5rem; font-weight: 800;">100%</div>
-                        <div class="corporate-badge mt-2">
-                            <i class="fas fa-crown me-1"></i>
-                            EXPERT
+        <!-- Contact Section -->
+        <div class="contact-section" id="progress">
+            <div class="text-center">
+                <h3 class="mb-4">
+                    <i class="fas fa-handshake me-2"></i>
+                    Nous Contacter
+                </h3>
+                <p class="lead text-muted mb-5">
+                    Des questions ? Besoin d'accompagnement ? L'équipe inskillflow est là pour vous aider.
+                </p>
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="contact-grid">
+                        <!-- Email Contact -->
+                        <div class="contact-card">
+                            <div class="contact-icon email">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-info">
+                                <h5>Email Professional</h5>
+                                <p class="mb-3">Contactez notre équipe pédagogique</p>
+                                <a href="mailto:contact@inskillflow.com" class="btn btn-contact-primary">
+                                    <i class="fas fa-paper-plane me-2"></i>
+                                    contact@inskillflow.com
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- LinkedIn -->
+                        <div class="contact-card">
+                            <div class="contact-icon linkedin">
+                                <i class="fab fa-linkedin-in"></i>
+                            </div>
+                            <div class="contact-info">
+                                <h5>LinkedIn</h5>
+                                <p class="mb-3">Connectez-vous avec Haythem</p>
+                                <a href="https://www.linkedin.com/in/haythemrehouma/" target="_blank" class="btn btn-contact-secondary">
+                                    <i class="fab fa-linkedin me-2"></i>
+                                    Haythem Rehouma
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Site Web -->
+                        <div class="contact-card">
+                            <div class="contact-icon website">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <div class="contact-info">
+                                <h5>inskillflow</h5>
+                                <p class="mb-3">Découvrez nos autres formations</p>
+                                <a href="https://www.inskillflow.com/" target="_blank" class="btn btn-contact-accent">
+                                    <i class="fas fa-external-link-alt me-2"></i>
+                                    inskillflow.com
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-5">
+                        <div class="success-note">
+                            <i class="fas fa-graduation-cap me-2"></i>
+                            <strong>Formation Terminée !</strong> Félicitations pour avoir complété les 8 modules Scala & Apache Spark.
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="mt-4">
-                <h4 class="text-success">8/8 Modules Terminés</h4>
-                <p class="text-muted">Formation complètement maîtrisée - Prêt pour des projets enterprise</p>
             </div>
         </div>
 
