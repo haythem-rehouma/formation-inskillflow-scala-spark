@@ -954,45 +954,25 @@
             border-radius: 2px;
         }
 
-        /* Navigation Sticky Styles */
+        /* Navigation Sticky Styles - FOND SOMBRE DÈS LE DÉBUT */
         #mainNavbar {
-            background-color: transparent !important;
-            background: none !important;
-            backdrop-filter: none;
-            border-bottom: none;
+            background-color: rgba(15, 23, 42, 0.85) !important;
+            background: rgba(15, 23, 42, 0.85) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             padding: 1rem 0;
-            box-shadow: none;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
             z-index: 1050;
         }
 
-        /* Force transparent pour Bootstrap override */
-        #mainNavbar.navbar {
-            background-color: transparent !important;
-            background: transparent !important;
-        }
-
-        #mainNavbar .navbar-nav,
-        #mainNavbar .navbar-collapse,
-        #mainNavbar .container {
-            background: transparent !important;
-            background-color: transparent !important;
-        }
-
         #mainNavbar.scrolled {
-            background-color: rgba(31, 41, 55, 0.98) !important;
-            background: rgba(31, 41, 55, 0.98) !important;
-            backdrop-filter: blur(25px);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            background-color: rgba(31, 41, 55, 0.95) !important;
+            background: rgba(31, 41, 55, 0.95) !important;
+            backdrop-filter: blur(30px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
             padding: 0.5rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-        }
-
-        #mainNavbar.scrolled .navbar-nav,
-        #mainNavbar.scrolled .navbar-collapse,
-        #mainNavbar.scrolled .container {
-            background: rgba(31, 41, 55, 0.98) !important;
-            background-color: rgba(31, 41, 55, 0.98) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         #mainNavbar .navbar-brand {
@@ -1003,10 +983,7 @@
             display: flex;
             flex-direction: column;
             line-height: 1.2;
-            text-shadow: 
-                0 2px 8px rgba(0, 0, 0, 0.8),
-                0 1px 2px rgba(0, 0, 0, 0.9),
-                0 0 10px rgba(0, 0, 0, 0.5);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
         }
 
         #mainNavbar .brand-text {
@@ -1022,17 +999,13 @@
         }
 
         #mainNavbar .nav-link {
-            color: white !important;
-            font-weight: 600;
+            color: rgba(255, 255, 255, 0.95) !important;
+            font-weight: 500;
             padding: 0.5rem 1rem !important;
             border-radius: 8px;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            text-shadow: 
-                0 2px 8px rgba(0, 0, 0, 0.8),
-                0 1px 2px rgba(0, 0, 0, 0.9),
-                0 0 10px rgba(0, 0, 0, 0.5);
         }
 
         #mainNavbar .nav-link::before {
@@ -1052,12 +1025,8 @@
 
         #mainNavbar .nav-link:hover {
             color: white !important;
-            background-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-            text-shadow: 
-                0 3px 10px rgba(0, 0, 0, 0.9),
-                0 1px 3px rgba(0, 0, 0, 1),
-                0 0 15px rgba(0, 0, 0, 0.7);
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-1px);
         }
 
         #mainNavbar .nav-text {
@@ -1070,46 +1039,31 @@
         }
 
         #mainNavbar .navbar-toggler {
-            border: 2px solid rgba(255, 255, 255, 0.8);
-            border-radius: 8px;
-            background-color: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(5px);
-            box-shadow: 
-                0 2px 8px rgba(0, 0, 0, 0.5),
-                0 1px 2px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            padding: 0.25rem 0.5rem;
         }
 
         #mainNavbar .navbar-toggler:focus {
-            box-shadow: 
-                0 0 0 0.2rem rgba(255, 255, 255, 0.25),
-                0 2px 8px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
         }
 
         #mainNavbar .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='3' d='m4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='m4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
         }
 
-        /* Dropdown Menu Styles - TRANSPARENT AU DÉBUT */
+        /* Dropdown Menu Styles */
         .dropdown-menu-modern {
-            background-color: rgba(15, 23, 42, 0.9) !important;
-            background: rgba(15, 23, 42, 0.9) !important;
-            backdrop-filter: blur(30px);
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            background-color: rgba(31, 41, 55, 0.95) !important;
+            background: rgba(31, 41, 55, 0.95) !important;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             padding: 0.5rem 0;
-            box-shadow: 
-                0 10px 40px rgba(0, 0, 0, 0.4),
-                0 2px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
             min-width: 280px;
             margin-top: 0.5rem;
             transition: all 0.3s ease;
-        }
-
-        /* Dropdown quand navbar scrolled */
-        #mainNavbar.scrolled .dropdown-menu-modern {
-            background-color: rgba(31, 41, 55, 0.95);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
         }
 
         .dropdown-menu-modern .dropdown-header {
@@ -1216,23 +1170,18 @@
         /* Media Queries pour mobile */
         @media (max-width: 768px) {
             #mainNavbar .navbar-collapse {
-                background-color: rgba(15, 23, 42, 0.95) !important;
-                background: rgba(15, 23, 42, 0.95) !important;
-                backdrop-filter: blur(25px);
+                background-color: rgba(31, 41, 55, 0.95) !important;
+                background: rgba(31, 41, 55, 0.95) !important;
+                backdrop-filter: blur(20px);
                 border-radius: 12px;
                 margin-top: 1rem;
                 padding: 1rem;
-                box-shadow: 
-                    0 8px 30px rgba(0, 0, 0, 0.5),
-                    0 2px 10px rgba(0, 0, 0, 0.3);
-                border: 2px solid rgba(255, 255, 255, 0.2);
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+                border: 1px solid rgba(255, 255, 255, 0.1);
             }
 
             #mainNavbar .navbar-collapse .nav-link {
-                color: white !important;
-                text-shadow: 
-                    0 2px 8px rgba(0, 0, 0, 0.8),
-                    0 1px 2px rgba(0, 0, 0, 0.9);
+                color: rgba(255, 255, 255, 0.95) !important;
             }
 
             #mainNavbar .brand-text {
@@ -1246,8 +1195,8 @@
             .dropdown-menu-modern {
                 position: static !important;
                 transform: none !important;
-                background-color: rgba(15, 23, 42, 0.9) !important;
-                background: rgba(15, 23, 42, 0.9) !important;
+                background-color: rgba(31, 41, 55, 0.9) !important;
+                background: rgba(31, 41, 55, 0.9) !important;
                 border: none;
                 box-shadow: none;
                 margin-top: 0.5rem;
