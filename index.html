@@ -444,8 +444,8 @@
             box-shadow: 0 4px 15px rgba(220, 20, 60, 0.3);
         }
 
-        .module-completion-badge {
-            background: var(--completion-green);
+        .module-tech-badge {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
             color: white;
             padding: 0.25rem 0.75rem;
             border-radius: 20px;
@@ -455,6 +455,12 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            box-shadow: 0 2px 8px rgba(79, 70, 229, 0.2);
+            transition: transform 0.2s ease;
+        }
+
+        .module-tech-badge:hover {
+            transform: scale(1.05);
         }
 
         .module-title {
@@ -1532,7 +1538,7 @@
             <a class="navbar-brand" href="#home">
                 <i class="fas fa-graduation-cap me-2"></i>
                 <span class="brand-text">Formation Scala & Spark</span>
-                <span class="brand-subtitle">Expert Level</span>
+                <span class="brand-subtitle">Big Data Cloud-Native</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -1590,7 +1596,7 @@
                             </a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li class="dropdown-header">
-                                <i class="fas fa-rocket me-2"></i>Phase 3 - Expert
+                                <i class="fas fa-rocket me-2"></i>Phase 3 - Avancé
                             </li>
                             <li><a class="dropdown-item" href="module-6-approfondissement-programmation-fonctionnelle.html">
                                 <div class="dropdown-item-content">
@@ -1642,10 +1648,10 @@
                 <div class="text-center mb-5">
                     <div class="completion-badge">
                         <i class="fas fa-certificate me-2"></i>
-                        FORMATION 100% COMPLÉTÉE
+                        FORMATION SCALA & SPARK
                         <div class="corporate-badge ms-3">
                             <i class="fas fa-check-circle me-1"></i>
-                            EXPERT CERTIFIÉ
+                            FORMATION COMPLÈTE
                         </div>
                     </div>
                 </div>
@@ -1655,7 +1661,7 @@
                         <h1 class="hero-title">
                             Formation Scala & Apache Spark
                             <span class="d-block" style="font-size: 0.7em; margin-top: 0.5rem;">
-                                <span class="text-warning">Expert</span> Big Data Cloud-Native
+                                <span class="text-warning">Maîtrisez</span> Big Data Cloud-Native
                             </span>
                         </h1>
                         <p class="hero-subtitle">
@@ -1664,7 +1670,7 @@
                         </p>
                         <div class="d-flex gap-2 mb-4 flex-wrap justify-content-center justify-content-lg-start">
                             <span class="tech-badge scala-badge">
-                                <i class="fas fa-code me-1"></i>Scala Expert
+                                <i class="fas fa-code me-1"></i>Scala & FP
                             </span>
                             <span class="tech-badge spark-badge">
                                 <i class="fas fa-fire me-1"></i>Apache Spark
@@ -1772,17 +1778,17 @@
                             </div>
                         </div>
                     </div>
-                    <h2 class="text-white mb-0" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">Formation Terminée avec Succès</h2>
+                    <h2 class="text-white mb-0" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">Stack Technique Complète</h2>
                 </div>
             </div>
             <div class="text-center mb-4 mt-4">
                 <p class="lead">
-                    <strong>Félicitations !</strong> Vous avez complété une formation de niveau expert 
-                    couvrant l'ensemble de l'écosystème Scala & Big Data.
+                    <strong>8 modules intensifs</strong> couvrant l'ensemble de l'écosystème 
+                    Scala & Big Data : programmation fonctionnelle, Spark, streaming et cloud.
                 </p>
                 <div class="corporate-badge">
                     <i class="fas fa-graduation-cap me-2"></i>
-                    NIVEAU EXPERT ATTEINT
+                    STACK TECHNIQUE MAÎTRISÉE
                 </div>
             </div>
             
@@ -1791,7 +1797,7 @@
                     <div class="tech-illustration" style="background: linear-gradient(135deg, #dc322f, #cb4154);">
                         <i class="fas fa-code"></i>
                     </div>
-                    <h5>Scala Expert</h5>
+                    <h5>Scala & Programmation Fonctionnelle</h5>
                     <p class="mb-0">Programmation fonctionnelle, patterns avancés, immutabilité</p>
                 </div>
                 <div class="tech-card spark">
@@ -1897,7 +1903,7 @@
                     Parcours de Formation Complet
                 </h2>
                 <p class="lead text-muted">
-                    8 modules progressifs pour devenir expert Scala & Big Data Cloud
+                    8 modules progressifs pour maîtrise Scala & Big Data Cloud
                 </p>
             </div>
 
@@ -1937,7 +1943,7 @@
                             <div class="nav-icon advanced">
                                 <i class="fas fa-rocket"></i>
                             </div>
-                            <h6>Expert & Cloud</h6>
+                            <h6>Avancé & Cloud</h6>
                             <p class="small text-muted">Modules 6-8: FP, ML, et Cloud</p>
                             <div class="nav-modules">
                                 <a href="#module6" class="nav-module-link">6</a>
@@ -1972,9 +1978,9 @@
                     <div class="module-header">
                         <div class="module-number">1</div>
                         <div class="flex-grow-1">
-                            <div class="module-completion-badge">
-                                <i class="fas fa-check"></i>
-                                Terminé
+                            <div class="module-tech-badge">
+                                <i class="fas fa-sitemap"></i>
+                                Paradigmes
                             </div>
                         </div>
                     </div>
@@ -2008,9 +2014,9 @@
                     <div class="module-header">
                         <div class="module-number">2</div>
                         <div class="flex-grow-1">
-                            <div class="module-completion-badge">
-                                <i class="fas fa-check"></i>
-                                Terminé
+                            <div class="module-tech-badge">
+                                <i class="fas fa-tools"></i>
+                                Setup
                             </div>
                         </div>
                     </div>
@@ -2038,9 +2044,9 @@
                     <div class="module-header">
                         <div class="module-number">3</div>
                         <div class="flex-grow-1">
-                            <div class="module-completion-badge">
-                                <i class="fas fa-check"></i>
-                                Terminé
+                            <div class="module-tech-badge">
+                                <i class="fas fa-code"></i>
+                                Scala
                             </div>
                         </div>
                     </div>
@@ -2086,9 +2092,9 @@
                     <div class="module-header">
                         <div class="module-number">4</div>
                         <div class="flex-grow-1">
-                            <div class="module-completion-badge">
-                                <i class="fas fa-check"></i>
-                                Terminé
+                            <div class="module-tech-badge">
+                                <i class="fas fa-database"></i>
+                                Spark Core
                             </div>
                         </div>
                     </div>
@@ -2122,9 +2128,9 @@
                     <div class="module-header">
                         <div class="module-number">5</div>
                         <div class="flex-grow-1">
-                            <div class="module-completion-badge">
-                                <i class="fas fa-check"></i>
-                                Terminé
+                            <div class="module-tech-badge">
+                                <i class="fas fa-chart-line"></i>
+                                Projets
                             </div>
                         </div>
                     </div>
@@ -2137,7 +2143,7 @@
                         <span><i class="fas fa-clock"></i>8h</span>
                         <span><i class="fas fa-tasks"></i>20 exercices</span>
                         <span><i class="fas fa-layer-group"></i>Pratique Intensive</span>
-                        <span><i class="fas fa-chart-bar text-success"></i>ETL Expert</span>
+                        <span><i class="fas fa-chart-bar text-success"></i>ETL & Analytics</span>
                     </div>
                     <a href="module-5-pratique-spark-rdd-dataframe-dataset.html" class="btn-module">
                         <i class="fas fa-eye"></i>
@@ -2148,7 +2154,7 @@
             </div> <!-- End row Phase 2 -->
         </div> <!-- End Phase 2 -->
 
-        <!-- Phase 3: Expert & Cloud -->
+        <!-- Phase 3: Avancé & Cloud -->
         <div class="modules-phase">
             <div class="phase-header">
                 <div class="phase-illustration phase3">
@@ -2156,7 +2162,7 @@
                 </div>
                 <h3 class="phase-title">
                     <span class="phase-number">Phase 3</span>
-                    Niveau Expert & Cloud
+                    Niveau Avancé & Cloud
                 </h3>
                 <p class="phase-description">
                     Concepts avancés, Machine Learning et déploiement Cloud
@@ -2170,22 +2176,22 @@
                     <div class="module-header">
                         <div class="module-number">6</div>
                         <div class="flex-grow-1">
-                            <div class="module-completion-badge">
-                                <i class="fas fa-check"></i>
-                                Terminé
+                            <div class="module-tech-badge">
+                                <i class="fas fa-lambda"></i>
+                                FP
                             </div>
                         </div>
                     </div>
                     <h3 class="module-title">Programmation Fonctionnelle Avancée</h3>
                     <p class="module-description">
-                        Concepts experts : monades, functors, type classes, implicits, 
+                        Concepts avancés : monades, functors, type classes, implicits, 
                         for-comprehensions et patterns fonctionnels avancés en Scala.
                     </p>
                     <div class="module-meta">
                         <span><i class="fas fa-clock"></i>6h</span>
                         <span><i class="fas fa-tasks"></i>15 exercices</span>
-                        <span><i class="fas fa-layer-group"></i>Expert Level</span>
-                        <span><i class="fas fa-graduation-cap text-purple"></i>FP Expert</span>
+                        <span><i class="fas fa-layer-group"></i>Niveau Avancé</span>
+                        <span><i class="fas fa-graduation-cap text-purple"></i>FP Maîtrise</span>
                     </div>
                     <a href="module-6-approfondissement-programmation-fonctionnelle.html" class="btn-module">
                         <i class="fas fa-eye"></i>
@@ -2200,9 +2206,9 @@
                     <div class="module-header">
                         <div class="module-number">7</div>
                         <div class="flex-grow-1">
-                            <div class="module-completion-badge">
-                                <i class="fas fa-check"></i>
-                                Terminé
+                            <div class="module-tech-badge">
+                                <i class="fas fa-stream"></i>
+                                Streaming
                             </div>
                         </div>
                     </div>
@@ -2215,7 +2221,7 @@
                         <span><i class="fas fa-clock"></i>7h</span>
                         <span><i class="fas fa-tasks"></i>18 exercices</span>
                         <span><i class="fas fa-layer-group"></i>Real-time & ML</span>
-                        <span><i class="fas fa-brain text-info"></i>ML Expert</span>
+                        <span><i class="fas fa-brain text-info"></i>ML & Streaming</span>
                     </div>
                     <a href="module-7-spark-streaming-introduction-machine-learning.html" class="btn-module">
                         <i class="fas fa-eye"></i>
@@ -2230,9 +2236,9 @@
                     <div class="module-header">
                         <div class="module-number">8</div>
                         <div class="flex-grow-1">
-                            <div class="module-completion-badge">
-                                <i class="fas fa-check"></i>
-                                Terminé
+                            <div class="module-tech-badge">
+                                <i class="fas fa-cloud"></i>
+                                Cloud
                             </div>
                         </div>
                     </div>
@@ -2252,7 +2258,7 @@
                         <span><i class="fas fa-clock"></i>5h</span>
                         <span><i class="fas fa-tasks"></i>12 exercices</span>
                         <span><i class="fas fa-layer-group"></i>Cloud Native</span>
-                        <span><i class="fas fa-cloud text-success"></i>Cloud Expert</span>
+                        <span><i class="fas fa-cloud text-success"></i>Cloud Native</span>
                     </div>
                     <a href="module-8-introduction-databricks-sparksql-cloud.html" class="btn-module">
                         <i class="fas fa-eye"></i>
@@ -2271,7 +2277,7 @@
                     <i class="fas fa-award me-2"></i>
                     <i class="fas fa-medal"></i>
                 </div>
-                <h2 class="achievement-title" style="position: relative; z-index: 2;">Vous êtes maintenant un Expert</h2>
+                <h2 class="achievement-title" style="position: relative; z-index: 2;">Stack Technique Complète</h2>
             </div>
             <div class="text-center">
                 <div class="lead mb-4">
@@ -2300,7 +2306,7 @@
                         Formation Scala & Spark
                     </h4>
                     <p class="text-light opacity-75 mb-3">
-                        Formation complète et intensive pour devenir expert en programmation fonctionnelle 
+                        Formation complète et intensive en programmation fonctionnelle 
                         et traitement de données à grande échelle.
                     </p>
                     <div class="d-flex gap-2 flex-wrap">
@@ -2315,7 +2321,7 @@
                     <h5 class="footer-title">Créateur</h5>
                     <div class="mb-3">
                         <h6 class="text-light">Haythem Rehouma</h6>
-                        <p class="text-light opacity-75 mb-2">Expert Data Engineering & Cloud Architecture</p>
+                        <p class="text-light opacity-75 mb-2">Data Engineering & Cloud Architecture</p>
                     </div>
                     
                     <div class="social-links">
@@ -2348,7 +2354,7 @@
                             Build Tech Skills That Companies Need Today
                         </p>
                         <p class="text-light opacity-50 small">
-                            © 2025 inskillflow academy - Formation de niveau expert
+                            © 2025 inskillflow academy - Formation professionnelle
                         </p>
                     </div>
                 </div>
@@ -2360,18 +2366,16 @@
                 <div class="col-md-6">
                     <p class="text-light opacity-75 mb-0">
                         <i class="fas fa-heart me-1 text-danger"></i>
-                        Formation conçue avec expertise pour la communauté Data
+                        Formation conçue avec passion pour la communauté Data
                     </p>
                 </div>
                 <div class="col-md-6 text-md-end">
                     <small class="text-light opacity-50">
-                        Formation Expert • Niveau Professionnel • Cloud-Native • Enterprise Ready
+                        Formation Professionnelle • Big Data & Cloud • Enterprise Ready
                     </small>
                 </div>
             </div>
         </div>
-    </footer>
-
     <!-- Contact Section -->
     <div class="contact-section" id="contact">
         <div class="text-center">
@@ -2441,7 +2445,7 @@
                                 Envie d'aller plus loin ?
                             </h5>
                             <p class="cta-description">
-                                Découvrez nos autres formations expert et certifications professionnelles
+                                Découvrez nos autres formations avancées et certifications professionnelles
                             </p>
                             <div class="cta-buttons">
                                 <a href="https://www.inskillflow.com/" target="_blank" class="btn btn-cta-primary me-3">
@@ -2459,6 +2463,8 @@
             </div>
         </div>
     </div>
+
+    </footer>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
